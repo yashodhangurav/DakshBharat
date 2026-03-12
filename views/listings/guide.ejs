@@ -1,0 +1,174 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<section id="how-it-works" class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-down">
+            <span class="label-pill mb-3 d-inline-block">The Nexus Blueprint</span>
+            <h2 class="display-4 fw-black">How <span class="serif-italic">Daksh Bharat</span> Works</h2>
+            <p class="text-muted fs-5 mx-auto" style="max-width: 600px;">A seamless bridge between premium rural opportunities and verified technical expertise.</p>
+        </div>
+
+        <div class="row g-5 justify-content-center position-relative">
+            <div class="process-line d-none d-lg-block"></div>
+
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="guide-card text-center h-100 p-4">
+                    <div class="guide-number">01</div>
+                    <div class="guide-icon-wrapper mb-4">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Create Profile</h4>
+                    <p class="text-muted px-2">Register as a Company to hire, or an Employee to offer specialized artisan skills.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="guide-card text-center h-100 p-4">
+                    <div class="guide-number">02</div>
+                    <div class="guide-icon-wrapper mb-4">
+                        <i class="bi bi-broadcast-pin"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Post or Browse</h4>
+                    <p class="text-muted px-2">Deploy job listings or showcase your service portfolio on our verified marketplace.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="guide-card text-center h-100 p-4">
+                    <div class="guide-number">03</div>
+                    <div class="guide-icon-wrapper mb-4">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Secure Connect</h4>
+                    <p class="text-muted px-2">Communicate through the Nexus and finalize assignments with built-in trust protocols.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="guide-card text-center h-100 p-4">
+                    <div class="guide-number">04</div>
+                    <div class="guide-icon-wrapper mb-4">
+                        <i class="bi bi-star-half"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Verify & Review</h4>
+                    <p class="text-muted px-2">Complete the work and build your reputation through our dual-rating artisan system.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5" data-aos="zoom-in">
+            <a href="/signup" class="btn-artisan-submit px-5 py-3 text-decoration-none d-inline-block">
+                Start Your Journey <i class="bi bi-arrow-right-short ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    :root {
+        --artisan-bg: #fffcf9;
+        --artisan-terracotta: #ff5f1f;
+        --artisan-charcoal: #0f172a;
+        --artisan-clay: #f1f1f1;
+        --artisan-muted: #64748b;
+    }
+
+    #how-it-works { background-color: var(--artisan-bg); }
+
+    .fw-black { font-weight: 900; letter-spacing: -2px; }
+    .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; color: var(--artisan-terracotta); }
+
+    .label-pill {
+        background: #fef2f2;
+        color: var(--artisan-terracotta);
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Guide Cards */
+    .guide-card {
+        background: white;
+        border-radius: 2rem;
+        border: 1px solid var(--artisan-clay);
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        z-index: 2;
+    }
+
+    .guide-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 60px rgba(15, 23, 42, 0.08);
+        border-color: var(--artisan-terracotta);
+    }
+
+    .guide-number {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        font-weight: 900;
+        font-size: 2.5rem;
+        color: var(--artisan-clay);
+        opacity: 0.5;
+        transition: 0.3s;
+    }
+
+    .guide-card:hover .guide-number {
+        color: var(--artisan-terracotta);
+        opacity: 0.15;
+    }
+
+    .guide-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        background: #f8fafc;
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        font-size: 2rem;
+        color: var(--artisan-charcoal);
+        transition: 0.3s;
+    }
+
+    .guide-card:hover .guide-icon-wrapper {
+        background: var(--artisan-charcoal);
+        color: white;
+        transform: rotate(-10deg);
+    }
+
+    /* Connective Line */
+    .process-line {
+        position: absolute;
+        top: 40%;
+        left: 10%;
+        right: 10%;
+        height: 2px;
+        background: repeating-linear-gradient(to right, var(--artisan-clay), var(--artisan-clay) 10px, transparent 10px, transparent 20px);
+        z-index: 1;
+    }
+
+    /* Button */
+    .btn-artisan-submit {
+        background: var(--artisan-charcoal);
+        color: white;
+        border-radius: 1.25rem;
+        font-weight: 800;
+        transition: 0.3s;
+    }
+
+    .btn-artisan-submit:hover {
+        background: var(--artisan-terracotta);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 95, 31, 0.2);
+        color: white;
+    }
+
+    @media (max-width: 991px) {
+        .guide-card { padding: 3rem 1.5rem !important; }
+    }
+</style>

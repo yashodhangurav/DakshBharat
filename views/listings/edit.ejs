@@ -1,0 +1,287 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="artisan-edit-wrapper py-5">
+    <div class="container-fluid px-lg-5">
+        
+        <div class="d-flex justify-content-between align-items-center mb-5" data-aos="fade-down">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1">
+                        <li class="breadcrumb-item"><a href="/home/listings">Marketplace</a></li>
+                        <li class="breadcrumb-item"><a href="/home/listings/<%= listing._id %>">Assignment</a></li>
+                        <li class="breadcrumb-item active">Management</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-black display-6">Manage <span class="serif-italic">Assignment</span></h2>
+            </div>
+            <div class="action-dock">
+                <a href="/home/listings/<%= listing._id %>" class="btn-artisan-secondary text-decoration-none me-2">Discard</a>
+                <button type="submit" form="editForm" class="btn-artisan-submit px-5">Save Changes</button>
+            </div>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-xl-8" data-aos="fade-right">
+                <form method="POST" action="/home/listings/<%=listing._id%>?_method=put" id="editForm" novalidate class="needs-validation" enctype="multipart/form-data">
+                    
+                    <input type="hidden" name="listing[category]" value="<%= listing.category %>">
+                    
+                    <div class="management-grid">
+                        
+                        <div class="form-section-clay p-4 p-md-5 mb-4">
+                            <h5 class="section-label"><i class="bi bi-info-circle me-2"></i>Primary Identity</h5>
+                            <div class="row g-4">
+                                <div class="col-md-12">
+                                    <label class="form-label-artisan">Listing Title</label>
+                                    <input type="text" name="listing[title]" value="<%=listing.title%>" class="form-control-artisan" required>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <label class="form-label-artisan">Provider / Business Display Name</label>
+                                    <input type="text" name="listing[providerName]" value="<%= listing.providerName %>" class="form-control-artisan" required>
+                                    <small class="text-muted">This is how your name appears on the marketplace.</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label-artisan">Sector Category</label>
+                                    <select name="listing[type]" class="form-select-artisan">
+                                        <% ["Plumbing", "Electrical", "Masonry", "Solar", "Carpentry", "Cleaning", "Other"].forEach(type => { %>
+                                            <option value="<%= type %>" <%= listing.type === type ? 'selected' : '' %>><%= type %></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label-artisan">Availability Status</label>
+                                    <select name="listing[status]" class="form-select-artisan">
+                                        <% ["Open", "In Progress", "Completed", "Booked"].forEach(status => { %>
+                                            <option value="<%= status %>" <%= listing.status === status ? 'selected' : '' %>><%= status %></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section-clay p-4 p-md-5 mb-4">
+                            <h5 class="section-label"><i class="bi bi-cash-stack me-2"></i>Logistics & Pricing</h5>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label-artisan">Price / Wage (₹)</label>
+                                    <input type="number" name="listing[price]" value="<%=listing.price%>" class="form-control-artisan" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label-artisan">Pricing Frequency</label>
+                                    <select name="listing[priceUnit]" class="form-select-artisan">
+                                        <option value="per day" <%= listing.priceUnit === "per day" ? "selected" : "" %>>Per Day</option>
+                                        <option value="per hour" <%= listing.priceUnit === "per hour" ? "selected" : "" %>>Per Hour</option>
+                                        <option value="fixed" <%= listing.priceUnit === "fixed" ? "selected" : "" %>>Fixed Price</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label-artisan">Work Location</label>
+                                    <input type="text" name="listing[location]" value="<%=listing.location%>" class="form-control-artisan" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label-artisan">Project Scope / Description</label>
+                                    <textarea name="listing[description]" rows="5" class="form-control-artisan"><%=listing.description%></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section-clay p-4 p-md-5">
+                            <h5 class="section-label"><i class="bi bi-tools me-2"></i>Skills & Visual Media</h5>
+                            <div class="mb-4">
+                                <label class="form-label-artisan">Tags (Comma separated)</label>
+                                <input type="text" name="listing[tags]" value="<%= listing.tags ? listing.tags.join(', ') : '' %>" class="form-control-artisan">
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <label class="form-label-artisan">Current Image</label>
+                                    <div class="current-img-preview">
+                                        <img src="<%= listing.imageUrl.url %>" class="img-fluid rounded-4 shadow-sm" alt="Current">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="form-label-artisan">Replace Media Asset</label>
+                                    <div class="upload-zone-artisan">
+                                        <i class="bi bi-cloud-arrow-up fs-2"></i>
+                                        <p class="small mb-0">Drag and drop new file or click to browse</p>
+                                        <input type="file" name="listing[imageUrl]" class="file-input-hidden">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-xl-4 d-none d-xl-block">
+                <div class="sticky-top" style="top: 100px;">
+                    <h5 class="section-label mb-3 text-center">Live Preview Card</h5>
+                    <div class="artisan-preview-card shadow-lg">
+                        <div class="preview-img-box">
+                            <img src="<%= listing.imageUrl.url %>" alt="Preview">
+                            <span class="role-tag-preview"><%= listing.category %></span>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="fw-black mb-1"><%= listing.title %></h4>
+                            <p class="text-muted small mb-3"><i class="bi bi-geo-alt-fill text-danger"></i> <%= listing.location %></p>
+                            <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                                <span class="fs-4 fw-black text-terracotta">₹<%= listing.price %></span>
+                                <span class="badge-pill-status"><%= listing.status %></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --artisan-bg: #fffcf9;
+        --artisan-terracotta: #ff5f1f;
+        --artisan-charcoal: #0f172a;
+        --artisan-clay: #f1f1f1;
+        --artisan-muted: #64748b;
+    }
+
+    body { background-color: var(--artisan-bg); font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    /* Typography */
+    .fw-black { font-weight: 900; letter-spacing: -1px; }
+    .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; color: var(--artisan-terracotta); }
+
+    /* Breadcrumbs */
+    .breadcrumb-item a { color: var(--artisan-muted); text-decoration: none; font-weight: 600; }
+    .breadcrumb-item.active { color: var(--artisan-charcoal); font-weight: 800; }
+
+    /* Management Sections */
+    .form-section-clay {
+        background: white;
+        border: 1px solid var(--artisan-clay);
+        border-radius: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    }
+
+    .section-label {
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--artisan-muted);
+        margin-bottom: 2rem;
+        display: block;
+    }
+
+    /* Artisan Inputs */
+    .form-label-artisan {
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: var(--artisan-charcoal);
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control-artisan, .form-select-artisan {
+        width: 100%;
+        padding: 12px 18px;
+        background: #fcfcfc;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        transition: 0.3s;
+    }
+
+    .form-control-artisan:focus {
+        background: white;
+        border-color: var(--artisan-terracotta);
+        box-shadow: 0 0 0 4px rgba(255, 95, 31, 0.05);
+        outline: none;
+    }
+
+    /* Image Management */
+    .current-img-preview img {
+        height: 120px;
+        width: 100%;
+        object-fit: cover;
+        border: 4px solid white;
+    }
+
+    .upload-zone-artisan {
+        border: 2px dashed #e2e8f0;
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+        background: #f9fafb;
+        transition: 0.3s;
+    }
+
+    .upload-zone-artisan:hover { border-color: var(--artisan-terracotta); background: #fffcf9; }
+    .file-input-hidden { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+    /* Action Buttons */
+    .btn-artisan-submit {
+        background: var(--artisan-charcoal);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 800;
+        transition: 0.3s;
+    }
+
+    .btn-artisan-submit:hover {
+        background: var(--artisan-terracotta);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 95, 31, 0.2);
+    }
+
+    .btn-artisan-secondary {
+        background: #f1f5f9;
+        color: var(--artisan-charcoal);
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 700;
+        transition: 0.3s;
+    }
+
+    /* Live Preview Card */
+    .artisan-preview-card {
+        background: white;
+        border-radius: 2rem;
+        overflow: hidden;
+        border: 1px solid var(--artisan-clay);
+    }
+
+    .preview-img-box { position: relative; height: 220px; }
+    .preview-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .role-tag-preview {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: var(--artisan-terracotta);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-size: 0.7rem;
+        font-weight: 800;
+    }
+
+    .badge-pill-status {
+        background: #f1f5f9;
+        color: var(--artisan-charcoal);
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    @media (max-width: 991px) {
+        .form-section-clay { padding: 2rem; border-radius: 1.5rem; }
+    }
+</style>

@@ -1,0 +1,157 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="artisan-error-wrapper">
+    <div class="container d-flex align-items-center justify-content-center min-vh-100 py-5">
+        <div class="error-console shadow-lg text-center p-5" data-aos="zoom-in">
+            
+            <div class="error-visual mb-4">
+                <div class="pulse-ring"></div>
+                <i class="bi bi-exclamation-octagon-fill"></i>
+            </div>
+
+            <span class="system-label">System Notification</span>
+            <h1 class="fw-black display-4 text-charcoal">Something <span class="serif-italic">Shifted</span></h1>
+            
+            <p class="error-subtext mx-auto mb-4">
+                The precision path you were following has been interrupted. 
+                Our team has been notified of this technical variance.
+            </p>
+
+            <div class="error-detail-box mb-5">
+                <p class="mb-0"><%= message %></p>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <button onclick="history.back()" class="btn-artisan-outline px-4">
+                    <i class="bi bi-arrow-left me-2"></i> Previous Step
+                </button>
+                <a href="/home/listings" class="btn-artisan-submit px-5 text-decoration-none d-inline-block">
+                    Return to Nexus
+                </a>
+            </div>
+
+            <div class="mt-5 pt-3 border-top border-light">
+                <small class="text-muted fw-bold uppercase">Daksh Bharat Verified Security</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --artisan-bg: #fffcf9;
+        --artisan-terracotta: #ff5f1f;
+        --artisan-charcoal: #0f172a;
+        --artisan-clay: #f1f1f1;
+        --artisan-muted: #64748b;
+    }
+
+    body { background-color: var(--artisan-bg); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+
+    /* The Main Console Card */
+    .error-console {
+        background: white;
+        border-radius: 3rem;
+        border: 1px solid var(--artisan-clay);
+        max-width: 700px;
+        width: 100%;
+        position: relative;
+    }
+
+    .fw-black { font-weight: 900; letter-spacing: -2px; }
+    .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; color: var(--artisan-terracotta); }
+
+    /* Visual Pulse Icon */
+    .error-visual {
+        position: relative;
+        font-size: 5rem;
+        color: var(--artisan-charcoal);
+        display: inline-block;
+        margin-top: -20px;
+    }
+
+    .pulse-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 95, 31, 0.1);
+        border-radius: 50%;
+        animation: artisanPulse 2s infinite;
+        z-index: -1;
+    }
+
+    @keyframes artisanPulse {
+        0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
+        100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+    }
+
+    /* Labels & Text */
+    .system-label {
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 3px;
+        color: var(--artisan-terracotta);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .error-subtext {
+        max-width: 450px;
+        color: var(--artisan-muted);
+        font-weight: 500;
+        line-height: 1.6;
+    }
+
+    /* Technical Detail Box */
+    .error-detail-box {
+        background: #fdf2f2;
+        border-radius: 1rem;
+        padding: 1rem 1.5rem;
+        border: 1px dashed #fecaca;
+        color: #dc2626;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    /* Buttons */
+    .btn-artisan-submit {
+        background: var(--artisan-charcoal);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 30px;
+        font-weight: 800;
+        transition: 0.3s;
+    }
+
+    .btn-artisan-submit:hover {
+        background: var(--artisan-terracotta);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 95, 31, 0.2);
+    }
+
+    .btn-artisan-outline {
+        background: transparent;
+        color: var(--artisan-charcoal);
+        border: 1.5px solid var(--artisan-clay);
+        border-radius: 50px;
+        font-weight: 700;
+        transition: 0.3s;
+    }
+
+    .btn-artisan-outline:hover {
+        background: #f8fafc;
+        border-color: var(--artisan-charcoal);
+    }
+
+    .uppercase { text-transform: uppercase; letter-spacing: 1px; }
+
+    @media (max-width: 768px) {
+        .error-console { padding: 3rem 1.5rem !important; border-radius: 2rem; }
+    }
+</style>

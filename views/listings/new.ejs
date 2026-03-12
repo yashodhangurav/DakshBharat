@@ -1,0 +1,390 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="full-page-creation-wrapper">
+    <% if(!currUser || currUser.role === 'customer') { %>
+        <div class="container h-100 d-flex align-items-center justify-content-center py-5">
+            <div class="restricted-console shadow-lg text-center p-5" data-aos="zoom-in">
+                <div class="lock-visual mb-4">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+                <h1 class="fw-black display-4">Console <span class="text-terracotta">Locked</span></h1>
+                <p class="text-muted fs-5 mx-auto mb-5" style="max-width: 550px;">
+                    Your current account is set to <strong>Customer Mode</strong>. Creation privileges are reserved for verified Companies and Skilled Employees.
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/home/listings" class="btn-console-outline">Return to Marketplace</a>
+                    <a href="/profile" class="btn-console-primary">Upgrade Account</a>
+                </div>
+            </div>
+        </div>
+
+    <% } else { %>
+        <form action="/home/listings" method="POST" novalidate class="needs-validation h-100" enctype="multipart/form-data">
+            
+            <header class="console-header sticky-top">
+                <div class="container-fluid px-lg-5 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-3">
+                        <a href="/home/listings" class="back-circle"><i class="bi bi-x-lg"></i></a>
+                        <div>
+                            <span class="status-badge"><%= currUser.role.toUpperCase() %> CONSOLE</span>
+                            <h4 class="mb-0 fw-black text-charcoal">Drafting <span class="serif-italic"><%= currUser.role === 'company' ? 'New Job' : 'New Service' %></span></h4>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3">
+                        <button type="button" onclick="history.back()" class="btn-console-outline">Discard Draft</button>
+                        <button type="submit" class="btn-console-primary px-5">Publish Now</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container-fluid px-lg-5 py-5">
+                <div class="row g-5">
+                    
+                    <div class="col-xl-7" data-aos="fade-right">
+                        <input type="hidden" name="listing[category]" value="<%= currUser.role === 'company' ? 'Job' : 'Service' %>">
+                        <input type="hidden" name="listing[providerName]" value="<%= currUser.role === 'company' ? currUser.companyDetails.name : currUser.username %>">
+
+                        <div class="console-card p-5 mb-4">
+                            <h5 class="management-label">Identity & Context</h5>
+                            <div class="mb-5">
+                                <label for="title" class="form-label-console">
+                                    <%= currUser.role === 'company' ? 'Job Title / Position' : 'Professional Service Name' %>
+                                </label>
+                                <input type="text" id="title" name="listing[title]" 
+                                    placeholder="<%= currUser.role === 'company' ? 'e.g., Master Mason for Civil Project' : 'e.g., Industrial Electrical Systems Design' %>" 
+                                    class="form-control-console display-title-input" required />
+                                <div class="invalid-feedback">A title is required to identify your listing.</div>
+                            </div>
+
+                            <div class="row g-4 mb-5">
+                                <div class="col-md-12">
+                                    <label for="type" class="form-label-console">Industry Sector</label>
+                                    <select id="type" name="listing[type]" class="form-select-console" required>
+                                        <option value="">Choose Industry Specialization...</option>
+                                        <option value="Plumbing">Plumbing & Fluids</option>
+                                        <option value="Electrical">Electrical & Electronics</option>
+                                        <option value="Masonry">Structural Masonry</option>
+                                        <option value="Solar">Renewable Energy / Solar</option>
+                                        <option value="Carpentry">Carpentry & Woodwork</option>
+                                        <option value="Cleaning">Sanitation & Cleaning</option>
+                                        <option value="Other">Specialized Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-0">
+                                <label for="description" class="form-label-console">
+                                    <%= currUser.role === 'company' ? 'Scope of Work & Requirements' : 'Detailed Portfolio Description' %>
+                                </label>
+                                <textarea id="description" name="listing[description]" rows="8" 
+                                    placeholder="<%= currUser.role === 'company' ? 'Explain the project goals, daily responsibilities, and expected outcomes...' : 'Detail your expertise, the equipment you use, and why clients should trust your craftsmanship...' %>" 
+                                    class="form-control-console" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-5" data-aos="fade-left">
+                        
+                        <div class="console-card p-5 mb-4">
+                            <h5 class="management-label">Logistics & Value</h5>
+                            <div class="mb-4">
+                                <label for="price" class="form-label-console">
+                                    <%= currUser.role === 'company' ? 'Remuneration Offer' : 'Starting Service Rate' %> (₹)
+                                </label>
+                                <div class="console-input-group">
+                                    <input type="number" id="price" name="listing[price]" class="form-control-console" required min="0" />
+                                    <select name="listing[priceUnit]" class="console-unit-select">
+                                        <option value="per day">per day</option>
+                                        <option value="per hour">per hour</option>
+                                        <option value="fixed">fixed</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-0">
+                                <label for="location" class="form-label-console">Precise Work Location</label>
+                                <div class="input-with-icon">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <input type="text" id="location" name="listing[location]" 
+                                        value="<%= currUser.location %>" class="form-control-console" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="console-card p-5 mb-4">
+                          <h5 class="management-label">Media & Discovery</h5>
+                          <div class="mb-4">
+                              <label for="imageUrl" class="form-label-console">
+                                  <%= currUser.role === 'company' ? 'Workspace / Site Photo' : 'Portfolio Cover Photo' %>
+                              </label>
+                              
+                              <div class="console-upload-zone" id="dropZone">
+                                  <input type="file" id="imageUrl" name="listing[imageUrl]" class="file-hidden-trigger" required accept="image/*" />
+                                  
+                                  <div class="upload-content" id="uploadPrompt">
+                                      <i class="bi bi-cloud-arrow-up text-terracotta display-4"></i>
+                                      <p class="mb-1 fw-bold">Drag & Drop Media</p>
+                                      <span class="small text-muted">Supports JPG, PNG, WEBP</span>
+                                  </div>
+                      
+                                  <div class="preview-container d-none" id="previewContainer">
+                                      <img src="" id="imagePreview" alt="Preview" class="img-fluid rounded-3" />
+                                      <div class="preview-overlay">
+                                          <span class="badge bg-dark rounded-pill"><i class="bi bi-arrow-repeat me-1"></i> Change Image</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      
+                          <div class="mb-0">
+                              <label for="tags" class="form-label-console">Discovery Tags (Comma Separated)</label>
+                              <input type="text" id="tags" name="listing[tags]" 
+                                  placeholder="e.g., High-Voltage, Residential, Quick-Turnaround" class="form-control-console" />
+                          </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <% } %>
+</div>
+
+<style>
+    :root {
+        --artisan-bg: #fffcf9;
+        --artisan-terracotta: #ff5f1f;
+        --artisan-charcoal: #0f172a;
+        --artisan-clay: #f1f1f1;
+        --artisan-muted: #64748b;
+        --console-glass: rgba(255, 255, 255, 0.95);
+    }
+
+    body { background-color: var(--artisan-bg); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+
+    /* Full Page Header */
+    .console-header {
+        background: var(--console-glass);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 1.5rem 0;
+        border-bottom: 1px solid var(--artisan-clay);
+        z-index: 1000;
+    }
+
+    .status-badge {
+        font-size: 0.65rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: var(--artisan-terracotta);
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .fw-black { font-weight: 900; letter-spacing: -1.5px; }
+    .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; color: var(--artisan-terracotta); }
+
+    /* Back Circle Button */
+    .back-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--artisan-charcoal);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+    .back-circle:hover { background: var(--artisan-terracotta); transform: rotate(90deg); }
+
+    /* Professional Console Cards */
+    .console-card {
+        background: white;
+        border-radius: 2rem;
+        border: 1px solid var(--artisan-clay);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+    }
+
+    .management-label {
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--artisan-muted);
+        margin-bottom: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .management-label::after { content: ''; flex-grow: 1; height: 1px; background: var(--artisan-clay); }
+
+    /* Inputs & Selects */
+    .form-label-console {
+        font-weight: 800;
+        font-size: 0.9rem;
+        color: var(--artisan-charcoal);
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .form-control-console, .form-select-console {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        background: #f8fafc;
+        border: 2px solid transparent;
+        border-radius: 1rem;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    .display-title-input { font-size: 1.5rem; color: var(--artisan-charcoal); }
+
+    .form-control-console:focus {
+        background: white;
+        border-color: var(--artisan-terracotta);
+        box-shadow: 0 10px 30px rgba(255, 95, 31, 0.08);
+        outline: none;
+    }
+
+    /* Input Group for Price */
+    .console-input-group { display: flex; gap: 10px; }
+    .console-unit-select {
+        border-radius: 1rem;
+        border: none;
+        background: var(--artisan-charcoal);
+        color: white;
+        font-weight: 700;
+        padding: 0 1.5rem;
+    }
+
+    /* Iconized Inputs */
+    .input-with-icon { position: relative; }
+    .input-with-icon i { position: absolute; left: 1.5rem; top: 50%; transform: translateY(-50%); color: var(--artisan-terracotta); }
+    .input-with-icon input { padding-left: 3.5rem; }
+
+    /* Upload Zone */
+    .console-upload-zone {
+        border: 3px dashed var(--artisan-clay);
+        border-radius: 1.5rem;
+        padding: 3rem;
+        text-align: center;
+        position: relative;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .console-upload-zone:hover { border-color: var(--artisan-terracotta); background: #fffcf9; }
+    .file-hidden-trigger { position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 2; }
+
+    /* Buttons */
+    .btn-console-primary {
+        background: var(--artisan-charcoal);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 800;
+        transition: 0.3s;
+    }
+    .btn-console-primary:hover { background: var(--artisan-terracotta); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 95, 31, 0.2); }
+
+    .btn-console-outline {
+        background: transparent;
+        color: var(--artisan-muted);
+        border: 1.5px solid var(--artisan-clay);
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 700;
+        transition: 0.3s;
+    }
+    .btn-console-outline:hover { background: #fef2f2; color: #dc2626; border-color: #fee2e2; }
+
+    /* Restricted State */
+    .restricted-console { background: white; border-radius: 3rem; border: 1px solid var(--artisan-clay); }
+    .lock-visual i { font-size: 6rem; color: #facc15; text-shadow: 0 10px 30px rgba(250, 204, 21, 0.3); }
+
+    @media (max-width: 1200px) {
+        .console-header { padding: 1rem 0; }
+        .console-card { padding: 2rem !important; }
+    }
+    /* Styling for Live Preview */
+.console-upload-zone {
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Keeps the preview inside the rounded borders */
+}
+
+.preview-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: fadeIn 0.4s ease-out;
+}
+
+#imagePreview {
+    width: 100%;
+    height: 250px; /* Fixed height to keep card consistent */
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+.preview-overlay {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.preview-container:hover .preview-overlay {
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+
+<script>
+  const fileInput = document.getElementById('imageUrl');
+  const uploadPrompt = document.getElementById('uploadPrompt');
+  const previewContainer = document.getElementById('previewContainer');
+  const imagePreview = document.getElementById('imagePreview');
+  const dropZone = document.getElementById('dropZone');
+
+  fileInput.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+          const reader = new FileReader();
+          
+          // UI Transition
+          uploadPrompt.classList.add('d-none');
+          previewContainer.classList.remove('d-none');
+
+          reader.onload = function(e) {
+              imagePreview.setAttribute('src', e.target.result);
+          }
+          reader.readAsDataURL(file);
+      }
+  });
+
+  // Optional: Add visual feedback for Drag Over
+  ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropZone.style.borderColor = "var(--artisan-terracotta)";
+          dropZone.style.background = "#fffcf9";
+      }, false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropZone.style.borderColor = "var(--artisan-clay)";
+      }, false);
+  });
+</script>

@@ -1,0 +1,197 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="auth-portal-wrapper">
+    <div class="container h-100 d-flex align-items-center justify-content-center py-5">
+        <div class="auth-card-artisan shadow-lg overflow-hidden" data-aos="zoom-in">
+            <div class="row g-0">
+                <div class="col-lg-5 d-none d-lg-block artisan-auth-side">
+                    <div class="auth-visual-content">
+                        <div class="auth-logo-badge mb-4">
+                            <i class="bi bi-pentagon-half"></i>
+                        </div>
+                        <h2 class="fw-black text-white display-5">The <span class="serif-italic">Bharat</span> Awaits.</h2>
+                        <p class="text-white-50 mt-3">Access your professional dashboard and manage your artisan presence in the marketplace.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-7 p-5">
+                    <div class="auth-form-container">
+                        <header class="mb-5">
+                            <span class="label-pill">Authentication</span>
+                            <h2 class="fw-black display-6 mt-2">Welcome <span class="text-terracotta">Back</span></h2>
+                            <p class="text-muted small">Sign in to continue to your verified network.</p>
+                        </header>
+
+                        <form action="/login" method="POST" class="needs-validation" novalidate>
+                            <div class="mb-4">
+                                <label for="username" class="form-label-artisan">Username</label>
+                                <div class="input-artisan-group">
+                                    <i class="bi bi-person"></i>
+                                    <input type="text" id="username" name="username" class="form-control-artisan" placeholder="Enter username" required />
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="password" class="form-label-artisan">Password</label>
+                                <div class="input-artisan-group">
+                                    <i class="bi bi-shield-lock"></i>
+                                    <input type="password" id="password" name="password" class="form-control-artisan" placeholder="••••••••" required />
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check artisan-check">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                                    <label class="form-check-label small fw-bold" for="rememberMe">Stay Signed In</label>
+                                </div>
+                                <a href="#" class="text-terracotta small fw-bold text-decoration-none">Reset Access?</a>
+                            </div>
+
+                            <button type="submit" class="btn-artisan-auth w-100 py-3">
+                                Initialize Access <i class="bi bi-arrow-right-short ms-2"></i>
+                            </button>
+
+                            <div class="text-center mt-5">
+                                <p class="text-muted small fw-bold">
+                                    New to the Gallery? <a href="/signup" class="text-terracotta text-decoration-none">Create Artisan Account</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --artisan-bg: #fffcf9;
+        --artisan-terracotta: #ff5f1f;
+        --artisan-charcoal: #0f172a;
+        --artisan-clay: #f1f1f1;
+        --artisan-muted: #64748b;
+    }
+
+    body { background-color: var(--artisan-bg); font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    /* Auth Card Architecture */
+    .auth-card-artisan {
+        background: white;
+        border-radius: 2.5rem;
+        border: 1px solid var(--artisan-clay);
+        max-width: 1000px;
+        width: 100%;
+        min-height: 600px;
+    }
+
+    /* Left Side Visual */
+    .artisan-auth-side {
+        background: linear-gradient(135deg, var(--artisan-charcoal) 0%, #1e293b 100%);
+        padding: 4rem;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .artisan-auth-side::before {
+        content: '';
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        background: radial-gradient(circle, var(--artisan-terracotta) 0%, transparent 70%);
+        opacity: 0.05;
+        top: -25%;
+        left: -25%;
+    }
+
+    .auth-logo-badge {
+        width: 60px;
+        height: 60px;
+        background: var(--artisan-terracotta);
+        border-radius: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+        box-shadow: 0 10px 30px rgba(255, 95, 31, 0.3);
+    }
+
+    .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; color: var(--artisan-terracotta); }
+    .fw-black { font-weight: 900; letter-spacing: -1.5px; }
+
+    /* Form Components */
+    .label-pill {
+        background: #fef2f2;
+        color: var(--artisan-terracotta);
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+    }
+
+    .form-label-artisan {
+        font-weight: 800;
+        font-size: 0.85rem;
+        color: var(--artisan-charcoal);
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .input-artisan-group { position: relative; }
+    .input-artisan-group i {
+        position: absolute;
+        left: 1.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--artisan-muted);
+        transition: 0.3s;
+    }
+
+    .form-control-artisan {
+        width: 100%;
+        padding: 1rem 1.5rem 1rem 3.5rem;
+        background: #f8fafc;
+        border: 2px solid transparent;
+        border-radius: 1rem;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .form-control-artisan:focus {
+        background: white;
+        border-color: var(--artisan-terracotta);
+        box-shadow: 0 10px 30px rgba(255, 95, 31, 0.08);
+        outline: none;
+    }
+
+    .form-control-artisan:focus + i { color: var(--artisan-terracotta); }
+
+    .artisan-check .form-check-input:checked { background-color: var(--artisan-terracotta); border-color: var(--artisan-terracotta); }
+
+    /* Button */
+    .btn-artisan-auth {
+        background: var(--artisan-charcoal);
+        color: white;
+        border: none;
+        border-radius: 1rem;
+        font-weight: 800;
+        font-size: 1rem;
+        transition: 0.3s;
+    }
+
+    .btn-artisan-auth:hover {
+        background: var(--artisan-terracotta);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(255, 95, 31, 0.2);
+    }
+
+    @media (max-width: 991px) {
+        .auth-card-artisan { border-radius: 2rem; margin: 1rem; }
+        .col-lg-7 { padding: 3rem !important; }
+    }
+</style>

@@ -1,0 +1,294 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="artisan-wrapper">
+
+  <section class="artisan-hero">
+    <div class="hero-bg-accent"></div>
+    
+    <div class="container text-center position-relative">
+      <div class="hero-badge" data-aos="fade-down">
+        <i class="bi bi-patch-check-fill"></i> India's Verified Skill Network
+      </div>
+      
+      <h1 class="display-2 fw-extrabold mt-4" data-aos="zoom-in">
+        Building the <span class="serif-italic">Future</span> <br> 
+        with Local <span class="text-terracotta">Expertise</span>.
+      </h1>
+
+      <p class="artisan-lead mx-auto mt-4" data-aos="fade-up" data-aos-delay="200">
+        The unified ecosystem connecting <strong>Companies</strong>, <strong>Skilled Employees</strong>, and <strong>Project Owners</strong> in one digital gallery of trust.
+      </p>
+
+      <div class="artisan-actions mt-5" data-aos="fade-up" data-aos-delay="400">
+        <a href="/home/listings" class="btn-artisan-main shadow-lg">Explore Marketplace</a>
+        <a href="/signup" class="btn-artisan-link">Join the Network <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-5 mb-5">
+    <div class="artisan-grid">
+      
+      <div class="artisan-item artisan-main" data-aos="fade-right">
+        <div class="artisan-content">
+          <span class="label-pill">Our Philosophy</span>
+          <h2>A Heritage of <br>Digital Trust</h2>
+          <p>We've replaced fragmented portals with a single, elegant gallery where every skill is a masterpiece and every hire is secure.</p>
+        </div>
+        <div class="artisan-visual">
+             <i class="bi bi-shield-shaded"></i>
+        </div>
+      </div>
+
+      <div class="artisan-item artisan-company" data-aos="fade-left">
+        <div class="icon-box bg-charcoal">
+            <i class="bi bi-building"></i>
+        </div>
+        <h3>For Companies</h3>
+        <p>Source verified talent and manage industrial scale recruitment with ease.</p>
+        <div class="artisan-footer">Verified Enterprise</div>
+      </div>
+
+      <div class="artisan-item artisan-employee" data-aos="fade-up">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="icon-box bg-terracotta">
+                <i class="bi bi-person-badge"></i>
+            </div>
+            <span class="status-tag">Live Portfolio</span>
+        </div>
+        <h3>Digital Identity</h3>
+        <p>Turn your manual skills into a verifiable, high-visibility digital record.</p>
+      </div>
+
+      <div class="artisan-item artisan-user" data-aos="fade-up" data-aos-delay="200">
+        <div class="icon-box bg-teal">
+            <i class="bi bi-stars"></i>
+        </div>
+        <h3>Book Services</h3>
+        <p>Find local experts for your projects. Direct contact. Direct trust.</p>
+        <div class="expert-stack mt-3">
+            <div class="avatars">
+                <img src="https://ui-avatars.com/api/?name=JS&background=ff5f1f&color=fff" alt="">
+                <img src="https://ui-avatars.com/api/?name=RK&background=0f172a&color=fff" alt="">
+                <img src="https://ui-avatars.com/api/?name=MA&background=2dd4bf&color=fff" alt="">
+            </div>
+            <span>Verified Experts</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<style>
+  :root {
+    --artisan-terracotta: #ff5f1f; /* Vibrant Orange */
+    --artisan-charcoal: #0f172a;   /* Deep Blue/Black */
+    --artisan-ivory: #fffcf9;      /* Warm background */
+    --artisan-teal: #2dd4bf;       /* Accent teal */
+    --artisan-muted: #64748b;
+  }
+
+  body {
+    background-color: var(--artisan-ivory);
+    color: var(--artisan-charcoal);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .artisan-wrapper { overflow-x: hidden; }
+
+  /* Hero Section */
+  .artisan-hero {
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-accent {
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, rgba(255, 95, 31, 0.05) 0%, transparent 70%);
+    z-index: -1;
+  }
+
+  .fw-extrabold { font-weight: 800; letter-spacing: -2px; }
+  
+  .serif-italic {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .text-terracotta { color: var(--artisan-terracotta); }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 10px 24px;
+    background: white;
+    border-radius: 50px;
+    color: var(--artisan-charcoal);
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border: 1px solid #f1f1f1;
+  }
+
+  .hero-badge i { color: var(--artisan-terracotta); margin-right: 5px; }
+
+  .artisan-lead {
+    max-width: 650px;
+    font-size: 1.25rem;
+    color: var(--artisan-muted);
+    line-height: 1.6;
+  }
+
+  /* Buttons */
+  .btn-artisan-main {
+    background: var(--artisan-charcoal);
+    color: #fff;
+    padding: 18px 45px;
+    border-radius: 1.5rem;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+    display: inline-block;
+  }
+
+  .btn-artisan-main:hover {
+    background: var(--artisan-terracotta);
+    transform: translateY(-5px);
+    color: #fff;
+    box-shadow: 0 15px 30px rgba(255, 95, 31, 0.2) !important;
+  }
+
+  .btn-artisan-link {
+    color: var(--artisan-charcoal);
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 700;
+    border-bottom: 2px solid transparent;
+    transition: 0.3s;
+  }
+
+  .btn-artisan-link:hover {
+    color: var(--artisan-terracotta);
+    border-bottom-color: var(--artisan-terracotta);
+  }
+
+  /* ARTISAN BENTO GRID */
+  .artisan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 280px;
+    gap: 25px;
+    padding-top: 50px;
+  }
+
+  .artisan-item {
+    background: white;
+    border: 1px solid #f1f1f1;
+    border-radius: 2rem;
+    padding: 35px;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.02);
+  }
+
+  .artisan-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+  }
+
+  .artisan-main {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: linear-gradient(135deg, #fffcf9 0%, #fff 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 2px solid #f8f1eb;
+  }
+
+  .artisan-main h2 { font-size: 3.5rem; font-weight: 800; line-height: 1; margin-top: 15px; }
+  
+  .label-pill {
+    background: #fef2f2;
+    color: var(--artisan-terracotta);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  .bg-charcoal { background: var(--artisan-charcoal); }
+  .bg-terracotta { background: var(--artisan-terracotta); }
+  .bg-teal { background: var(--artisan-teal); }
+
+  .status-tag {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #10b981;
+    background: #ecfdf5;
+    padding: 4px 12px;
+    border-radius: 50px;
+  }
+
+  .artisan-footer {
+    position: absolute;
+    bottom: 30px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 800;
+    color: var(--artisan-muted);
+  }
+
+  .artisan-visual {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    font-size: 8rem;
+    color: rgba(255, 95, 31, 0.03);
+    pointer-events: none;
+  }
+
+  .avatars { display: flex; margin-bottom: 5px; }
+  .avatars img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 3px solid white;
+    margin-right: -10px;
+  }
+  .expert-stack span { font-size: 0.8rem; font-weight: 700; color: var(--artisan-muted); }
+
+  @media (max-width: 991px) {
+    .artisan-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+    .artisan-main { grid-column: span 1; padding: 40px 30px; }
+    .display-2 { font-size: 3rem; }
+    .artisan-main h2 { font-size: 2.5rem; }
+  }
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:italic,wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 1000, once: true });
+</script>

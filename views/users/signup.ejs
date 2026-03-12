@@ -1,0 +1,237 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="auth-portal-wrapper py-5">
+    <div class="container d-flex align-items-center justify-content-center">
+        <div class="auth-card-artisan shadow-lg overflow-hidden" data-aos="fade-up">
+            <div class="row g-0">
+                
+                <div class="col-lg-4 d-none d-lg-block artisan-signup-side">
+                    <div class="auth-visual-content p-5">
+                        <div class="auth-logo-badge mb-4">
+                            <i class="bi bi-intersect"></i>
+                        </div>
+                        <h2 class="fw-black text-white display-5">Forge Your <span class="serif-italic">Identity</span></h2>
+                        <ul class="benefit-list mt-5 list-unstyled">
+                            <li class="mb-4 d-flex align-items-start gap-3">
+                                <i class="bi bi-check2-circle text-terracotta fs-4"></i>
+                                <div>
+                                    <h6 class="text-white mb-1">Company Account</h6>
+                                    <p class="text-white-50 small">Deploy jobs and source verified rural talent.</p>
+                                </div>
+                            </li>
+                            <li class="mb-4 d-flex align-items-start gap-3">
+                                <i class="bi bi-check2-circle text-terracotta fs-4"></i>
+                                <div>
+                                    <h6 class="text-white mb-1">Employee Account</h6>
+                                    <p class="text-white-50 small">Showcase skills and find premium work.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-8 p-4 p-md-5">
+                    <div class="auth-form-container">
+                        <header class="mb-4">
+                            <span class="label-pill">Registration</span>
+                            <h2 class="fw-black display-6 mt-2">Join the <span class="text-terracotta">Nexus</span></h2>
+                            <p class="text-muted small">One unified account for our entire skill ecosystem.</p>
+                        </header>
+
+                        <form action="/signup" method="POST" class="needs-validation" novalidate>
+                            
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label for="username" class="form-label-artisan">Full Name / Username</label>
+                                    <div class="input-artisan-group">
+                                        <i class="bi bi-person"></i>
+                                        <input type="text" id="username" name="username" class="form-control-artisan" placeholder="John Doe" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label-artisan">Email Address</label>
+                                    <div class="input-artisan-group">
+                                        <i class="bi bi-envelope"></i>
+                                        <input type="email" id="email" name="email" class="form-control-artisan" placeholder="john@nexus.com" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label for="role" class="form-label-artisan">Platform Role</label>
+                                    <div class="input-artisan-group">
+                                        <i class="bi bi-briefcase"></i>
+                                        <select class="form-select-artisan" id="role" name="role" required onchange="toggleFields()">
+                                            <option value="">Select your role...</option>
+                                            <option value="company">Company (Employer)</option>
+                                            <option value="employee">Employee (Skill Provider)</option>
+                                            <option value="customer">Customer (User)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="location" class="form-label-artisan">Work Location</label>
+                                    <div class="input-artisan-group">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <input type="text" id="location" name="location" class="form-control-artisan" placeholder="e.g. Belgaum, KA" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="company-fields" class="dynamic-section mb-4 p-4 rounded-4" style="display: none;">
+                                <h6 class="text-charcoal fw-bold mb-3"><i class="bi bi-building-fill me-2"></i>Business Details</h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <input type="text" name="companyName" class="form-control-artisan" placeholder="Official Business Name">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" name="industry" class="form-control-artisan" placeholder="Industry Type">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="employee-fields" class="dynamic-section mb-4 p-4 rounded-4" style="display: none;">
+                                <h6 class="text-charcoal fw-bold mb-3"><i class="bi bi-stars me-2"></i>Skill Portfolio</h6>
+                                <input type="text" name="skills" class="form-control-artisan" placeholder="Primary Skills (e.g. Wiring, Plumbing)">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="password" class="form-label-artisan">Secure Password</label>
+                                <div class="input-artisan-group">
+                                    <i class="bi bi-shield-lock"></i>
+                                    <input type="password" id="password" name="password" class="form-control-artisan" placeholder="••••••••" required />
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-artisan-auth w-100 py-3 mb-4">
+                                Create My Account <i class="bi bi-arrow-right-short ms-2"></i>
+                            </button>
+
+                            <div class="text-center">
+                                <p class="text-muted small fw-bold">
+                                    Already part of the network? <a href="/login" class="text-terracotta text-decoration-none">Sign In</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --artisan-bg: #fffcf9;
+        --artisan-terracotta: #ff5f1f;
+        --artisan-charcoal: #0f172a;
+        --artisan-clay: #f1f1f1;
+        --artisan-muted: #64748b;
+    }
+
+    body { background-color: var(--artisan-bg); font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    /* Auth Card Architecture */
+    .auth-card-artisan {
+        background: white;
+        border-radius: 2.5rem;
+        border: 1px solid var(--artisan-clay);
+        max-width: 1100px;
+        width: 100%;
+    }
+
+    /* Left Side Branding */
+    .artisan-signup-side {
+        background: linear-gradient(135deg, var(--artisan-charcoal) 0%, #1e293b 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-logo-badge {
+        width: 50px; height: 50px;
+        background: var(--artisan-terracotta);
+        border-radius: 1rem;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem; color: white;
+    }
+
+    .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; color: var(--artisan-terracotta); }
+    .fw-black { font-weight: 900; letter-spacing: -1.5px; }
+
+    /* Form UI */
+    .label-pill {
+        background: #fef2f2; color: var(--artisan-terracotta);
+        padding: 6px 14px; border-radius: 50px;
+        font-size: 0.7rem; font-weight: 800;
+        text-transform: uppercase; letter-spacing: 1.5px;
+    }
+
+    .form-label-artisan {
+        font-weight: 800; font-size: 0.85rem;
+        color: var(--artisan-charcoal);
+        margin-bottom: 8px; display: block;
+    }
+
+    .input-artisan-group { position: relative; }
+    .input-artisan-group i {
+        position: absolute; left: 1.25rem; top: 50%;
+        transform: translateY(-50%);
+        color: var(--artisan-muted); transition: 0.3s;
+    }
+
+    .form-control-artisan, .form-select-artisan {
+        width: 100%;
+        padding: 0.85rem 1rem 0.85rem 3rem;
+        background: #f8fafc;
+        border: 2px solid transparent;
+        border-radius: 1rem;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .form-control-artisan:focus, .form-select-artisan:focus {
+        background: white; border-color: var(--artisan-terracotta);
+        box-shadow: 0 10px 30px rgba(255, 95, 31, 0.08); outline: none;
+    }
+
+    /* Dynamic Sections */
+    .dynamic-section {
+        background: #fffcf9;
+        border: 1px dashed var(--artisan-terracotta);
+        animation: slideDown 0.4s ease-out;
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Button */
+    .btn-artisan-auth {
+        background: var(--artisan-charcoal);
+        color: white; border: none; border-radius: 1rem;
+        font-weight: 800; font-size: 1rem; transition: 0.3s;
+    }
+
+    .btn-artisan-auth:hover {
+        background: var(--artisan-terracotta);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(255, 95, 31, 0.2);
+    }
+
+    @media (max-width: 991px) {
+        .auth-card-artisan { border-radius: 2rem; }
+    }
+</style>
+
+<script>
+    function toggleFields() {
+        const role = document.getElementById('role').value;
+        const companyDiv = document.getElementById('company-fields');
+        const employeeDiv = document.getElementById('employee-fields');
+
+        companyDiv.style.display = (role === 'company') ? 'block' : 'none';
+        employeeDiv.style.display = (role === 'employee') ? 'block' : 'none';
+    }
+</script>

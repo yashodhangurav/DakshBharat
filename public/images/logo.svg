@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 120" id="dakshBharatLogo">
+  <defs>
+    <linearGradient id="terracottaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff5f1f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e64a19;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <g transform="translate(10, 10)">
+    <circle cx="50" cy="50" r="48" stroke="#0f172a" stroke-width="4" fill="none" opacity="0.1"/>
+    
+    <path d="M50 15 L58 35 L78 38 L65 52 L70 72 L50 62 L30 72 L35 52 L22 38 L42 35 Z" fill="#f1f1f1" opacity="0.5" />
+
+    <path d="M50 5 L62 50 L50 95 L38 50 Z" fill="url(#terracottaGradient)" />
+    
+    <circle cx="50" cy="50" r="12" fill="#0f172a" />
+    <circle cx="50" cy="50" r="6" fill="white" />
+    
+    <g stroke="white" stroke-width="1.5">
+      <line x1="50" y1="44" x2="50" y2="56" />
+      <line x1="44" y1="50" x2="56" y2="50" />
+    </g>
+  </g>
+  
+  <g transform="translate(130, 75)">
+    <text font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="52" letter-spacing="-2">
+      <tspan fill="#0f172a">Daksh</tspan>
+      <tspan fill="#ff5f1f" font-family="'Playfair Display', serif" font-style="italic" dx="5">Bharat</tspan>
+    </text>
+    
+    <text x="2" y="30" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="16" fill="#64748b" letter-spacing="1.5">VERIFIED ARTISAN NETWORK</text>
+  </g>
+</svg>

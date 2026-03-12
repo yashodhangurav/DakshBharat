@@ -1,0 +1,157 @@
+<% if (success && success.length > 0) { %>
+  <div class="toast-container position-fixed bottom-0 start-0 p-4" style="z-index: 2000;">
+    <div class="artisan-toast success-toast shadow-lg show" role="alert" data-aos="fade-right">
+      <div class="toast-content">
+        <div class="toast-icon-box">
+          <i class="bi bi-check-lg"></i>
+        </div>
+        <div class="toast-text">
+          <span class="toast-label text-success">System Success</span>
+          <p class="mb-0 text-charcoal"><%= success %></p>
+        </div>
+        <button type="button" class="btn-close-artisan" data-bs-dismiss="toast">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="toast-progress bg-success"></div>
+    </div>
+  </div>
+<% } %>
+
+<% if (error && error.length > 0) { %>
+  <div class="toast-container position-fixed bottom-0 start-0 p-4" style="z-index: 2000;">
+    <div class="artisan-toast error-toast shadow-lg show" role="alert" data-aos="fade-right">
+      <div class="toast-content">
+        <div class="toast-icon-box bg-danger-soft">
+          <i class="bi bi-exclamation-triangle text-danger"></i>
+        </div>
+        <div class="toast-text">
+          <span class="toast-label text-danger">Action Required</span>
+          <p class="mb-0 text-charcoal"><%= error %></p>
+        </div>
+        <button type="button" class="btn-close-artisan" data-bs-dismiss="toast">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="toast-progress bg-danger"></div>
+    </div>
+  </div>
+<% } %>
+
+<style>
+  :root {
+    --artisan-charcoal: #0f172a;
+    --artisan-bg-toast: rgba(255, 255, 255, 0.95);
+    --artisan-border: rgba(15, 23, 42, 0.08);
+  }
+
+  /* Base Toast Styling */
+  .artisan-toast {
+    background: var(--artisan-bg-toast);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--artisan-border);
+    border-radius: 1.25rem;
+    min-width: 320px;
+    position: relative;
+    overflow: hidden;
+    padding: 1.2rem;
+    animation: artisanSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .toast-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  /* Icon Box */
+  .toast-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #ecfdf5; /* Success soft green */
+    color: #10b981;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .bg-danger-soft {
+    background: #fef2f2 !important;
+  }
+
+  /* Text Styling */
+  .toast-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 2px;
+  }
+
+  .toast-text p {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--artisan-charcoal);
+  }
+
+  /* Custom Close Button */
+  .btn-close-artisan {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn-close-artisan:hover {
+    color: var(--artisan-charcoal);
+    transform: rotate(90deg);
+  }
+
+  /* Progress Bar Animation */
+  .toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    animation: toastProgress 5s linear forwards;
+  }
+
+  @keyframes artisanSlideIn {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes toastProgress {
+    from { width: 100%; }
+    to { width: 0%; }
+  }
+
+  /* Mobile Adjustments */
+  @media (max-width: 576px) {
+    .artisan-toast { min-width: calc(100vw - 2rem); }
+  }
+</style>
+
+<script>
+  // Automatic dismissal after 5 seconds to match progress bar
+  document.addEventListener('DOMContentLoaded', () => {
+    const toasts = document.querySelectorAll('.artisan-toast');
+    toasts.forEach(t => {
+      setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(-20px)';
+        t.style.transition = '0.5s ease';
+        setTimeout(() => t.remove(), 500);
+      }, 5000);
+    });
+  });
+</script>

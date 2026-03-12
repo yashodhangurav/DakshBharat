@@ -1,0 +1,252 @@
+<nav class="navbar navbar-expand-lg sticky-top artisan-nav">
+  <div class="container-fluid px-lg-5">
+    
+    <a class="navbar-brand d-flex align-items-center" href="/home">
+      <div class="artisan-logo-box">
+        <i class="bi bi-pentagon-half"></i>
+      </div>
+      <span class="artisan-brand-text">Daksh<span class="text-terracotta">Bharat</span></span>
+    </a>
+
+    <button class="navbar-toggler border-0 shadow-none artisan-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link artisan-link" href="/home">Discovery</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link artisan-link" href="/home/listings">Marketplace</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link artisan-link" href="/home/guide">Our Process</a>
+        </li>
+       
+      </ul>
+
+      <div class="d-flex align-items-center gap-3 auth-container">
+        
+        <% if(!currUser) { %>
+          <a href="/login" class="artisan-login">Sign In</a>
+          <a href="/signup" class="btn artisan-btn-primary">Join Gallery</a>
+        <% } else { %>
+          
+          <% if(currUser && (currUser.role === 'company' || currUser.role === 'employee')) { %>
+            <a href="/home/listings/new" class="artisan-post-btn d-none d-md-inline-flex">
+              <i class="bi bi-plus-lg"></i>
+            </a>
+          <% } %>
+
+          <div class="dropdown">
+            <div class="user-artisan-pill dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar-mask">
+                <img src="https://ui-avatars.com/api/?name=<%= currUser.username %>&background=0f172a&color=fff" alt="User">
+              </div>
+              <div class="user-meta d-none d-sm-block">
+                <span class="u-name"><%= currUser.username %></span>
+                <span class="u-role"><%= currUser.role %></span>
+              </div>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end artisan-dropdown shadow-lg">
+              <li><a class="dropdown-item" href="/profile"><i class="bi bi-grid-1x2 me-2"></i> Dashboard</a></li>
+              <li><a class="dropdown-item" href="/settings"><i class="bi bi-sliders me-2"></i> Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item logout-item" href="/logout"><i class="bi bi-power me-2"></i> Sign Out</a></li>
+            </ul>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  :root {
+    --artisan-bg: rgba(255, 252, 249, 0.8);
+    --artisan-terracotta: #ff5f1f;
+    --artisan-charcoal: #0f172a;
+    --artisan-border: rgba(15, 23, 42, 0.08);
+  }
+
+  /* --- Navbar Base --- */
+  .artisan-nav {
+    background: var(--artisan-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--artisan-border);
+    padding: 1rem 0;
+    z-index: 1050;
+  }
+
+  /* Logo Animation */
+  .artisan-logo-box {
+    background: var(--artisan-charcoal);
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    color: white;
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .navbar-brand:hover .artisan-logo-box {
+    transform: rotate(45deg);
+    background: var(--artisan-terracotta);
+  }
+
+  .artisan-brand-text {
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--artisan-charcoal);
+    margin-left: 12px;
+    letter-spacing: -1px;
+  }
+
+  .text-terracotta { color: var(--artisan-terracotta); }
+
+  /* Animated Links */
+  .artisan-link {
+    color: var(--artisan-charcoal) !important;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.5rem !important;
+    position: relative;
+    opacity: 0.7;
+    transition: 0.3s;
+  }
+
+  .artisan-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--artisan-terracotta);
+    transition: 0.3s;
+    transform: translateX(-50%);
+  }
+
+  .artisan-link:hover {
+    opacity: 1;
+    color: var(--artisan-terracotta) !important;
+  }
+
+  .artisan-link:hover::after {
+    width: 20px;
+  }
+
+  /* Post Button (Circle) */
+  .artisan-post-btn {
+    width: 42px;
+    height: 42px;
+    background: white;
+    border: 1px solid var(--artisan-border);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--artisan-charcoal);
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .artisan-post-btn:hover {
+    background: var(--artisan-terracotta);
+    color: white;
+    transform: scale(1.1);
+  }
+
+  /* User Pill */
+  .user-artisan-pill {
+    background: white;
+    padding: 6px 12px 6px 6px;
+    border-radius: 100px;
+    border: 1px solid var(--artisan-border);
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+
+  .user-artisan-pill:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: var(--artisan-terracotta);
+  }
+
+  .avatar-mask {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .avatar-mask img { width: 100%; height: 100%; object-fit: cover; }
+
+  .user-meta { margin-left: 10px; line-height: 1.2; }
+  .u-name { display: block; font-weight: 800; font-size: 0.85rem; color: var(--artisan-charcoal); }
+  .u-role { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--artisan-terracotta); }
+
+  /* Buttons */
+  .artisan-login {
+    font-weight: 700;
+    color: var(--artisan-charcoal);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .artisan-btn-primary {
+    background: var(--artisan-charcoal);
+    color: white !important;
+    font-weight: 700;
+    padding: 0.7rem 1.8rem;
+    border-radius: 12px;
+    transition: 0.3s;
+  }
+
+  .artisan-btn-primary:hover {
+    background: var(--artisan-terracotta);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 95, 31, 0.2);
+  }
+
+  /* Dropdown Styling */
+  .artisan-dropdown {
+    border-radius: 16px;
+    padding: 10px;
+    margin-top: 15px;
+    background: white;
+    border: 1px solid var(--artisan-border);
+  }
+
+  .dropdown-item {
+    border-radius: 10px;
+    padding: 8px 15px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--artisan-charcoal);
+  }
+
+  .dropdown-item:hover {
+    background: #fffcf9;
+    color: var(--artisan-terracotta);
+  }
+
+  .logout-item:hover { background: #fff1f1; color: #dc2626; }
+
+  /* Mobile Optimization */
+  @media (max-width: 991px) {
+    .navbar-collapse {
+      background: white;
+      margin-top: 1rem;
+      padding: 2rem;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+      border: 1px solid var(--artisan-border);
+    }
+  }
+</style>

@@ -1,0 +1,315 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<style>
+    :root {
+        --artisan-bg: #fffcf9;
+        --artisan-primary: #ff5f1f;
+        --artisan-dark: #0f172a;
+        --artisan-glass: rgba(255, 255, 255, 0.9);
+        --status-green: #10b981;
+    }
+
+    body { background-color: var(--artisan-bg); font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    /* COMPACT HEADER */
+    .compact-header { padding: 4rem 0 3rem 0; text-align: center; }
+    .compact-header h1 { font-weight: 900; font-size: 2.8rem; letter-spacing: -1.5px; margin-bottom: 10px; }
+    .compact-header span { color: var(--artisan-primary); }
+
+    /* SLEEK FILTER BAR */
+    .sleek-filter-bar {
+        background: white;
+        border-radius: 1rem;
+        padding: 0.6rem;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        margin-top: -1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .compact-search {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding-left: 15px;
+        border-right: 1px solid #eee;
+    }
+
+    .compact-search input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-left: 10px;
+    }
+
+    /* COMPACT ELITE CARD */
+    .elite-card {
+        background: white;
+        border-radius: 1.25rem;
+        overflow: hidden;
+        border: 1px solid #f1f1f1;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .elite-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        border-color: var(--artisan-primary);
+    }
+
+    /* Thumbnail Area - Smaller Height */
+    .elite-thumb {
+        position: relative;
+        height: 180px; /* Reduced height */
+        overflow: hidden;
+    }
+
+    .elite-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.6s;
+    }
+
+    .elite-card:hover .elite-thumb img { transform: scale(1.08); }
+
+    /* Top Floating Badges */
+    .float-top {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        display: flex;
+        justify-content: space-between;
+        pointer-events: none;
+    }
+
+    .category-tag {
+        background: var(--artisan-dark);
+        color: white;
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 4px 10px;
+        border-radius: 6px;
+        text-transform: uppercase;
+    }
+
+    .rating-tag {
+        background: var(--artisan-glass);
+        backdrop-filter: blur(5px);
+        font-size: 0.75rem;
+        font-weight: 800;
+        padding: 4px 8px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    /* Info Area */
+    .elite-body {
+        padding: 1.25rem;
+        flex-grow: 1;
+    }
+
+    .status-indicator {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--status-green);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 6px;
+    }
+
+    .status-dot { width: 6px; height: 6px; background: var(--status-green); border-radius: 50%; display: inline-block; }
+
+    .elite-title {
+        font-weight: 800;
+        font-size: 1.15rem;
+        line-height: 1.3;
+        color: var(--artisan-dark);
+        margin-bottom: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 2.6rem;
+    }
+
+    .elite-meta {
+        font-size: 0.8rem;
+        color: #64748b;
+        display: flex;
+        justify-content: space-between;
+        font-weight: 500;
+    }
+
+    /* Compact Price & Action Bar */
+    .elite-footer {
+        padding: 1rem 1.25rem;
+        background: #fcfcfc;
+        border-top: 1px solid #f3f3f3;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .elite-price {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .elite-price .val { font-weight: 900; font-size: 1.3rem; color: var(--artisan-dark); line-height: 1; }
+    .elite-price .unt { font-size: 0.7rem; color: #94a3b8; font-weight: 600; margin-top: 2px; }
+
+    .btn-view-circle {
+        width: 42px;
+        height: 42px;
+        background: white;
+        border: 1.5px solid #eee;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--artisan-dark);
+        transition: 0.3s;
+        text-decoration: none;
+    }
+
+    .btn-view-circle:hover {
+        background: var(--artisan-primary);
+        border-color: var(--artisan-primary);
+        color: white;
+    }
+
+    @media (max-width: 576px) {
+        .sleek-filter-bar { flex-direction: column; padding: 1rem; }
+        .compact-search { border-right: none; border-bottom: 1px solid #eee; padding-bottom: 10px; width: 100%; }
+    }
+</style>
+
+<div class="compact-header">
+    <div class="container">
+        <h1>Global <span>Artisan</span> Feed</h1>
+        <p class="text-muted">Precision-matched professional assignments.</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="sleek-filter-bar container shadow-sm">
+        <div class="compact-search">
+            <i class="bi bi-search text-muted"></i>
+            <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Find skills or cities...">
+        </div>
+
+        <div class="d-flex gap-2 px-2">
+            <button class="btn btn-sm fw-bold px-3 rounded-pill btn-dark" onclick="setCategory('All', this)">All</button>
+            <button class="btn btn-sm fw-bold px-3 rounded-pill btn-light border" onclick="setCategory('Job', this)">Hiring</button>
+            <button class="btn btn-sm fw-bold px-3 rounded-pill btn-light border" onclick="setCategory('Service', this)">Services</button>
+        </div>
+
+        <select class="form-select border-0 bg-transparent fw-bold" id="sortSelect" style="width: auto; font-size: 0.85rem;" onchange="sortCards()">
+            <option value="default">Sort</option>
+            <option value="price-low">Low Cost</option>
+            <option value="price-high">Highest</option>
+        </select>
+    </div>
+
+    <div class="row g-4 mt-3" id="listingGrid">
+        <% for(let listing of allListings) { %>
+            <div class="col-sm-6 col-md-4 col-lg-3 listing-item"
+                 data-category="<%= listing.category %>"
+                 data-price="<%= listing.price %>"
+                 data-title="<%= listing.title.toLowerCase() %>"
+                 data-location="<%= listing.location.toLowerCase() %>">
+               
+                <div class="elite-card">
+                    <div class="elite-thumb">
+                        <div class="float-top">
+                            <span class="category-tag"><%= listing.type %></span>
+                            <span class="rating-tag">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <%= (listing.reviews.length > 0) ? (listing.reviews.reduce((acc, r) => acc + r.rating, 0) / listing.reviews.length).toFixed(1) : "5.0" %>
+                            </span>
+                        </div>
+                        <% if(listing.imageUrl && listing.imageUrl.url) { %>
+                            <img src="<%= listing.imageUrl.url %>" alt="Assignment">
+                        <% } else { %>
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Work">
+                        <% } %>
+                    </div>
+
+                    <div class="elite-body">
+                        <div class="status-indicator">
+                            <span class="status-dot"></span>
+                            <%= listing.status === 'Open' ? 'Available' : 'Booked' %>
+                        </div>
+                        <h5 class="elite-title"><%= listing.title %></h5>
+                        
+                        <div class="elite-meta">
+                            <span><i class="bi bi-geo-alt-fill text-danger"></i> <%= listing.location %></span>
+                            <span>By <strong><%= listing.providerName.split(' ')[0] %></strong></span>
+                        </div>
+                    </div>
+
+                    <div class="elite-footer">
+                        <div class="elite-price">
+                            <span class="val">₹<%= (listing.price) ? listing.price.toLocaleString("en-IN") : "0" %></span>
+                            <span class="unt">Per <%= listing.priceUnit || "Day" %></span>
+                        </div>
+                        <a href="/home/listings/<%= listing._id %>" class="btn-view-circle">
+                            <i class="bi bi-arrow-right-short fs-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<script>
+    let currentCategory = 'All';
+
+    function filterCards() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const items = document.querySelectorAll('.listing-item');
+        let count = 0;
+
+        items.forEach(item => {
+            const title = item.getAttribute('data-title');
+            const location = item.getAttribute('data-location');
+            const category = item.getAttribute('data-category');
+           
+            const matchesSearch = title.includes(query) || location.includes(query);
+            const matchesCategory = (currentCategory === 'All' || category === currentCategory);
+
+            if (matchesSearch && matchesCategory) {
+                item.style.display = 'block';
+                count++;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        document.getElementById('noResults')?.classList.toggle('d-none', count > 0);
+    }
+
+    function setCategory(cat, btn) {
+        currentCategory = cat;
+        document.querySelectorAll('.sleek-filter-bar button').forEach(b => {
+            b.classList.remove('btn-dark');
+            b.classList.add('btn-light', 'border');
+        });
+        btn.classList.add('btn-dark');
+        btn.classList.remove('btn-light', 'border');
+        filterCards();
+    }
+</script>
