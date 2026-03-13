@@ -1,252 +1,531 @@
-<nav class="navbar navbar-expand-lg sticky-top artisan-nav">
-  <div class="container-fluid px-lg-5">
-    
-    <a class="navbar-brand d-flex align-items-center" href="/home">
-      <div class="artisan-logo-box">
-        <i class="bi bi-pentagon-half"></i>
+<nav class="navbar navbar-expand-lg sticky-top nx-nav">
+  <div class="container-fluid px-lg-5 px-4">
+
+    <!-- BRAND -->
+    <a class="nx-brand" href="/home">
+      <!-- new logo: DB monogram with amber notch -->
+      <div class="nx-logo">
+        <div class="nx-logo-inner">
+          <span class="nx-logo-d">D</span>
+          <span class="nx-logo-b">B</span>
+        </div>
+        <div class="nx-logo-notch"></div>
       </div>
-      <span class="artisan-brand-text">Daksh<span class="text-terracotta">Bharat</span></span>
+      <div class="nx-brand-text">
+        <span class="nx-brand-daksh">Daksh</span><span class="nx-brand-bharat">Bharat</span>
+      </div>
     </a>
 
-    <button class="navbar-toggler border-0 shadow-none artisan-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="toggler-icon"></span>
-    </button>
+    <!-- CENTER LINKS — pill island -->
+    <div class="nx-island d-none d-lg-flex">
+      <a href="/home"          class="nx-item">Discovery</a>
+      <a href="/home/listings" class="nx-item">Marketplace</a>
+      <a href="/home/guide"    class="nx-item">Our Process</a>
+    </div>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item">
-          <a class="nav-link artisan-link" href="/home">Discovery</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link artisan-link" href="/home/listings">Marketplace</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link artisan-link" href="/home/guide">Our Process</a>
-        </li>
-       
-      </ul>
+    <!-- RIGHT AUTH -->
+    <div class="nx-right d-none d-lg-flex">
+      <% if(!currUser) { %>
+        <a href="/login"  class="nx-ghost">Sign In</a>
+        <a href="/signup" class="nx-solid"><span>Get Started</span></a>
+      <% } else { %>
 
-      <div class="d-flex align-items-center gap-3 auth-container">
-        
-        <% if(!currUser) { %>
-          <a href="/login" class="artisan-login">Sign In</a>
-          <a href="/signup" class="btn artisan-btn-primary">Join Gallery</a>
-        <% } else { %>
-          
-          <% if(currUser && (currUser.role === 'company' || currUser.role === 'employee')) { %>
-            <a href="/home/listings/new" class="artisan-post-btn d-none d-md-inline-flex">
-              <i class="bi bi-plus-lg"></i>
-            </a>
-          <% } %>
-
-          <div class="dropdown">
-            <div class="user-artisan-pill dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              <div class="avatar-mask">
-                <img src="https://ui-avatars.com/api/?name=<%= currUser.username %>&background=0f172a&color=fff" alt="User">
-              </div>
-              <div class="user-meta d-none d-sm-block">
-                <span class="u-name"><%= currUser.username %></span>
-                <span class="u-role"><%= currUser.role %></span>
-              </div>
-            </div>
-            <ul class="dropdown-menu dropdown-menu-end artisan-dropdown shadow-lg">
-              <li><a class="dropdown-item" href="/profile"><i class="bi bi-grid-1x2 me-2"></i> Dashboard</a></li>
-              <li><a class="dropdown-item" href="/settings"><i class="bi bi-sliders me-2"></i> Settings</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item logout-item" href="/logout"><i class="bi bi-power me-2"></i> Sign Out</a></li>
-            </ul>
-          </div>
+        <% if(currUser.role === 'company' || currUser.role === 'employee') { %>
+          <a href="/home/listings/new" class="nx-ghost nx-post">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            Post
+          </a>
         <% } %>
-      </div>
+
+        <!-- Role badge + dropdown -->
+        <div class="dropdown">
+          <div class="nx-avatar-wrap dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="nx-av-img">
+              <img src="https://ui-avatars.com/api/?name=<%= currUser.username %>&background=1e3a5f&color=fff&bold=true&size=80" alt="">
+            </div>
+            <div class="nx-av-meta">
+              <span class="nx-av-name"><%= currUser.username %></span>
+              <span class="nx-av-role nx-role-<%= currUser.role %>">
+                <% if(currUser.role === 'company') { %>
+                  <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="currentColor"/></svg> Company
+                <% } else if(currUser.role === 'employee') { %>
+                  <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="currentColor"/></svg> Employee
+                <% } else { %>
+                  <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="currentColor"/></svg> User
+                <% } %>
+              </span>
+            </div>
+            <svg class="nx-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <ul class="dropdown-menu dropdown-menu-end nx-menu">
+            <li class="nx-menu-header">
+              <div class="nx-mh-av">
+                <img src="https://ui-avatars.com/api/?name=<%= currUser.username %>&background=1e3a5f&color=fff&bold=true&size=80" alt="">
+              </div>
+              <div>
+                <p class="nx-mh-name"><%= currUser.username %></p>
+                <span class="nx-mh-badge nx-role-<%= currUser.role %>">
+                  <% if(currUser.role === 'company')        { %> Company Account
+                  <% } else if(currUser.role === 'employee') { %> Employee Account
+                  <% } else { %>                                   User Account
+                  <% } %>
+                </span>
+              </div>
+            </li>
+            <li><div class="nx-menu-sep"></div></li>
+            <li><a class="dropdown-item nx-mi" href="/profile">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="1" width="5.5" height="5.5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><rect x="8.5" y="1" width="5.5" height="5.5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="8.5" width="5.5" height="5.5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.2" stroke="currentColor" stroke-width="1.2"/></svg>
+              Dashboard
+            </a></li>
+            <li><a class="dropdown-item nx-mi" href="/settings">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M2.93 2.93l1.06 1.06M11.01 11.01l1.06 1.06M2.93 12.07l1.06-1.06M11.01 3.99l1.06-1.06" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Settings
+            </a></li>
+            <li><div class="nx-menu-sep"></div></li>
+            <li><a class="dropdown-item nx-mi nx-mi-out" href="/logout">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M6 2H2.5A1.5 1.5 0 001 3.5v8A1.5 1.5 0 002.5 13H6M10 10.5L13.5 7.5M13.5 7.5L10 4.5M13.5 7.5H5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Sign Out
+            </a></li>
+          </ul>
+        </div>
+
+      <% } %>
+    </div>
+
+    <!-- MOBILE TOGGLE -->
+    <button class="nx-mob-toggle d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#nxMob">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <!-- MOBILE PANEL -->
+  <div class="collapse nx-mob-panel" id="nxMob">
+    <div class="nx-mob-inner">
+      <a href="/home"          class="nx-mob-link">Discovery</a>
+      <a href="/home/listings" class="nx-mob-link">Marketplace</a>
+      <a href="/home/guide"    class="nx-mob-link">Our Process</a>
+      <div class="nx-mob-divider"></div>
+      <% if(!currUser) { %>
+        <a href="/login"  class="nx-mob-link">Sign In</a>
+        <a href="/signup" class="nx-solid nx-mob-cta">Get Started</a>
+      <% } else { %>
+        <div class="nx-mob-user">
+          <img src="https://ui-avatars.com/api/?name=<%= currUser.username %>&background=1e3a5f&color=fff&bold=true&size=80" alt="">
+          <div>
+            <p><%= currUser.username %></p>
+            <span class="nx-av-role nx-role-<%= currUser.role %>">
+              <% if(currUser.role === 'company')        { %> Company
+              <% } else if(currUser.role === 'employee') { %> Employee
+              <% } else { %>                                   User
+              <% } %>
+            </span>
+          </div>
+        </div>
+        <a href="/profile"  class="nx-mob-link">Dashboard</a>
+        <a href="/settings" class="nx-mob-link">Settings</a>
+        <a href="/logout"   class="nx-mob-link nx-mob-out">Sign Out</a>
+      <% } %>
     </div>
   </div>
 </nav>
 
 <style>
-  :root {
-    --artisan-bg: rgba(255, 252, 249, 0.8);
-    --artisan-terracotta: #ff5f1f;
-    --artisan-charcoal: #0f172a;
-    --artisan-border: rgba(15, 23, 42, 0.08);
-  }
+:root {
+  --nx-bg:      rgba(245,243,239,0.92);
+  --nx-ink:     #1a1714;
+  --nx-muted:   #78716c;
+  --nx-navy:    #1e3a5f;
+  --nx-amber:   #d97706;
+  --nx-amber-lt:#fef3c7;
+  --nx-border:  rgba(28,25,23,0.09);
+  --nx-white:   #ffffff;
+  --nx-ease:    cubic-bezier(0.34,1.56,0.64,1);
+  --nx-std:     cubic-bezier(0.4,0,0.2,1);
+}
 
-  /* --- Navbar Base --- */
-  .artisan-nav {
-    background: var(--artisan-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--artisan-border);
-    padding: 1rem 0;
-    z-index: 1050;
-  }
+/* ── BASE ── */
+.nx-nav {
+  background: var(--nx-bg);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-bottom: 1px solid var(--nx-border);
+  padding: 0;
+  height: 64px;
+  z-index: 1050;
+  font-family: 'Inter', system-ui, sans-serif;
+  transition: box-shadow .4s var(--nx-std), background .4s;
+}
+.nx-nav .container-fluid { height: 100%; align-items: center; }
+.nx-nav.nx-scrolled {
+  background: rgba(245,243,239,.98);
+  box-shadow: 0 1px 0 rgba(0,0,0,.05), 0 10px 40px -10px rgba(28,25,23,.12);
+}
 
-  /* Logo Animation */
-  .artisan-logo-box {
-    background: var(--artisan-charcoal);
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    color: white;
-    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
+/* ── LOGO ── */
+.nx-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nx-brand:hover { text-decoration: none; }
 
-  .navbar-brand:hover .artisan-logo-box {
-    transform: rotate(45deg);
-    background: var(--artisan-terracotta);
-  }
+/* logo mark */
+.nx-logo {
+  position: relative;
+  width: 34px; height: 34px;
+  flex-shrink: 0;
+}
+.nx-logo-inner {
+  width: 34px; height: 34px;
+  background: var(--nx-navy);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform .4s var(--nx-ease), border-radius .35s var(--nx-std);
+}
+.nx-brand:hover .nx-logo-inner {
+  border-radius: 14px;
+  transform: rotate(-6deg);
+}
 
-  .artisan-brand-text {
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--artisan-charcoal);
-    margin-left: 12px;
-    letter-spacing: -1px;
-  }
+/* the D and B letters inside */
+.nx-logo-d, .nx-logo-b {
+  font-size: .88rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -.06em;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.nx-logo-d {
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.nx-logo-b {
+  color: var(--nx-amber);
+  position: relative;
+  z-index: 1;
+  margin-left: -1px;
+}
 
-  .text-terracotta { color: var(--artisan-terracotta); }
+/* amber corner notch */
+.nx-logo-notch {
+  position: absolute;
+  bottom: -4px; right: -4px;
+  width: 13px; height: 13px;
+  background: var(--nx-amber);
+  border-radius: 4px 0 4px 0;
+  transition: transform .35s var(--nx-ease), width .3s, height .3s;
+}
+.nx-brand:hover .nx-logo-notch {
+  transform: scale(1.25) rotate(8deg);
+}
 
-  /* Animated Links */
-  .artisan-link {
-    color: var(--artisan-charcoal) !important;
-    font-weight: 700;
-    font-size: 0.9rem;
-    padding: 0.5rem 1.5rem !important;
-    position: relative;
-    opacity: 0.7;
-    transition: 0.3s;
-  }
+/* brand wordmark */
+.nx-brand-text {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  line-height: 1;
+}
+.nx-brand-daksh {
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -.035em;
+  color: var(--nx-ink);
+  transition: color .25s;
+}
+.nx-brand-bharat {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  color: var(--nx-amber);
+  transition: letter-spacing .35s var(--nx-std);
+}
+.nx-brand:hover .nx-brand-daksh { color: var(--nx-navy); }
+.nx-brand:hover .nx-brand-bharat { letter-spacing: -.01em; }
 
-  .artisan-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: var(--artisan-terracotta);
-    transition: 0.3s;
-    transform: translateX(-50%);
-  }
+/* ── CENTER ISLAND ── */
+.nx-island {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 3px;
+  background: var(--nx-white);
+  border: 1px solid var(--nx-border);
+  border-radius: 100px;
+  padding: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05), 0 0 0 0 rgba(217,119,6,0);
+  transition: box-shadow .3s var(--nx-std);
+}
+.nx-island:hover {
+  box-shadow: 0 2px 12px rgba(0,0,0,.07), 0 0 0 3px rgba(217,119,6,.07);
+}
 
-  .artisan-link:hover {
-    opacity: 1;
-    color: var(--artisan-terracotta) !important;
-  }
+.nx-item {
+  font-size: .81rem; font-weight: 600;
+  color: var(--nx-muted);
+  text-decoration: none;
+  padding: 7px 17px;
+  border-radius: 100px;
+  letter-spacing: -.01em;
+  transition: color .2s var(--nx-std), background .2s var(--nx-std);
+  position: relative; overflow: hidden;
+  white-space: nowrap;
+}
+.nx-item:hover  { color: var(--nx-ink); background: rgba(28,25,23,.05); }
+.nx-item.nx-active {
+  color: var(--nx-navy);
+  background: rgba(30,58,95,.08);
+  font-weight: 700;
+}
+.nx-item:active {
+  transform: scale(.95);
+  background: var(--nx-amber-lt);
+  color: var(--nx-amber);
+}
 
-  .artisan-link:hover::after {
-    width: 20px;
-  }
+/* ripple */
+.nx-item .nx-rip {
+  position: absolute; border-radius: 50%;
+  background: rgba(217,119,6,.15);
+  transform: scale(0);
+  animation: nxRipple .45s ease forwards;
+  pointer-events: none;
+}
+@keyframes nxRipple { to { transform: scale(4); opacity: 0; } }
 
-  /* Post Button (Circle) */
-  .artisan-post-btn {
-    width: 42px;
-    height: 42px;
-    background: white;
-    border: 1px solid var(--artisan-border);
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--artisan-charcoal);
-    text-decoration: none;
-    transition: 0.3s;
-  }
+/* ── RIGHT ── */
+.nx-right { display: flex; align-items: center; gap: 7px; }
 
-  .artisan-post-btn:hover {
-    background: var(--artisan-terracotta);
-    color: white;
-    transform: scale(1.1);
-  }
+.nx-ghost {
+  font-size: .81rem; font-weight: 600;
+  color: var(--nx-ink);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--nx-border);
+  background: transparent;
+  letter-spacing: -.01em;
+  transition: background .2s, color .2s, transform .15s var(--nx-ease), border-color .2s;
+  display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.nx-ghost:hover  {
+  background: var(--nx-white);
+  border-color: rgba(28,25,23,.16);
+  color: var(--nx-ink);
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.nx-ghost:active { transform: scale(.95); }
 
-  /* User Pill */
-  .user-artisan-pill {
-    background: white;
-    padding: 6px 12px 6px 6px;
-    border-radius: 100px;
-    border: 1px solid var(--artisan-border);
-    display: flex;
-    align-items: center;
-    transition: 0.3s;
-    cursor: pointer;
-  }
+.nx-solid {
+  font-size: .81rem; font-weight: 700;
+  color: #fff !important;
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: var(--nx-navy);
+  letter-spacing: -.01em;
+  transition: transform .15s var(--nx-ease), box-shadow .25s;
+  position: relative; overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+}
+.nx-solid::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: 100px;
+  background: var(--nx-amber);
+  transform: translateY(100%);
+  transition: transform .28s var(--nx-std);
+}
+.nx-solid span { position: relative; z-index: 1; }
+.nx-solid:hover {
+  box-shadow: 0 4px 18px rgba(30,58,95,.25);
+  transform: translateY(-1px);
+  color: #fff !important;
+}
+.nx-solid:hover::before { transform: translateY(0); }
+.nx-solid:active { transform: scale(.95) translateY(0); box-shadow: none; }
 
-  .user-artisan-pill:hover {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    border-color: var(--artisan-terracotta);
-  }
+/* ── AVATAR PILL ── */
+.nx-avatar-wrap {
+  display: flex; align-items: center; gap: 9px;
+  background: var(--nx-white);
+  border: 1px solid var(--nx-border);
+  border-radius: 100px;
+  padding: 4px 12px 4px 4px;
+  cursor: pointer;
+  transition: border-color .25s, box-shadow .25s, transform .15s var(--nx-ease);
+}
+.nx-avatar-wrap::after { display: none !important; }
+.nx-avatar-wrap:hover  {
+  border-color: rgba(217,119,6,.45);
+  box-shadow: 0 3px 14px rgba(217,119,6,.12);
+}
+.nx-avatar-wrap:active { transform: scale(.97); }
 
-  .avatar-mask {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    overflow: hidden;
-  }
+.nx-av-img {
+  width: 28px; height: 28px;
+  border-radius: 50%; overflow: hidden; flex-shrink: 0;
+  ring: 2px solid var(--nx-amber);
+}
+.nx-av-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  .avatar-mask img { width: 100%; height: 100%; object-fit: cover; }
+.nx-av-meta { display: flex; flex-direction: column; line-height: 1.2; }
+.nx-av-name {
+  font-size: .79rem; font-weight: 700;
+  color: var(--nx-ink); letter-spacing: -.01em;
+}
 
-  .user-meta { margin-left: 10px; line-height: 1.2; }
-  .u-name { display: block; font-weight: 800; font-size: 0.85rem; color: var(--artisan-charcoal); }
-  .u-role { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--artisan-terracotta); }
+.nx-av-role {
+  font-size: .6rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .5px;
+  display: flex; align-items: center; gap: 3px;
+}
+.nx-role-company  { color: #0e7490; }
+.nx-role-employee { color: #d97706; }
+.nx-role-user     { color: #7c3aed; }
 
-  /* Buttons */
-  .artisan-login {
-    font-weight: 700;
-    color: var(--artisan-charcoal);
-    text-decoration: none;
-    font-size: 0.9rem;
-  }
+.nx-chevron {
+  color: var(--nx-muted);
+  transition: transform .25s var(--nx-std);
+  margin-left: 2px; flex-shrink: 0;
+}
+.nx-avatar-wrap[aria-expanded="true"] .nx-chevron { transform: rotate(180deg); }
 
-  .artisan-btn-primary {
-    background: var(--artisan-charcoal);
-    color: white !important;
-    font-weight: 700;
-    padding: 0.7rem 1.8rem;
-    border-radius: 12px;
-    transition: 0.3s;
-  }
+/* ── DROPDOWN ── */
+.nx-menu {
+  border: 1px solid var(--nx-border) !important;
+  border-radius: 18px !important;
+  padding: 8px !important;
+  margin-top: 10px !important;
+  background: rgba(255,255,255,.97) !important;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 52px -8px rgba(28,25,23,.15) !important;
+  min-width: 220px;
+  animation: nxMenuIn .2s var(--nx-ease) both;
+}
+@keyframes nxMenuIn {
+  from { opacity: 0; transform: translateY(-7px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
 
-  .artisan-btn-primary:hover {
-    background: var(--artisan-terracotta);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(255, 95, 31, 0.2);
-  }
+.nx-menu-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px 12px;
+}
+.nx-mh-av { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+.nx-mh-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nx-mh-name {
+  font-size: .85rem; font-weight: 700;
+  color: var(--nx-ink); margin: 0 0 3px; letter-spacing: -.02em;
+}
+.nx-mh-badge {
+  font-size: .62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .6px;
+  padding: 2px 9px; border-radius: 100px;
+}
+.nx-mh-badge.nx-role-company  { background: #ecfeff; color: #0e7490; }
+.nx-mh-badge.nx-role-employee { background: #fef3c7; color: #92400e; }
+.nx-mh-badge.nx-role-user     { background: #f5f3ff; color: #6d28d9; }
 
-  /* Dropdown Styling */
-  .artisan-dropdown {
-    border-radius: 16px;
-    padding: 10px;
-    margin-top: 15px;
-    background: white;
-    border: 1px solid var(--artisan-border);
-  }
+.nx-menu-sep { height: 1px; background: var(--nx-border); margin: 4px 8px; }
 
-  .dropdown-item {
-    border-radius: 10px;
-    padding: 8px 15px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--artisan-charcoal);
-  }
+.nx-mi {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 10px;
+  font-size: .83rem; font-weight: 600;
+  color: var(--nx-ink);
+  transition: background .15s, transform .15s var(--nx-ease), color .15s;
+}
+.nx-mi svg { color: var(--nx-muted); flex-shrink: 0; transition: color .15s; }
+.nx-mi:hover   { background: rgba(28,25,23,.05); transform: translateX(3px); }
+.nx-mi:hover svg { color: var(--nx-navy); }
+.nx-mi:active  { background: var(--nx-amber-lt); color: var(--nx-amber); }
+.nx-mi-out:hover   { background: #fef2f2; color: #dc2626; }
+.nx-mi-out:hover svg { color: #dc2626; }
+.nx-mi-out:active  { background: #fee2e2; }
 
-  .dropdown-item:hover {
-    background: #fffcf9;
-    color: var(--artisan-terracotta);
-  }
+/* ── MOBILE TOGGLE ── */
+.nx-mob-toggle {
+  width: 38px; height: 38px;
+  background: var(--nx-white);
+  border: 1px solid var(--nx-border) !important;
+  border-radius: 10px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 5px; padding: 0;
+  transition: background .2s, transform .15s var(--nx-ease);
+}
+.nx-mob-toggle span {
+  display: block; width: 16px; height: 1.5px;
+  background: var(--nx-ink); border-radius: 2px;
+  transition: transform .3s var(--nx-std), opacity .3s, width .3s;
+}
+.nx-mob-toggle:hover { background: rgba(28,25,23,.04); }
+.nx-mob-toggle:active { transform: scale(.9); }
+.nx-mob-toggle[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+.nx-mob-toggle[aria-expanded="true"] span:last-child  { transform: translateY(-3.5px) rotate(-45deg); }
 
-  .logout-item:hover { background: #fff1f1; color: #dc2626; }
+/* ── MOBILE PANEL ── */
+.nx-mob-panel { border-top: 1px solid var(--nx-border); }
+.nx-mob-inner {
+  padding: 12px 16px 24px;
+  display: flex; flex-direction: column; gap: 2px;
+  background: var(--nx-white);
+}
+.nx-mob-link {
+  font-size: .88rem; font-weight: 600;
+  color: var(--nx-muted);
+  text-decoration: none;
+  padding: 11px 14px;
+  border-radius: 10px;
+  transition: color .2s, background .2s;
+}
+.nx-mob-link:hover  { color: var(--nx-ink); background: rgba(28,25,23,.04); }
+.nx-mob-link:active { background: var(--nx-amber-lt); color: var(--nx-amber); }
+.nx-mob-out:hover   { color: #dc2626; background: #fef2f2; }
+.nx-mob-divider { height: 1px; background: var(--nx-border); margin: 6px 0; }
+.nx-mob-cta { margin-top: 6px; text-align: center; display: block; }
 
-  /* Mobile Optimization */
-  @media (max-width: 991px) {
-    .navbar-collapse {
-      background: white;
-      margin-top: 1rem;
-      padding: 2rem;
-      border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-      border: 1px solid var(--artisan-border);
-    }
-  }
+.nx-mob-user {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; margin-bottom: 4px;
+  background: rgba(28,25,23,.03); border-radius: 12px;
+}
+.nx-mob-user img { width: 36px; height: 36px; border-radius: 50%; }
+.nx-mob-user p   { font-size: .9rem; font-weight: 700; color: var(--nx-ink); margin: 0 0 2px; }
 </style>
+
+<script>
+(function(){
+  // scroll shadow
+  window.addEventListener('scroll', function(){
+    document.querySelector('.nx-nav').classList.toggle('nx-scrolled', scrollY > 8);
+  });
+
+  // active link + ripple
+  document.querySelectorAll('.nx-item').forEach(function(el){
+    if(el.href === location.href) el.classList.add('nx-active');
+
+    el.addEventListener('click', function(e){
+      var r = document.createElement('span');
+      var b = el.getBoundingClientRect();
+      var s = Math.max(b.width, b.height);
+      r.className = 'nx-rip';
+      r.style.cssText = 'width:'+s+'px;height:'+s+'px;left:'+(e.clientX-b.left-s/2)+'px;top:'+(e.clientY-b.top-s/2)+'px;';
+      el.appendChild(r);
+      setTimeout(function(){ r.remove(); }, 450);
+    });
+  });
+})();
+</script>

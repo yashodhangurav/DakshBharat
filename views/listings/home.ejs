@@ -1,294 +1,747 @@
+
 <% layout("/layouts/boilerplate.ejs") %>
 
-<div class="artisan-wrapper">
+<!-- ── Language Switcher ── -->
+<div class="lang-bar">
+  <button class="lang-trigger" id="langTrigger" onclick="toggleLangMenu()">
+    <i class="bi bi-translate"></i>
+    <span id="langLabel">EN</span>
+    <i class="bi bi-chevron-down lang-chevron" id="langChevron"></i>
+  </button>
+  <div class="lang-dropdown" id="langDropdown">
+    <button class="lang-option active" data-lang="en"   onclick="setLanguage('en')">  <span class="lang-dot"></span> English   </button>
+    <button class="lang-option"        data-lang="hi"   onclick="setLanguage('hi')">  <span class="lang-dot"></span> हिंदी      </button>
+    <button class="lang-option"        data-lang="mr"   onclick="setLanguage('mr')">  <span class="lang-dot"></span> मराठी      </button>
+    <button class="lang-option"        data-lang="kn"   onclick="setLanguage('kn')">  <span class="lang-dot"></span> ಕನ್ನಡ      </button>
+    <button class="lang-option"        data-lang="ta"   onclick="setLanguage('ta')">  <span class="lang-dot"></span> தமிழ்      </button>
+  </div>
+</div>
 
-  <section class="artisan-hero">
-    <div class="hero-bg-accent"></div>
-    
-    <div class="container text-center position-relative">
-      <div class="hero-badge" data-aos="fade-down">
-        <i class="bi bi-patch-check-fill"></i> India's Verified Skill Network
+<div class="kw-wrap">
+
+  <!-- ===== HERO ===== -->
+  <section class="kw-hero">
+    <div class="kw-hero-inner">
+
+      <div class="kw-hero-left" data-aos="fade-up">
+        <div class="kw-badge">
+          <i class="bi bi-patch-check-fill"></i>
+          <span data-i18n="badge">India's Verified Skill Network</span>
+        </div>
+
+        <h1 class="kw-heading">
+          <span data-i18n="h1_1">Building the</span> <span class="kw-accent" data-i18n="h1_2">Future</span><br>
+          <span data-i18n="h1_3">with Local Expertise.</span>
+        </h1>
+
+        <p class="kw-subtext">
+          <span data-i18n="subtext_1">The unified ecosystem connecting</span>
+          <strong data-i18n="subtext_companies">Companies</strong>,
+          <strong data-i18n="subtext_employees">Skilled Employees</strong>,
+          <span data-i18n="subtext_and">and</span>
+          <strong data-i18n="subtext_owners">Project Owners</strong>
+          <span data-i18n="subtext_2">in one digital gallery of trust.</span>
+        </p>
+
+        <div class="kw-cta-row">
+          <a href="/home/listings" class="kw-btn-primary" data-i18n="btn_explore">Explore Marketplace</a>
+          <a href="/signup" class="kw-btn-text">
+            <span data-i18n="btn_join">Join the Network</span> <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="kw-stats-row">
+          <div class="kw-stat">
+            <strong>12K+</strong>
+            <span data-i18n="stat_workers">Skilled Workers</span>
+          </div>
+          <div class="kw-stat-sep"></div>
+          <div class="kw-stat">
+            <strong>800+</strong>
+            <span data-i18n="stat_companies">Companies</span>
+          </div>
+          <div class="kw-stat-sep"></div>
+          <div class="kw-stat">
+            <strong>98%</strong>
+            <span data-i18n="stat_satisfaction">Satisfaction</span>
+          </div>
+        </div>
       </div>
-      
-      <h1 class="display-2 fw-extrabold mt-4" data-aos="zoom-in">
-        Building the <span class="serif-italic">Future</span> <br> 
-        with Local <span class="text-terracotta">Expertise</span>.
-      </h1>
 
-      <p class="artisan-lead mx-auto mt-4" data-aos="fade-up" data-aos-delay="200">
-        The unified ecosystem connecting <strong>Companies</strong>, <strong>Skilled Employees</strong>, and <strong>Project Owners</strong> in one digital gallery of trust.
-      </p>
+      <div class="kw-hero-right" data-aos="fade-up" data-aos-delay="150">
+        <div class="kw-card kw-card-main">
+          <div class="kw-card-eyebrow" data-i18n="card_eyebrow">Our Philosophy</div>
+          <div class="kw-card-icon"><i class="bi bi-shield-shaded"></i></div>
+          <h3><span data-i18n="card_h3_1">A Heritage of</span><br><span data-i18n="card_h3_2">Digital Trust</span></h3>
+          <p data-i18n="card_p">We've replaced fragmented portals with a single, elegant gallery where every skill is a masterpiece and every hire is secure.</p>
+          <div class="kw-verified-badge">
+            <i class="bi bi-check-circle-fill"></i>
+            <span data-i18n="verified">Verified Enterprise</span>
+          </div>
+        </div>
 
-      <div class="artisan-actions mt-5" data-aos="fade-up" data-aos-delay="400">
-        <a href="/home/listings" class="btn-artisan-main shadow-lg">Explore Marketplace</a>
-        <a href="/signup" class="btn-artisan-link">Join the Network <i class="bi bi-arrow-right"></i></a>
+        <div class="kw-mini-row">
+          <div class="kw-card kw-card-mini kw-card-live">
+            <div class="kw-pulse"></div>
+            <span data-i18n="live_portfolio">Live Portfolio</span>
+            <i class="bi bi-person-badge"></i>
+          </div>
+          <div class="kw-card kw-card-mini kw-card-experts">
+            <div class="kw-avatars">
+              <img src="https://ui-avatars.com/api/?name=JS&background=c2410c&color=fff&bold=true" alt="JS">
+              <img src="https://ui-avatars.com/api/?name=RK&background=1e3a5f&color=fff&bold=true" alt="RK">
+              <img src="https://ui-avatars.com/api/?name=MA&background=0e7490&color=fff&bold=true" alt="MA">
+            </div>
+            <span data-i18n="verified_experts">Verified Experts</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section class="kw-services">
+    <div class="kw-services-inner">
+
+      <div class="kw-section-label" data-aos="fade-up">
+        <span></span> <span data-i18n="what_we_offer">What We Offer</span>
+      </div>
+
+      <div class="kw-services-grid">
+
+        <div class="kw-svc kw-svc-dark" data-aos="fade-up">
+          <div class="kw-svc-top">
+            <div class="kw-svc-num">01</div>
+            <div class="kw-svc-ico"><i class="bi bi-building"></i></div>
+          </div>
+          <h3 data-i18n="svc1_h3">For Companies</h3>
+          <p data-i18n="svc1_p">Source verified talent and manage industrial scale recruitment with ease. From SMEs to large enterprises.</p>
+          <div class="kw-svc-foot">
+            <span class="kw-tag" data-i18n="verified">Verified Enterprise</span>
+            <span class="kw-arrow"><i class="bi bi-arrow-up-right"></i></span>
+          </div>
+        </div>
+
+        <div class="kw-svc kw-svc-amber" data-aos="fade-up" data-aos-delay="100">
+          <div class="kw-svc-top">
+            <div class="kw-svc-num">02</div>
+            <div class="kw-svc-ico"><i class="bi bi-person-badge"></i></div>
+          </div>
+          <h3 data-i18n="svc2_h3">Digital Identity</h3>
+          <p data-i18n="svc2_p">Turn your manual skills into a verifiable, high-visibility digital record. Your expertise, amplified.</p>
+          <div class="kw-svc-foot">
+            <span class="kw-tag" data-i18n="live_portfolio">Live Portfolio</span>
+            <span class="kw-arrow"><i class="bi bi-arrow-up-right"></i></span>
+          </div>
+        </div>
+
+        <div class="kw-svc kw-svc-light" data-aos="fade-up" data-aos-delay="200">
+          <div class="kw-svc-top">
+            <div class="kw-svc-num">03</div>
+            <div class="kw-svc-ico"><i class="bi bi-stars"></i></div>
+          </div>
+          <h3 data-i18n="svc3_h3">Book Services</h3>
+          <p data-i18n="svc3_p">Find local experts for your projects. Direct contact. Direct trust. No middlemen, no delays.</p>
+          <div class="kw-svc-foot">
+            <span class="kw-tag" data-i18n="svc3_tag">Book Now</span>
+            <span class="kw-arrow"><i class="bi bi-arrow-up-right"></i></span>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <section class="container py-5 mb-5">
-    <div class="artisan-grid">
-      
-      <div class="artisan-item artisan-main" data-aos="fade-right">
-        <div class="artisan-content">
-          <span class="label-pill">Our Philosophy</span>
-          <h2>A Heritage of <br>Digital Trust</h2>
-          <p>We've replaced fragmented portals with a single, elegant gallery where every skill is a masterpiece and every hire is secure.</p>
-        </div>
-        <div class="artisan-visual">
-             <i class="bi bi-shield-shaded"></i>
-        </div>
-      </div>
-
-      <div class="artisan-item artisan-company" data-aos="fade-left">
-        <div class="icon-box bg-charcoal">
-            <i class="bi bi-building"></i>
-        </div>
-        <h3>For Companies</h3>
-        <p>Source verified talent and manage industrial scale recruitment with ease.</p>
-        <div class="artisan-footer">Verified Enterprise</div>
-      </div>
-
-      <div class="artisan-item artisan-employee" data-aos="fade-up">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="icon-box bg-terracotta">
-                <i class="bi bi-person-badge"></i>
-            </div>
-            <span class="status-tag">Live Portfolio</span>
-        </div>
-        <h3>Digital Identity</h3>
-        <p>Turn your manual skills into a verifiable, high-visibility digital record.</p>
-      </div>
-
-      <div class="artisan-item artisan-user" data-aos="fade-up" data-aos-delay="200">
-        <div class="icon-box bg-teal">
-            <i class="bi bi-stars"></i>
-        </div>
-        <h3>Book Services</h3>
-        <p>Find local experts for your projects. Direct contact. Direct trust.</p>
-        <div class="expert-stack mt-3">
-            <div class="avatars">
-                <img src="https://ui-avatars.com/api/?name=JS&background=ff5f1f&color=fff" alt="">
-                <img src="https://ui-avatars.com/api/?name=RK&background=0f172a&color=fff" alt="">
-                <img src="https://ui-avatars.com/api/?name=MA&background=2dd4bf&color=fff" alt="">
-            </div>
-            <span>Verified Experts</span>
-        </div>
-      </div>
-
+  <!-- ===== MARQUEE ===== -->
+  <div class="kw-marquee">
+    <div class="kw-marquee-track" id="marqueeTrack">
+      <!-- filled by JS -->
     </div>
-  </section>
+  </div>
 
 </div>
 
 <style>
   :root {
-    --artisan-terracotta: #ff5f1f; /* Vibrant Orange */
-    --artisan-charcoal: #0f172a;   /* Deep Blue/Black */
-    --artisan-ivory: #fffcf9;      /* Warm background */
-    --artisan-teal: #2dd4bf;       /* Accent teal */
-    --artisan-muted: #64748b;
+    --c-bg:       #f6f4f0;
+    --c-surface:  #ffffff;
+    --c-ink:      #1c1917;
+    --c-muted:    #78716c;
+    --c-border:   #e7e4df;
+    --c-amber:    #d97706;
+    --c-amber-lt: #fef3c7;
+    --c-navy:     #1e3a5f;
+    --c-navy-lt:  #e8edf4;
+    --c-teal:     #0e7490;
+    --c-teal-lt:  #e0f2fe;
   }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background-color: var(--artisan-ivory);
-    color: var(--artisan-charcoal);
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--c-bg);
+    color: var(--c-ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
-  .artisan-wrapper { overflow-x: hidden; }
+  .kw-wrap { overflow-x: hidden; }
 
-  /* Hero Section */
-  .artisan-hero {
-    padding: 100px 0;
-    position: relative;
-    overflow: hidden;
+  /* ──────────────────────────────────────
+     LANGUAGE SWITCHER
+  ────────────────────────────────────── */
+  .lang-bar {
+    position: fixed;
+    top: 70px;
+    right: 24px;
+    z-index: 9999;
   }
 
-  .hero-bg-accent {
-    position: absolute;
-    top: -10%;
-    right: -5%;
-    width: 40vw;
-    height: 40vw;
-    background: radial-gradient(circle, rgba(255, 95, 31, 0.05) 0%, transparent 70%);
-    z-index: -1;
-  }
-
-  .fw-extrabold { font-weight: 800; letter-spacing: -2px; }
-  
-  .serif-italic {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-weight: 400;
-  }
-
-  .text-terracotta { color: var(--artisan-terracotta); }
-
-  .hero-badge {
-    display: inline-block;
-    padding: 10px 24px;
-    background: white;
-    border-radius: 50px;
-    color: var(--artisan-charcoal);
-    font-weight: 700;
-    font-size: 0.85rem;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    border: 1px solid #f1f1f1;
-  }
-
-  .hero-badge i { color: var(--artisan-terracotta); margin-right: 5px; }
-
-  .artisan-lead {
-    max-width: 650px;
-    font-size: 1.25rem;
-    color: var(--artisan-muted);
-    line-height: 1.6;
-  }
-
-  /* Buttons */
-  .btn-artisan-main {
-    background: var(--artisan-charcoal);
-    color: #fff;
-    padding: 18px 45px;
-    border-radius: 1.5rem;
-    text-decoration: none;
-    font-weight: 700;
-    transition: 0.3s;
-    display: inline-block;
-  }
-
-  .btn-artisan-main:hover {
-    background: var(--artisan-terracotta);
-    transform: translateY(-5px);
-    color: #fff;
-    box-shadow: 0 15px 30px rgba(255, 95, 31, 0.2) !important;
-  }
-
-  .btn-artisan-link {
-    color: var(--artisan-charcoal);
-    text-decoration: none;
-    margin-left: 30px;
-    font-weight: 700;
-    border-bottom: 2px solid transparent;
-    transition: 0.3s;
-  }
-
-  .btn-artisan-link:hover {
-    color: var(--artisan-terracotta);
-    border-bottom-color: var(--artisan-terracotta);
-  }
-
-  /* ARTISAN BENTO GRID */
-  .artisan-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 280px;
-    gap: 25px;
-    padding-top: 50px;
-  }
-
-  .artisan-item {
-    background: white;
-    border: 1px solid #f1f1f1;
-    border-radius: 2rem;
-    padding: 35px;
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.02);
-  }
-
-  .artisan-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
-  }
-
-  .artisan-main {
-    grid-column: span 2;
-    grid-row: span 2;
-    background: linear-gradient(135deg, #fffcf9 0%, #fff 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 2px solid #f8f1eb;
-  }
-
-  .artisan-main h2 { font-size: 3.5rem; font-weight: 800; line-height: 1; margin-top: 15px; }
-  
-  .label-pill {
-    background: #fef2f2;
-    color: var(--artisan-terracotta);
-    padding: 5px 15px;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-weight: 800;
-    text-transform: uppercase;
-  }
-
-  .icon-box {
-    width: 60px;
-    height: 60px;
-    border-radius: 1.2rem;
+  .lang-trigger {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: white;
-    margin-bottom: 20px;
+    gap: 7px;
+    padding: 9px 16px;
+    background: var(--c-navy);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(30,58,95,0.25);
+    transition: background 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.3px;
   }
+  .lang-trigger:hover { background: #162d4a; }
+  .lang-trigger i { font-size: 0.9rem; }
 
-  .bg-charcoal { background: var(--artisan-charcoal); }
-  .bg-terracotta { background: var(--artisan-terracotta); }
-  .bg-teal { background: var(--artisan-teal); }
-
-  .status-tag {
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: #10b981;
-    background: #ecfdf5;
-    padding: 4px 12px;
-    border-radius: 50px;
+  .lang-chevron {
+    font-size: 0.65rem !important;
+    transition: transform 0.25s ease;
   }
+  .lang-chevron.open { transform: rotate(180deg); }
 
-  .artisan-footer {
+  .lang-dropdown {
+    display: none;
+    flex-direction: column;
     position: absolute;
-    bottom: 30px;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 800;
-    color: var(--artisan-muted);
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 12px;
+    padding: 6px;
+    min-width: 160px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+    animation: langDrop 0.2s ease;
+  }
+  .lang-dropdown.open { display: flex; }
+
+  @keyframes langDrop {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
-  .artisan-visual {
-    position: absolute;
-    right: 40px;
-    bottom: 40px;
-    font-size: 8rem;
-    color: rgba(255, 95, 31, 0.03);
-    pointer-events: none;
+  .lang-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--c-muted);
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, color 0.15s;
   }
+  .lang-option:hover { background: var(--c-bg); color: var(--c-ink); }
+  .lang-option.active { color: var(--c-navy); font-weight: 700; }
+  .lang-option.active .lang-dot { background: var(--c-amber); }
 
-  .avatars { display: flex; margin-bottom: 5px; }
-  .avatars img {
-    width: 35px;
-    height: 35px;
+  .lang-dot {
+    width: 7px; height: 7px;
     border-radius: 50%;
-    border: 3px solid white;
-    margin-right: -10px;
+    background: var(--c-border);
+    flex-shrink: 0;
+    transition: background 0.2s;
   }
-  .expert-stack span { font-size: 0.8rem; font-weight: 700; color: var(--artisan-muted); }
 
+  /* content fade during switch */
+  .kw-wrap { transition: opacity 0.18s ease; }
+  .kw-wrap.fading { opacity: 0; }
+
+  /* ──────────────────────────────────────
+     HERO
+  ────────────────────────────────────── */
+  .kw-hero { padding: 80px 0 70px; }
+  .kw-hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .kw-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-size: 0.78rem; font-weight: 600;
+    color: var(--c-muted); margin-bottom: 28px;
+    letter-spacing: 0.2px;
+  }
+  .kw-badge i { color: var(--c-amber); font-size: 0.85rem; }
+
+  .kw-heading {
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.03em; color: var(--c-ink); margin-bottom: 20px;
+  }
+  .kw-accent { color: var(--c-amber); }
+
+  .kw-subtext {
+    font-size: 1.05rem; color: var(--c-muted); line-height: 1.75;
+    max-width: 460px; margin-bottom: 36px;
+  }
+  .kw-subtext strong { color: var(--c-ink); font-weight: 600; }
+
+  .kw-cta-row { display: flex; align-items: center; gap: 28px; margin-bottom: 48px; }
+
+  .kw-btn-primary {
+    background: var(--c-navy); color: #fff;
+    padding: 14px 32px; border-radius: 10px;
+    text-decoration: none; font-size: 0.9rem; font-weight: 600;
+    letter-spacing: 0.1px;
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+  }
+  .kw-btn-primary:hover {
+    background: var(--c-amber); transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(217,119,6,0.2); color: #fff;
+  }
+  .kw-btn-text {
+    color: var(--c-ink); text-decoration: none; font-size: 0.9rem; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px;
+    border-bottom: 1.5px solid transparent; padding-bottom: 2px; transition: 0.2s;
+  }
+  .kw-btn-text:hover { color: var(--c-amber); border-color: var(--c-amber); }
+
+  .kw-stats-row {
+    display: flex; align-items: center;
+    padding-top: 28px; border-top: 1px solid var(--c-border);
+  }
+  .kw-stat { flex: 1; }
+  .kw-stat strong {
+    display: block; font-size: 1.75rem; font-weight: 700; color: var(--c-ink);
+    letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px;
+  }
+  .kw-stat span {
+    font-size: 0.72rem; font-weight: 500; color: var(--c-muted);
+    text-transform: uppercase; letter-spacing: 0.8px;
+  }
+  .kw-stat-sep { width: 1px; height: 40px; background: var(--c-border); margin: 0 24px; }
+
+  /* right cards */
+  .kw-hero-right { display: flex; flex-direction: column; gap: 16px; }
+  .kw-card {
+    background: var(--c-surface); border: 1px solid var(--c-border);
+    border-radius: 16px; padding: 28px 30px;
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  .kw-card:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.07); transform: translateY(-3px); }
+
+  .kw-card-eyebrow {
+    font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--c-muted); margin-bottom: 14px;
+  }
+  .kw-card-icon {
+    width: 48px; height: 48px; background: var(--c-amber-lt);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; color: var(--c-amber); margin-bottom: 16px;
+  }
+  .kw-card-main h3 {
+    font-size: 1.35rem; font-weight: 700; line-height: 1.3;
+    margin-bottom: 10px; letter-spacing: -0.02em;
+  }
+  .kw-card-main p { font-size: 0.88rem; color: var(--c-muted); line-height: 1.7; margin-bottom: 16px; }
+  .kw-verified-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.75rem; font-weight: 600; color: #065f46;
+    background: #d1fae5; padding: 5px 12px; border-radius: 6px;
+  }
+
+  .kw-mini-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .kw-card-mini { padding: 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+  .kw-card-mini span { font-size: 0.82rem; font-weight: 600; color: var(--c-ink); }
+  .kw-card-mini > i { font-size: 1.4rem; align-self: flex-end; }
+  .kw-card-live { background: var(--c-navy); border-color: transparent; }
+  .kw-card-live span { color: rgba(255,255,255,0.9); }
+  .kw-card-live > i { color: rgba(255,255,255,0.4); }
+  .kw-pulse {
+    width: 8px; height: 8px; border-radius: 50%; background: #34d399;
+    animation: kw-pulse 1.8s infinite;
+  }
+  @keyframes kw-pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(52,211,153,.5); }
+    50%      { box-shadow: 0 0 0 5px rgba(52,211,153,0); }
+  }
+  .kw-card-experts { background: var(--c-bg); }
+  .kw-avatars { display: flex; margin-bottom: 4px; }
+  .kw-avatars img {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 2px solid var(--c-bg); margin-right: -8px;
+  }
+
+  /* ── SERVICES ── */
+  .kw-services {
+    padding: 80px 0 90px; border-top: 1px solid var(--c-border);
+    background: var(--c-surface);
+  }
+  .kw-services-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+  .kw-section-label {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--c-muted); margin-bottom: 40px;
+  }
+  .kw-section-label span {
+    display: inline-block; width: 24px; height: 2px;
+    background: var(--c-amber); border-radius: 2px;
+  }
+
+  .kw-services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+  .kw-svc {
+    border-radius: 16px; padding: 36px 32px; position: relative;
+    transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;
+  }
+  .kw-svc:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.1); }
+  .kw-svc-dark  { background: var(--c-navy); color: #fff; }
+  .kw-svc-amber { background: var(--c-amber); color: #fff; }
+  .kw-svc-light { background: var(--c-bg); color: var(--c-ink); border: 1px solid var(--c-border); }
+
+  .kw-svc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+  .kw-svc-num { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; opacity: .35; }
+  .kw-svc-ico {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+  }
+  .kw-svc-dark .kw-svc-ico  { background: rgba(255,255,255,.1);  color: #93c5fd; }
+  .kw-svc-amber .kw-svc-ico { background: rgba(255,255,255,.15); color: #fff; }
+  .kw-svc-light .kw-svc-ico { background: var(--c-amber-lt); color: var(--c-amber); }
+
+  .kw-svc h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.02em; }
+  .kw-svc p  { font-size: 0.88rem; line-height: 1.7; margin-bottom: 28px; }
+  .kw-svc-dark p   { color: rgba(255,255,255,.6); }
+  .kw-svc-amber p  { color: rgba(255,255,255,.75); }
+  .kw-svc-light p  { color: var(--c-muted); }
+
+  .kw-svc-foot { display: flex; justify-content: space-between; align-items: center; }
+  .kw-tag { font-size: .68rem; font-weight: 600; letter-spacing: .5px; padding: 5px 12px; border-radius: 6px; }
+  .kw-svc-dark .kw-tag  { background: rgba(255,255,255,.1);  color: rgba(255,255,255,.8); }
+  .kw-svc-amber .kw-tag { background: rgba(255,255,255,.2);  color: #fff; }
+  .kw-svc-light .kw-tag { background: var(--c-amber-lt); color: var(--c-amber); font-weight: 700; }
+
+  .kw-arrow {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; transition: transform .25s;
+  }
+  .kw-svc-dark .kw-arrow  { background: rgba(255,255,255,.08); color: rgba(255,255,255,.6); }
+  .kw-svc-amber .kw-arrow { background: rgba(255,255,255,.15); color: #fff; }
+  .kw-svc-light .kw-arrow { background: var(--c-border); color: var(--c-ink); }
+  .kw-svc:hover .kw-arrow { transform: rotate(45deg); }
+
+  /* ── MARQUEE ── */
+  .kw-marquee { background: var(--c-navy); padding: 18px 0; overflow: hidden; border-top: 2px solid var(--c-amber); }
+  .kw-marquee-track {
+    display: flex; align-items: center; white-space: nowrap;
+    animation: kw-scroll 22s linear infinite; width: max-content;
+  }
+  .kw-marquee-track span {
+    font-size: .75rem; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: rgba(255,255,255,.5); padding: 0 20px;
+  }
+  .kw-marquee-track i { color: var(--c-amber); font-size: 1rem; opacity: .6; }
+  @keyframes kw-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── RESPONSIVE ── */
   @media (max-width: 991px) {
-    .artisan-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-    .artisan-main { grid-column: span 1; padding: 40px 30px; }
-    .display-2 { font-size: 3rem; }
-    .artisan-main h2 { font-size: 2.5rem; }
+    .kw-hero-inner { grid-template-columns: 1fr; gap: 48px; padding: 0 24px; }
+    .kw-hero { padding: 56px 0 48px; }
+    .kw-services-grid { grid-template-columns: 1fr; }
+    .kw-services-inner { padding: 0 24px; }
+    .lang-bar { top: 12px; right: 14px; }
+  }
+  @media (max-width: 600px) {
+    .kw-cta-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .kw-stats-row { flex-wrap: wrap; gap: 16px; }
+    .kw-stat-sep { display: none; }
+    .kw-mini-row { grid-template-columns: 1fr; }
   }
 </style>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:italic,wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 800, once: true, easing: 'ease-out-quad' });</script>
+
+<!-- ════════════════════════════════════════════
+     i18n TRANSLATIONS + CONTROLLER
+════════════════════════════════════════════ -->
 <script>
-  AOS.init({ duration: 1000, once: true });
+const i18n = {
+  en: {
+    badge:             "India's Verified Skill Network",
+    h1_1:              "Building the",
+    h1_2:              "Future",
+    h1_3:              "with Local Expertise.",
+    subtext_1:         "The unified ecosystem connecting",
+    subtext_companies: "Companies",
+    subtext_employees: "Skilled Employees",
+    subtext_and:       "and",
+    subtext_owners:    "Project Owners",
+    subtext_2:         "in one digital gallery of trust.",
+    btn_explore:       "Explore Marketplace",
+    btn_join:          "Join the Network",
+    stat_workers:      "Skilled Workers",
+    stat_companies:    "Companies",
+    stat_satisfaction: "Satisfaction",
+    card_eyebrow:      "Our Philosophy",
+    card_h3_1:         "A Heritage of",
+    card_h3_2:         "Digital Trust",
+    card_p:            "We've replaced fragmented portals with a single, elegant gallery where every skill is a masterpiece and every hire is secure.",
+    verified:          "Verified Enterprise",
+    live_portfolio:    "Live Portfolio",
+    verified_experts:  "Verified Experts",
+    what_we_offer:     "What We Offer",
+    svc1_h3:           "For Companies",
+    svc1_p:            "Source verified talent and manage industrial scale recruitment with ease. From SMEs to large enterprises.",
+    svc2_h3:           "Digital Identity",
+    svc2_p:            "Turn your manual skills into a verifiable, high-visibility digital record. Your expertise, amplified.",
+    svc3_h3:           "Book Services",
+    svc3_p:            "Find local experts for your projects. Direct contact. Direct trust. No middlemen, no delays.",
+    svc3_tag:          "Book Now",
+    marquee:           ["Skilled Workers","Verified Enterprise","Digital Identity","Local Expertise","Book Services","Direct Trust"],
+    langLabel:         "EN",
+  },
+  hi: {
+    badge:             "भारत का सत्यापित कौशल नेटवर्क",
+    h1_1:              "बना रहे हैं",
+    h1_2:              "भविष्य",
+    h1_3:              "स्थानीय विशेषज्ञता के साथ।",
+    subtext_1:         "एकीकृत पारिस्थितिकी तंत्र जो जोड़ता है",
+    subtext_companies: "कंपनियों",
+    subtext_employees: "कुशल कर्मचारियों",
+    subtext_and:       "और",
+    subtext_owners:    "परियोजना मालिकों",
+    subtext_2:         "को विश्वास की एक डिजिटल गैलरी में।",
+    btn_explore:       "बाज़ार एक्सप्लोर करें",
+    btn_join:          "नेटवर्क से जुड़ें",
+    stat_workers:      "कुशल कर्मचारी",
+    stat_companies:    "कंपनियाँ",
+    stat_satisfaction: "संतुष्टि",
+    card_eyebrow:      "हमारा दर्शन",
+    card_h3_1:         "डिजिटल विश्वास की",
+    card_h3_2:         "विरासत",
+    card_p:            "हमने खंडित पोर्टल्स की जगह एक सुंदर गैलरी से भर दी, जहाँ हर कौशल एक उत्कृष्ट कृति है।",
+    verified:          "सत्यापित उद्यम",
+    live_portfolio:    "लाइव पोर्टफोलियो",
+    verified_experts:  "सत्यापित विशेषज्ञ",
+    what_we_offer:     "हम क्या प्रदान करते हैं",
+    svc1_h3:           "कंपनियों के लिए",
+    svc1_p:            "सत्यापित प्रतिभा खोजें और औद्योगिक स्तर पर भर्ती आसानी से प्रबंधित करें।",
+    svc2_h3:           "डिजिटल पहचान",
+    svc2_p:            "अपने कौशल को एक सत्यापित, उच्च-दृश्यता डिजिटल रिकॉर्ड में बदलें।",
+    svc3_h3:           "सेवाएं बुक करें",
+    svc3_p:            "अपने प्रोजेक्ट के लिए स्थानीय विशेषज्ञ खोजें। सीधा संपर्क। सीधा विश्वास।",
+    svc3_tag:          "अभी बुक करें",
+    marquee:           ["कुशल कर्मचारी","सत्यापित उद्यम","डिजिटल पहचान","स्थानीय विशेषज्ञता","सेवाएं बुक करें","प्रत्यक्ष विश्वास"],
+    langLabel:         "हिं",
+  },
+  mr: {
+    badge:             "भारताचे सत्यापित कौशल्य नेटवर्क",
+    h1_1:              "घडवत आहोत",
+    h1_2:              "भविष्य",
+    h1_3:              "स्थानिक तज्ञतेसह।",
+    subtext_1:         "एकत्रित परिसंस्था जोडते",
+    subtext_companies: "कंपन्यांना",
+    subtext_employees: "कुशल कर्मचाऱ्यांना",
+    subtext_and:       "आणि",
+    subtext_owners:    "प्रकल्प मालकांना",
+    subtext_2:         "विश्वासाच्या एका डिजिटल गॅलरीत.",
+    btn_explore:       "बाजारपेठ एक्सप्लोर करा",
+    btn_join:          "नेटवर्कमध्ये सामील व्हा",
+    stat_workers:      "कुशल कामगार",
+    stat_companies:    "कंपन्या",
+    stat_satisfaction: "समाधान",
+    card_eyebrow:      "आमचे तत्त्वज्ञान",
+    card_h3_1:         "डिजिटल विश्वासाचा",
+    card_h3_2:         "वारसा",
+    card_p:            "विखुरलेल्या पोर्टल्सची जागा एकाच सुंदर गॅलरीने घेतली आहे, जिथे प्रत्येक कौशल्य एक उत्कृष्ट कृती आहे.",
+    verified:          "सत्यापित उद्योग",
+    live_portfolio:    "लाइव्ह पोर्टफोलिओ",
+    verified_experts:  "सत्यापित तज्ञ",
+    what_we_offer:     "आम्ही काय देतो",
+    svc1_h3:           "कंपन्यांसाठी",
+    svc1_p:            "सत्यापित प्रतिभा शोधा आणि औद्योगिक स्तरावर भरती सहज व्यवस्थापित करा.",
+    svc2_h3:           "डिजिटल ओळख",
+    svc2_p:            "तुमच्या कौशल्यांना सत्यापित, उच्च-दृश्यता डिजिटल रेकॉर्डमध्ये रूपांतरित करा.",
+    svc3_h3:           "सेवा बुक करा",
+    svc3_p:            "तुमच्या प्रकल्पांसाठी स्थानिक तज्ञ शोधा. थेट संपर्क. थेट विश्वास.",
+    svc3_tag:          "आत्ता बुक करा",
+    marquee:           ["कुशल कामगार","सत्यापित उद्योग","डिजिटल ओळख","स्थानिक तज्ञता","सेवा बुक करा","थेट विश्वास"],
+    langLabel:         "मरा",
+  },
+  kn: {
+    badge:             "ಭಾರತದ ಪರಿಶೀಲಿತ ಕೌಶಲ್ಯ ನೆಟ್‌ವರ್ಕ್",
+    h1_1:              "ನಿರ್ಮಿಸುತ್ತಿದ್ದೇವೆ",
+    h1_2:              "ಭವಿಷ್ಯವನ್ನು",
+    h1_3:              "ಸ್ಥಳೀಯ ಪರಿಣತಿಯೊಂದಿಗೆ.",
+    subtext_1:         "ಸಂಪರ್ಕಿಸುವ ಏಕೀಕೃತ ಪರಿಸರ ವ್ಯವಸ್ಥೆ",
+    subtext_companies: "ಕಂಪನಿಗಳು",
+    subtext_employees: "ಕುಶಲ ಉದ್ಯೋಗಿಗಳು",
+    subtext_and:       "ಮತ್ತು",
+    subtext_owners:    "ಯೋಜನಾ ಮಾಲೀಕರು",
+    subtext_2:         "ವಿಶ್ವಾಸದ ಒಂದು ಡಿಜಿಟಲ್ ಗ್ಯಾಲರಿಯಲ್ಲಿ.",
+    btn_explore:       "ಮಾರುಕಟ್ಟೆ ಅನ್ವೇಷಿಸಿ",
+    btn_join:          "ನೆಟ್‌ವರ್ಕ್‌ಗೆ ಸೇರಿ",
+    stat_workers:      "ಕುಶಲ ಕಾರ್ಮಿಕರು",
+    stat_companies:    "ಕಂಪನಿಗಳು",
+    stat_satisfaction: "ತೃಪ್ತಿ",
+    card_eyebrow:      "ನಮ್ಮ ತತ್ವಶಾಸ್ತ್ರ",
+    card_h3_1:         "ಡಿಜಿಟಲ್ ವಿಶ್ವಾಸದ",
+    card_h3_2:         "ಪರಂಪರೆ",
+    card_p:            "ವಿಭಜಿತ ಪೋರ್ಟಲ್‌ಗಳನ್ನು ಒಂದೇ ಸುಂದರ ಗ್ಯಾಲರಿಯಿಂದ ಬದಲಾಯಿಸಿದ್ದೇವೆ, ಪ್ರತಿ ಕೌಶಲ್ಯವೂ ಒಂದು ಮೇರುಕೃತಿ.",
+    verified:          "ಪರಿಶೀಲಿತ ಉದ್ಯಮ",
+    live_portfolio:    "ಲೈವ್ ಪೋರ್ಟ್‌ಫೋಲಿಯೊ",
+    verified_experts:  "ಪರಿಶೀಲಿತ ತಜ್ಞರು",
+    what_we_offer:     "ನಾವು ಏನು ನೀಡುತ್ತೇವೆ",
+    svc1_h3:           "ಕಂಪನಿಗಳಿಗಾಗಿ",
+    svc1_p:            "ಪರಿಶೀಲಿತ ಪ್ರತಿಭೆಯನ್ನು ಹುಡುಕಿ ಮತ್ತು ಕೈಗಾರಿಕಾ ಮಟ್ಟದ ನೇಮಕಾತಿ ನಿರ್ವಹಿಸಿ.",
+    svc2_h3:           "ಡಿಜಿಟಲ್ ಗುರುತು",
+    svc2_p:            "ನಿಮ್ಮ ಕೌಶಲ್ಯಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದಾದ ಡಿಜಿಟಲ್ ದಾಖಲೆಯನ್ನಾಗಿ ಮಾರ್ಪಡಿಸಿ.",
+    svc3_h3:           "ಸೇವೆಗಳನ್ನು ಬುಕ್ ಮಾಡಿ",
+    svc3_p:            "ನಿಮ್ಮ ಯೋಜನೆಗಳಿಗೆ ಸ್ಥಳೀಯ ತಜ್ಞರನ್ನು ಹುಡುಕಿ. ನೇರ ಸಂಪರ್ಕ. ನೇರ ವಿಶ್ವಾಸ.",
+    svc3_tag:          "ಈಗ ಬುಕ್ ಮಾಡಿ",
+    marquee:           ["ಕುಶಲ ಕಾರ್ಮಿಕರು","ಪರಿಶೀಲಿತ ಉದ್ಯಮ","ಡಿಜಿಟಲ್ ಗುರುತು","ಸ್ಥಳೀಯ ಪರಿಣತಿ","ಸೇವೆ ಬುಕ್ ಮಾಡಿ","ನೇರ ವಿಶ್ವಾಸ"],
+    langLabel:         "ಕನ್ನ",
+  },
+  ta: {
+    badge:             "இந்தியாவின் சரிபார்க்கப்பட்ட திறன் நெட்வொர்க்",
+    h1_1:              "உருவாக்குகிறோம்",
+    h1_2:              "எதிர்காலத்தை",
+    h1_3:              "உள்ளூர் நிபுணத்துவத்துடன்.",
+    subtext_1:         "இணைக்கும் ஒருங்கிணைந்த சேவை",
+    subtext_companies: "நிறுவனங்கள்",
+    subtext_employees: "திறமையான ஊழியர்கள்",
+    subtext_and:       "மற்றும்",
+    subtext_owners:    "திட்ட உரிமையாளர்கள்",
+    subtext_2:         "நம்பிக்கையின் ஒரு டிஜிட்டல் கேலரியில்.",
+    btn_explore:       "சந்தையை ஆராயுங்கள்",
+    btn_join:          "நெட்வொர்க்கில் சேருங்கள்",
+    stat_workers:      "திறமையான தொழிலாளர்கள்",
+    stat_companies:    "நிறுவனங்கள்",
+    stat_satisfaction: "திருப்தி",
+    card_eyebrow:      "எங்கள் தத்துவம்",
+    card_h3_1:         "டிஜிட்டல் நம்பிக்கையின்",
+    card_h3_2:         "மரபு",
+    card_p:            "சிதறிய போர்டல்களை ஒரே அழகான கேலரியாக மாற்றினோம், ஒவ்வொரு திறனும் ஒரு தலைசிறந்த படைப்பு.",
+    verified:          "சரிபார்க்கப்பட்ட நிறுவனம்",
+    live_portfolio:    "நேரடி போர்ட்ஃபோலியோ",
+    verified_experts:  "சரிபார்க்கப்பட்ட நிபுணர்கள்",
+    what_we_offer:     "நாங்கள் என்ன வழங்குகிறோம்",
+    svc1_h3:           "நிறுவனங்களுக்காக",
+    svc1_p:            "சரிபார்க்கப்பட்ட திறமையை கண்டுபிடி, பெரிய அளவில் ஆட்சேர்ப்பை நிர்வகி.",
+    svc2_h3:           "டிஜிட்டல் அடையாளம்",
+    svc2_p:            "உங்கள் திறன்களை சரிபார்க்கக்கூடிய டிஜிட்டல் பதிவாக மாற்றுங்கள்.",
+    svc3_h3:           "சேவைகளை முன்பதிவு செய்யுங்கள்",
+    svc3_p:            "உங்கள் திட்டங்களுக்கு உள்ளூர் நிபுணர்களை கண்டுபிடியுங்கள். நேரடி தொடர்பு. நேரடி நம்பிக்கை.",
+    svc3_tag:          "இப்போது முன்பதிவு செய்யுங்கள்",
+    marquee:           ["திறமையான தொழிலாளர்கள்","சரிபார்க்கப்பட்ட நிறுவனம்","டிஜிட்டல் அடையாளம்","உள்ளூர் நிபுணத்துவம்","சேவை முன்பதிவு","நேரடி நம்பிக்கை"],
+    langLabel:         "தமி",
+  },
+};
+
+// ── Marquee builder ──────────────────────────────────────
+function buildMarquee(lang) {
+  const words = i18n[lang].marquee;
+  const doubled = [...words, ...words]; // seamless loop
+  const track = document.getElementById('marqueeTrack');
+  track.innerHTML = doubled.map(w =>
+    `<span>${w}</span><i class="bi bi-dot"></i>`
+  ).join('');
+}
+
+// ── Core switcher ────────────────────────────────────────
+function setLanguage(lang) {
+  const t = i18n[lang];
+  if (!t) return;
+
+  const wrap = document.querySelector('.kw-wrap');
+  wrap.classList.add('fading');
+
+  setTimeout(() => {
+    // translate all keyed elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+
+    // update trigger label
+    document.getElementById('langLabel').textContent = t.langLabel;
+
+    // rebuild marquee
+    buildMarquee(lang);
+
+    // update active state on options
+    document.querySelectorAll('.lang-option').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    // persist
+    try { localStorage.setItem('kw_lang', lang); } catch(e) {}
+
+    wrap.classList.remove('fading');
+  }, 180);
+
+  closeLangMenu();
+}
+
+// ── Dropdown toggle ──────────────────────────────────────
+function toggleLangMenu() {
+  const dd = document.getElementById('langDropdown');
+  const ch = document.getElementById('langChevron');
+  const open = dd.classList.toggle('open');
+  ch.classList.toggle('open', open);
+}
+
+function closeLangMenu() {
+  document.getElementById('langDropdown').classList.remove('open');
+  document.getElementById('langChevron').classList.remove('open');
+}
+
+// close on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.lang-bar')) closeLangMenu();
+});
+
+// ── Init ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  buildMarquee('en'); // default marquee
+  let saved = 'en';
+  try { saved = localStorage.getItem('kw_lang') || 'en'; } catch(e) {}
+  if (saved !== 'en') setLanguage(saved);
+});
 </script>

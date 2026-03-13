@@ -1,174 +1,428 @@
 <% layout("/layouts/boilerplate.ejs") %>
 
-<section id="how-it-works" class="py-5">
-    <div class="container py-5">
-        <div class="text-center mb-5" data-aos="fade-down">
-            <span class="label-pill mb-3 d-inline-block">The Nexus Blueprint</span>
-            <h2 class="display-4 fw-black">How <span class="serif-italic">Daksh Bharat</span> Works</h2>
-            <p class="text-muted fs-5 mx-auto" style="max-width: 600px;">A seamless bridge between premium rural opportunities and verified technical expertise.</p>
-        </div>
-
-        <div class="row g-5 justify-content-center position-relative">
-            <div class="process-line d-none d-lg-block"></div>
-
-            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                <div class="guide-card text-center h-100 p-4">
-                    <div class="guide-number">01</div>
-                    <div class="guide-icon-wrapper mb-4">
-                        <i class="bi bi-person-badge"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Create Profile</h4>
-                    <p class="text-muted px-2">Register as a Company to hire, or an Employee to offer specialized artisan skills.</p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                <div class="guide-card text-center h-100 p-4">
-                    <div class="guide-number">02</div>
-                    <div class="guide-icon-wrapper mb-4">
-                        <i class="bi bi-broadcast-pin"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Post or Browse</h4>
-                    <p class="text-muted px-2">Deploy job listings or showcase your service portfolio on our verified marketplace.</p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                <div class="guide-card text-center h-100 p-4">
-                    <div class="guide-number">03</div>
-                    <div class="guide-icon-wrapper mb-4">
-                        <i class="bi bi-shield-check"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Secure Connect</h4>
-                    <p class="text-muted px-2">Communicate through the Nexus and finalize assignments with built-in trust protocols.</p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
-                <div class="guide-card text-center h-100 p-4">
-                    <div class="guide-number">04</div>
-                    <div class="guide-icon-wrapper mb-4">
-                        <i class="bi bi-star-half"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Verify & Review</h4>
-                    <p class="text-muted px-2">Complete the work and build your reputation through our dual-rating artisan system.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="text-center mt-5" data-aos="zoom-in">
-            <a href="/signup" class="btn-artisan-submit px-5 py-3 text-decoration-none d-inline-block">
-                Start Your Journey <i class="bi bi-arrow-right-short ms-2"></i>
-            </a>
-        </div>
-    </div>
-</section>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-    :root {
-        --artisan-bg: #fffcf9;
-        --artisan-terracotta: #ff5f1f;
-        --artisan-charcoal: #0f172a;
-        --artisan-clay: #f1f1f1;
-        --artisan-muted: #64748b;
-    }
+:root {
+  --bg:      #f5f3ef;
+  --surface: #ffffff;
+  --ink:     #1a1714;
+  --muted:   #78716c;
+  --border:  #e8e4dc;
+  --amber:   #d97706;
+  --amber-lt:#fef3c7;
+  --navy:    #1e3a5f;
+  --navy-lt: #e8edf4;
+  --spring:  cubic-bezier(0.34,1.56,0.64,1);
+  --ease:    cubic-bezier(0.4,0,0.2,1);
+}
 
-    #how-it-works { background-color: var(--artisan-bg); }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
 
-    .fw-black { font-weight: 900; letter-spacing: -2px; }
-    .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; color: var(--artisan-terracotta); }
+/* ─── SHARED SECTION HEADER ─── */
+.sec-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.68rem;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:14px;
+}
+.sec-eyebrow-bar{
+  display:block;width:20px;height:2px;
+  background:var(--amber);border-radius:2px;
+}
+.sec-title{
+  font-size:clamp(2rem,4.5vw,3.2rem);
+  font-weight:800;letter-spacing:-.05em;
+  color:var(--ink);line-height:1.08;
+  margin-bottom:14px;
+}
+.sec-title em{color:var(--amber);font-style:normal;}
+.sec-sub{
+  font-size:1rem;color:var(--muted);
+  max-width:520px;margin:0 auto;line-height:1.65;
+}
 
-    .label-pill {
-        background: #fef2f2;
-        color: var(--artisan-terracotta);
-        padding: 6px 16px;
-        border-radius: 50px;
-        font-size: 0.75rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
+/* ═══════════════════════════════════════
+   HOW IT WORKS
+═══════════════════════════════════════ */
+.hiw-section{
+  padding:80px 0 90px;
+  position:relative;overflow:hidden;
+}
+/* faint big bg text */
+.hiw-bg-text{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:clamp(100px,16vw,220px);
+  font-weight:900;letter-spacing:-.06em;
+  color:rgba(28,25,23,.025);
+  white-space:nowrap;pointer-events:none;
+  user-select:none;line-height:1;
+}
 
-    /* Guide Cards */
-    .guide-card {
-        background: white;
-        border-radius: 2rem;
-        border: 1px solid var(--artisan-clay);
-        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        position: relative;
-        z-index: 2;
-    }
+.hiw-header{text-align:center;margin-bottom:64px;}
 
-    .guide-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 30px 60px rgba(15, 23, 42, 0.08);
-        border-color: var(--artisan-terracotta);
-    }
+/* connecting line */
+.hiw-track{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+.hiw-track::before{
+  content:'';
+  position:absolute;
+  top:52px;left:calc(12.5% + 10px);right:calc(12.5% + 10px);
+  height:1px;
+  background:repeating-linear-gradient(
+    to right,
+    var(--border) 0,var(--border) 8px,
+    transparent 8px,transparent 16px
+  );
+  z-index:0;
+}
 
-    .guide-number {
-        position: absolute;
-        top: 20px;
-        right: 25px;
-        font-weight: 900;
-        font-size: 2.5rem;
-        color: var(--artisan-clay);
-        opacity: 0.5;
-        transition: 0.3s;
-    }
+/* step card */
+.hiw-step{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  padding:0 8px;
+  animation:fadeup .5s var(--ease) both;
+}
+.hiw-step:nth-child(1){animation-delay:.05s;}
+.hiw-step:nth-child(2){animation-delay:.12s;}
+.hiw-step:nth-child(3){animation-delay:.19s;}
+.hiw-step:nth-child(4){animation-delay:.26s;}
 
-    .guide-card:hover .guide-number {
-        color: var(--artisan-terracotta);
-        opacity: 0.15;
-    }
+@keyframes fadeup{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
 
-    .guide-icon-wrapper {
-        width: 80px;
-        height: 80px;
-        background: #f8fafc;
-        border-radius: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        font-size: 2rem;
-        color: var(--artisan-charcoal);
-        transition: 0.3s;
-    }
+.hiw-num{
+  position:absolute;top:-8px;right:calc(50% - 44px);
+  font-size:.6rem;font-weight:900;letter-spacing:1px;
+  color:var(--amber);background:var(--amber-lt);
+  padding:3px 9px;border-radius:100px;
+  border:1px solid rgba(217,119,6,.2);
+}
 
-    .guide-card:hover .guide-icon-wrapper {
-        background: var(--artisan-charcoal);
-        color: white;
-        transform: rotate(-10deg);
-    }
+.hiw-icon{
+  width:104px;height:104px;
+  background:var(--surface);
+  border:2px solid var(--border);
+  border-radius:28px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;color:var(--navy);
+  margin-bottom:22px;
+  transition:
+    background .3s var(--ease),
+    border-color .3s,
+    transform .35s var(--spring),
+    box-shadow .3s var(--ease),
+    color .3s;
+  position:relative;
+}
+.hiw-step:hover .hiw-icon{
+  background:var(--navy);
+  border-color:var(--navy);
+  color:#fff;
+  transform:translateY(-8px) scale(1.06);
+  box-shadow:0 14px 32px rgba(30,58,95,.22);
+}
 
-    /* Connective Line */
-    .process-line {
-        position: absolute;
-        top: 40%;
-        left: 10%;
-        right: 10%;
-        height: 2px;
-        background: repeating-linear-gradient(to right, var(--artisan-clay), var(--artisan-clay) 10px, transparent 10px, transparent 20px);
-        z-index: 1;
-    }
+.hiw-step-title{
+  font-size:.98rem;font-weight:800;
+  letter-spacing:-.02em;color:var(--ink);
+  margin-bottom:8px;
+}
+.hiw-step-body{
+  font-size:.84rem;color:var(--muted);
+  line-height:1.6;max-width:200px;
+}
 
-    /* Button */
-    .btn-artisan-submit {
-        background: var(--artisan-charcoal);
-        color: white;
-        border-radius: 1.25rem;
-        font-weight: 800;
-        transition: 0.3s;
-    }
+/* CTA row */
+.hiw-cta{
+  text-align:center;margin-top:60px;
+}
+.btn-main{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--navy);color:#fff;
+  padding:15px 36px;
+  border-radius:12px;
+  font-size:.9rem;font-weight:700;
+  text-decoration:none;letter-spacing:-.01em;
+  position:relative;overflow:hidden;
+  transition:transform .25s var(--spring),box-shadow .25s var(--ease);
+}
+.btn-main::before{
+  content:'';
+  position:absolute;inset:0;border-radius:12px;
+  background:var(--amber);
+  transform:translateY(100%);
+  transition:transform .3s var(--ease);
+}
+.btn-main span,.btn-main i{position:relative;z-index:1;}
+.btn-main:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 28px rgba(217,119,6,.3);
+  color:#fff;
+}
+.btn-main:hover::before{transform:translateY(0);}
+.btn-main:active{transform:scale(.96);}
 
-    .btn-artisan-submit:hover {
-        background: var(--artisan-terracotta);
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(255, 95, 31, 0.2);
-        color: white;
-    }
+/* ═══════════════════════════════════════
+   TEAM SECTION
+═══════════════════════════════════════ */
+.team-section{
+  padding:80px 0 100px;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+}
+.team-header{text-align:center;margin-bottom:60px;}
 
-    @media (max-width: 991px) {
-        .guide-card { padding: 3rem 1.5rem !important; }
-    }
+.team-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+
+.team-card{
+  background:var(--bg);
+  border:1.5px solid var(--border);
+  border-radius:20px;
+  padding:32px 24px 28px;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  transition:
+    transform .35s var(--spring),
+    box-shadow .3s var(--ease),
+    border-color .25s;
+  position:relative;overflow:hidden;
+}
+/* corner accent */
+.team-card::before{
+  content:'';
+  position:absolute;top:0;right:0;
+  width:60px;height:60px;
+  background:linear-gradient(135deg,var(--amber-lt),transparent);
+  border-bottom-left-radius:60px;
+  opacity:0;
+  transition:opacity .3s;
+}
+.team-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 18px 44px -6px rgba(28,25,23,.11);
+  border-color:var(--amber);
+}
+.team-card:hover::before{opacity:1;}
+
+/* avatar */
+.team-avatar{
+  width:80px;height:80px;
+  border-radius:24px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;font-weight:900;
+  color:#fff;
+  margin-bottom:18px;
+  position:relative;
+  flex-shrink:0;
+  transition:transform .35s var(--spring);
+}
+.team-card:hover .team-avatar{transform:scale(1.08) rotate(-4deg);}
+
+/* unique color per card */
+.team-card:nth-child(1) .team-avatar{background:var(--navy);}
+.team-card:nth-child(2) .team-avatar{background:#0e7490;}
+.team-card:nth-child(3) .team-avatar{background:var(--amber);}
+.team-card:nth-child(4) .team-avatar{background:#7c3aed;}
+
+/* avatar inner border ring */
+.team-avatar::after{
+  content:'';
+  position:absolute;inset:-3px;
+  border-radius:27px;
+  border:2px solid rgba(217,119,6,.2);
+  opacity:0;
+  transition:opacity .25s;
+}
+.team-card:hover .team-avatar::after{opacity:1;}
+
+.team-initial{line-height:1;}
+
+.team-name{
+  font-size:1rem;font-weight:800;
+  letter-spacing:-.025em;color:var(--ink);
+  margin-bottom:5px;
+}
+.team-role{
+  font-size:.72rem;font-weight:600;
+  color:var(--muted);letter-spacing:.3px;
+  margin-bottom:14px;
+}
+.team-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.65rem;font-weight:700;letter-spacing:.5px;
+  text-transform:uppercase;
+  color:var(--navy);
+  background:var(--navy-lt);
+  padding:4px 12px;border-radius:100px;
+  border:1px solid rgba(30,58,95,.12);
+}
+
+/* built-by banner */
+.built-banner{
+  margin-top:52px;
+  text-align:center;
+}
+.built-banner p{
+  font-size:.78rem;font-weight:600;
+  color:var(--muted);letter-spacing:.5px;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.built-banner p::before,
+.built-banner p::after{
+  content:'';display:block;
+  width:40px;height:1px;background:var(--border);
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:991px){
+  .hiw-track{grid-template-columns:1fr 1fr;gap:24px;}
+  .hiw-track::before{display:none;}
+  .team-grid{grid-template-columns:1fr 1fr;gap:16px;}
+}
+@media(max-width:540px){
+  .hiw-track{grid-template-columns:1fr;}
+  .team-grid{grid-template-columns:1fr 1fr;gap:12px;}
+  .team-card{padding:24px 16px 20px;}
+  .team-avatar{width:64px;height:64px;font-size:1.3rem;border-radius:18px;}
+}
 </style>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="hiw-section" id="how-it-works">
+  <div class="hiw-bg-text">PROCESS</div>
+
+  <div class="container" style="position:relative;z-index:1;">
+
+    <div class="hiw-header">
+      <div class="sec-eyebrow">
+        <span class="sec-eyebrow-bar"></span>
+        The Nexus Blueprint
+        <span class="sec-eyebrow-bar"></span>
+      </div>
+      <h2 class="sec-title">How <em>Daksh Bharat</em> Works</h2>
+      <p class="sec-sub">A seamless bridge between premium rural opportunities and verified technical expertise.</p>
+    </div>
+
+    <div class="hiw-track">
+
+      <div class="hiw-step">
+        <span class="hiw-num">01</span>
+        <div class="hiw-icon">
+          <i class="bi bi-person-badge"></i>
+        </div>
+        <h4 class="hiw-step-title">Create Profile</h4>
+        <p class="hiw-step-body">Register as a Company to hire, or an Employee to offer specialized artisan skills.</p>
+      </div>
+
+      <div class="hiw-step">
+        <span class="hiw-num">02</span>
+        <div class="hiw-icon">
+          <i class="bi bi-broadcast-pin"></i>
+        </div>
+        <h4 class="hiw-step-title">Post or Browse</h4>
+        <p class="hiw-step-body">Deploy job listings or showcase your service portfolio on our verified marketplace.</p>
+      </div>
+
+      <div class="hiw-step">
+        <span class="hiw-num">03</span>
+        <div class="hiw-icon">
+          <i class="bi bi-shield-check"></i>
+        </div>
+        <h4 class="hiw-step-title">Secure Connect</h4>
+        <p class="hiw-step-body">Communicate through the Nexus and finalize assignments with built-in trust protocols.</p>
+      </div>
+
+      <div class="hiw-step">
+        <span class="hiw-num">04</span>
+        <div class="hiw-icon">
+          <i class="bi bi-star-half"></i>
+        </div>
+        <h4 class="hiw-step-title">Verify &amp; Review</h4>
+        <p class="hiw-step-body">Complete the work and build your reputation through our dual-rating artisan system.</p>
+      </div>
+
+    </div>
+
+    <div class="hiw-cta">
+      <a href="/signup" class="btn-main">
+        <span>Start Your Journey</span>
+        <i class="bi bi-arrow-right-short fs-5"></i>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ TEAM SECTION ═══ -->
+<section class="team-section">
+  <div class="container">
+
+    <div class="team-header">
+      <div class="sec-eyebrow">
+        <span class="sec-eyebrow-bar"></span>
+        The People Behind It
+        <span class="sec-eyebrow-bar"></span>
+      </div>
+      <h2 class="sec-title">Meet the <em>Developer</em> Team</h2>
+      <p class="sec-sub">Built with passion by a team that believes in connecting India's skilled workforce with real opportunity.</p>
+    </div>
+
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="team-avatar"><span class="team-initial">Y</span></div>
+        <p class="team-name">Yashodhan G</p>
+        <p class="team-role">Full-Stack Developer</p>
+        <span class="team-tag"><i class="bi bi-code-slash"></i> Developer</span>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar"><span class="team-initial">S</span></div>
+        <p class="team-name">Shreyas P</p>
+        <p class="team-role">Full-Stack Developer</p>
+        <span class="team-tag"><i class="bi bi-code-slash"></i> Developer</span>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar"><span class="team-initial">S</span></div>
+        <p class="team-name">Sheetal I</p>
+        <p class="team-role">Full-Stack Developer</p>
+        <span class="team-tag"><i class="bi bi-code-slash"></i> Developer</span>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar"><span class="team-initial">S</span></div>
+        <p class="team-name">Saniya G</p>
+        <p class="team-role">Full-Stack Developer</p>
+        <span class="team-tag"><i class="bi bi-code-slash"></i> Developer</span>
+      </div>
+
+    </div>
+
+    <div class="built-banner">
+      <p>Crafted with care in India &nbsp;🇮🇳</p>
+    </div>
+
+  </div>
+</section>
