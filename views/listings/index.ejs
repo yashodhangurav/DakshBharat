@@ -6,7 +6,7 @@
 
 <!-- ── LANGUAGE SWITCHER STYLES (added only) ── -->
 <style>
-.lang-bar {
+.r {
   position: fixed;
   top: 70px;
   right: 24px;
@@ -91,7 +91,7 @@
 </style>
 
 <!-- ── LANGUAGE SWITCHER BUTTON ── -->
-<div class="lang-bar">
+<div class="r">
   <button class="lang-trigger" id="langTrigger" onclick="toggleLangMenu()">
     <i class="bi bi-translate"></i>
     <span id="langLabel">EN</span>
@@ -263,6 +263,182 @@ body{
 
 @media(max-width:768px){ .lp-grid{grid-template-columns:1fr 1fr;gap:14px;} .lp-thumb{height:155px;} }
 @media(max-width:480px){ .lp-grid{grid-template-columns:1fr;} }
+
+/* ─────────────────────────────────
+   MOBILE RESPONSIVE IMPROVEMENTS
+   (Non-destructive additions)
+─────────────────────────────────*/
+
+/* Language button reposition */
+@media (max-width: 768px) {
+
+.r{
+  top: 78px;
+  right: 12px;
+}
+
+.lang-trigger{
+  padding: 7px 12px;
+  font-size: 0.72rem;
+}
+
+}
+
+/* HERO section responsive */
+@media (max-width: 768px){
+
+.lp-hero{
+  padding: 28px 14px 22px;
+}
+
+.lp-hero h1{
+  font-size: 1.7rem;
+}
+
+.lp-hero p{
+  font-size: 0.82rem;
+  max-width: 320px;
+}
+
+.lp-chips{
+  gap:6px;
+}
+
+.lp-chip{
+  font-size:0.66rem;
+  padding:4px 10px;
+}
+
+}
+
+
+/* FILTER BAR MOBILE LAYOUT */
+@media (max-width: 768px){
+
+.fb-inner{
+  flex-direction:column;
+  align-items:stretch;
+  gap:10px;
+}
+
+.fb-search{
+  width:100%;
+}
+
+.fb-pills{
+  width:100%;
+  justify-content:space-between;
+}
+
+.fb-pill{
+  flex:1;
+  text-align:center;
+  padding:8px 10px;
+  font-size:0.75rem;
+}
+
+.fb-sort{
+  width:100%;
+  justify-content:center;
+}
+
+.fb-sort select{
+  width:100%;
+}
+
+}
+
+
+/* CARD GRID RESPONSIVE */
+@media (max-width: 992px){
+
+.lp-grid{
+  grid-template-columns: repeat(2,1fr);
+  gap:16px;
+}
+
+}
+
+@media (max-width: 520px){
+
+.lp-grid{
+  grid-template-columns:1fr;
+  gap:14px;
+}
+
+}
+
+
+/* CARD UI MOBILE */
+@media (max-width: 520px){
+
+.lp-card{
+  border-radius:16px;
+}
+
+.lp-thumb{
+  height:165px;
+}
+
+.lp-title{
+  font-size:0.95rem;
+}
+
+.lp-price-val{
+  font-size:1.15rem;
+}
+
+.lp-footer{
+  padding:12px 14px;
+}
+
+.lp-cta{
+  width:36px;
+  height:36px;
+}
+
+}
+
+
+/* SEARCH INPUT MOBILE */
+@media (max-width: 480px){
+
+.fb-search input{
+  font-size:0.8rem;
+}
+
+}
+
+
+/* HERO BACKGROUND TEXT SCALE */
+@media (max-width: 480px){
+
+.lp-hero-bg{
+  font-size: 90px;
+}
+
+}
+
+
+/* NO RESULT BOX MOBILE */
+@media (max-width: 480px){
+
+#noResults{
+  text-align:center;
+  padding:40px 0;
+}
+
+}
+
+
+/* STICKY BAR OFFSET FOR MOBILE NAV */
+@media (max-width: 768px){
+
+.fb-wrap{
+  top:60px;
+}
+
+}
 </style>
 
 <!-- ══════════════════════════════════════════════
@@ -561,7 +737,7 @@ function toggleLangMenu() {
   ch.classList.toggle('open', open);
 }
 document.addEventListener('click', e => {
-  if (!e.target.closest('.lang-bar')) {
+  if (!e.target.closest('.r')) {
     document.getElementById('langDropdown').classList.remove('open');
     document.getElementById('langChevron').classList.remove('open');
   }

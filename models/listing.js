@@ -27,7 +27,6 @@ const listingSchema = new Schema({
 
   type: {
     type: String,
-    enum: ["Plumbing", "Electrical", "Masonry", "Solar", "Carpentry", "Cleaning", "Other"],
     required: true
   },
 
@@ -46,8 +45,15 @@ const listingSchema = new Schema({
 
   priceUnit: {
     type: String,
-    enum: ["per day", "per hour", "fixed"],
-    default: "per day"
+    enum: [
+      "per hour",
+      "per day",
+      "per job",
+      "per repair",
+      "per service",
+      "fixed"
+    ],
+    required: true
   },
 
   imageUrl: {
