@@ -1,20 +1,121 @@
-<a href="/home/chatbot" class="chatbot-btn btn btn-success shadow-lg d-flex align-items-center justify-content-center">
-    <i class="bi bi-robot fs-4"></i>
-  </a>
-  
-  <style>
-  .chatbot-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
+<a href="/home/chatbot" class="nx-chatbot-trigger shadow-lg">
+  <div class="nx-logo-box mini-logo">
+    <div class="nx-cube">
+      <div class="nx-face nx-front"><span>D</span></div>
+      <div class="nx-face nx-right-f"><span>B</span></div>
+      <div class="nx-face nx-back"></div>
+      <div class="nx-face nx-left-f"></div>
+      <div class="nx-face nx-top"></div>
+      <div class="nx-face nx-bottom"></div>
+    </div>
+  </div>
+  <div class="nx-pulse-ring"></div>
+  <div class="nx-pulse-ring"></div>
+</a>
+
+<style>
+:root {
+  --nx-navy: #0f172a;
+  --nx-amber: #d97706;
+  --nx-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nx-chatbot-trigger {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 68px;
+  height: 68px;
+  background: var(--nx-navy);
+  border-radius: 20px; /* Squircle shape for premium feel */
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.4s var(--nx-ease);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ── 3D LOGO MINI ── */
+.mini-logo {
+  width: 32px;
+  height: 32px;
+  perspective: 1000px;
+  z-index: 2;
+}
+.nx-cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: nx-spin 8s infinite linear;
+}
+.nx-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--nx-navy);
+  border: 1.5px solid var(--nx-amber);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.75rem;
+  color: white;
+  border-radius: 4px;
+}
+.nx-front   { transform: translateZ(16px); }
+.nx-back    { transform: rotateY(180deg) translateZ(16px); }
+.nx-right-f { transform: rotateY(90deg) translateZ(16px); background: var(--nx-amber); color: var(--nx-navy); }
+.nx-left-f  { transform: rotateY(-90deg) translateZ(16px); }
+.nx-top     { transform: rotateX(90deg) translateZ(16px); }
+.nx-bottom  { transform: rotateX(-90deg) translateZ(16px); background: var(--nx-amber); }
+
+@keyframes nx-spin {
+  from { transform: rotateX(0) rotateY(0); }
+  to { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+/* ── PULSE ANIMATION ── */
+.nx-pulse-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--nx-amber);
+  border-radius: 20px;
+  opacity: 0;
+  z-index: 1;
+  animation: nx-pulse 3s infinite;
+}
+.nx-pulse-ring:nth-child(2) {
+  animation-delay: 1.5s;
+}
+
+@keyframes nx-pulse {
+  0% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ── HOVER EFFECTS ── */
+.nx-chatbot-trigger:hover {
+  transform: translateY(-8px) scale(1.05);
+  background: #1e293b;
+  box-shadow: 0 15px 30px rgba(217, 119, 6, 0.3);
+  border-color: var(--nx-amber);
+}
+
+.nx-chatbot-trigger:active {
+  transform: scale(0.95);
+}
+
+/* Mobile Adjustment */
+@media (max-width: 768px) {
+  .nx-chatbot-trigger {
+    bottom: 20px;
+    right: 20px;
     width: 60px;
     height: 60px;
-    border-radius: 50%;
-    z-index: 1050;
-    transition: all 0.3s ease;
   }
-  .chatbot-btn:hover {
-    transform: scale(1.1);
-    background-color: #198754; /* darker green */
-  }
-  </style>
+}
+</style>

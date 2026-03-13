@@ -1,678 +1,329 @@
+<% layout("/layouts/boilerplate.ejs") %>
 
-<!-- Minimal Chatbot Component - Left Side -->
-<div class="minimal-chatbot">
-    
-    <!-- Chatbot Header -->
-    <div class="chat-mini-header">
-        <div class="header-left">
-            <div class="mini-avatar">
-                <i class="bi bi-robot"></i>
-            </div>
-            <div class="header-text">
-                <h4>Daksh AI Assistant</h4>
-                <span class="online-status">
-                    <span class="status-dot"></span>
-                    Online
-                </span>
-            </div>
-        </div>
-        <button class="minimize-btn" onclick="toggleChat()">
-            <i class="bi bi-dash-lg"></i>
-        </button>
-    </div>
-    
-    <!-- Chat Messages Area -->
-    <div class="chat-mini-messages" id="chatMessages">
-        <div class="message bot-message">
-            <div class="message-avatar mini">
-                <i class="bi bi-robot"></i>
-            </div>
-            <div class="message-content">
-                👋 Namaste! How can I help you today?
-                <div class="message-time">Just now</div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Quick Suggestions -->
-    <div class="suggestion-chips" id="suggestionChips">
-        <button class="chip" onclick="useSuggestion('Find skilled workers')">Find workers</button>
-        <button class="chip" onclick="useSuggestion('How to join?')">How to join?</button>
-        <button class="chip" onclick="useSuggestion('Pricing plans')">Pricing</button>
-        <button class="chip" onclick="useSuggestion('Verification process')">Verification</button>
-    </div>
-    
-    <!-- Input Area -->
-    <div class="chat-mini-input">
-        <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
-        <button class="voice-mini" onclick="startVoiceInput()" title="Voice input">
-            <i class="bi bi-mic"></i>
-        </button>
-        <button class="send-mini" onclick="sendMessage()">
-            <i class="bi bi-send"></i>
-        </button>
-    </div>
-    
-    <!-- Typing Indicator (Hidden by default) -->
-    <div class="typing-mini" id="typingIndicator">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span class="typing-text">AI is typing...</span>
-    </div>
-</div>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-    /* Page Background Color */
+    :root {
+        --nx-bg: #f8fafc;
+        --nx-surface: #ffffff;
+        --nx-ink: #0f172a;
+        --nx-muted: #64748b;
+        --nx-border: rgba(15, 23, 42, 0.08);
+        --nx-amber: #d97706;
+        --nx-navy: #0f172a;
+        --nx-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     body {
-        background: #f0ecdc !important;
+        background-color: #f1f5f9;
+        font-family: 'Inter', sans-serif;
         margin: 0;
         padding: 0;
     }
 
-    /* Website Color Scheme */
-    :root {
-        --c-bg: #e7e4df;  /* Updated to match page background */
-        --c-surface: #ffffff;
-        --c-ink: #1c1917;
-        --c-muted: #78716c;
-        --c-border: #e7e4df;
-        --c-amber: #d97706;
-        --c-amber-lt: #fef3c7;
-        --c-navy: #1e3a5f;
-        --c-navy-lt: #e8edf4;
-        --c-teal: #0e7490;
-        --c-teal-lt: #e0f2fe;
+    /* ── MAIN CONTAINER ── */
+    .chatbot-main-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 80px);
+        padding: 20px;
     }
 
-    /* Ensure the page background shows */
-    html, body {
-        min-height: 100vh;
-        background: #fef3c7;
-    }
-
-    /* Minimal Chatbot Styles */
-    .minimal-chatbot {
-        position: fixed;
-        right: 350px;
-        top: 20px;
-        bottom: 20px;
-        width: 600px;
-        background: var(--c-surface);
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--c-border);
+    .chatbot-container {
+        width: 100%;
+        max-width: 500px;
+        height: 750px;
+        background: var(--nx-surface);
+        border-radius: 24px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
-        z-index: 1000;
-        font-family: 'Inter', sans-serif;
-        transition: all 0.3s ease;
+        border: 1px solid var(--nx-border);
     }
 
-    .minimal-chatbot:hover {
-        box-shadow: 0 15px 50px rgba(30, 58, 95, 0.15);
-        transform: translateY(-5px);
-        border-color: var(--c-navy);
-    }
-
-    /* Header */
-    .chat-mini-header {
-        background: var(--c-navy);
-        padding: 15px 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    /* ── HEADER ── */
+    .chatbot-header {
+        background: var(--nx-navy);
         color: white;
-    }
-
-    .header-left {
+        padding: 24px;
+        position: relative;
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 15px;
     }
 
-    .mini-avatar {
-        width: 40px;
-        height: 40px;
-        background: var(--c-teal);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        color: white;
-        animation: float 3s infinite;
+    /* 3D LOGO MINI VERSION */
+    .mini-logo-box {
+        width: 36px; height: 36px;
+        perspective: 1000px;
     }
-
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-3px); }
+    .nx-cube {
+        width: 100%; height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: nx-spin 8s infinite linear;
     }
+    .nx-face {
+        position: absolute; width: 100%; height: 100%;
+        border: 1.5px solid var(--nx-amber);
+        background: var(--nx-navy);
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 900; font-size: 0.8rem; color: white;
+    }
+    .nx-front  { transform: translateZ(18px); }
+    .nx-back   { transform: rotateY(180deg) translateZ(18px); }
+    .nx-right-f { transform: rotateY(90deg) translateZ(18px); background: var(--nx-amber); }
+    .nx-left-f  { transform: rotateY(-90deg) translateZ(18px); }
+    .nx-top    { transform: rotateX(90deg) translateZ(18px); }
+    .nx-bottom { transform: rotateX(-90deg) translateZ(18px); background: var(--nx-amber); }
+    
+    @keyframes nx-spin { to { transform: rotateX(360deg) rotateY(360deg); } }
 
-    .header-text h4 {
-        font-size: 1rem;
-        font-weight: 700;
+    .chatbot-header h1 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 800;
         margin: 0;
-        line-height: 1.2;
-        color: white;
+    }
+    .chatbot-header p {
+        font-size: 0.75rem;
+        opacity: 0.7;
+        margin: 2px 0 0;
     }
 
-    .online-status {
-        font-size: 0.7rem;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        opacity: 0.9;
-        color: var(--c-teal-lt);
-    }
-
-    .status-dot {
-        width: 6px;
-        height: 6px;
-        background: #10b981;
-        border-radius: 50%;
-        animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-    }
-
-    .minimize-btn {
-        background: var(--c-teal);
-        border: none;
-        color: white;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-
-    .minimize-btn:hover {
-        background: var(--c-amber);
-        transform: scale(1.1);
-    }
-
-    /* Messages Area */
-    .chat-mini-messages {
-        height: 300px;
-        padding: 15px;
+    /* ── MESSAGES ── */
+    .chat-messages {
+        flex: 1;
+        padding: 24px;
         overflow-y: auto;
-        background: var(--c-bg);
-    }
-
-    .message {
+        background: #f8fafc;
         display: flex;
-        gap: 10px;
-        margin-bottom: 15px;
-        animation: slideIn 0.3s ease;
-    }
-
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .message.bot-message {
-        align-items: flex-start;
-    }
-
-    .message.user-message {
-        justify-content: flex-end;
-    }
-
-    .message-avatar.mini {
-        width: 30px;
-        height: 30px;
-        background: var(--c-navy);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1rem;
-        flex-shrink: 0;
+        flex-direction: column;
+        gap: 20px;
     }
 
     .message-content {
-        max-width: 80%;
-        padding: 10px 15px;
-        border-radius: 15px;
+        padding: 14px 18px;
+        border-radius: 18px;
         font-size: 0.9rem;
-        line-height: 1.4;
-        position: relative;
+        line-height: 1.5;
+        max-width: 85%;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
 
-    .bot-message .message-content {
-        background: var(--c-surface);
-        color: var(--c-ink);
-        border-bottom-left-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-        border: 1px solid var(--c-border);
+    .message.bot .message-content {
+        background: white;
+        color: var(--nx-ink);
+        border: 1px solid var(--nx-border);
+        border-bottom-left-radius: 4px;
     }
 
-    .user-message .message-content {
-        background: var(--c-navy);
+    .message.user { align-self: flex-end; }
+    .message.user .message-content {
+        background: var(--nx-navy);
         color: white;
-        border-bottom-right-radius: 5px;
+        border-bottom-right-radius: 4px;
     }
 
-    .message-time {
-        font-size: 0.6rem;
-        margin-top: 4px;
-        opacity: 0.7;
-        color: var(--c-muted);
+    /* ── INPUT AREA ── */
+    .chat-input-container {
+        padding: 24px;
+        background: white;
+        border-top: 1px solid var(--nx-border);
     }
 
-    .user-message .message-time {
-        color: rgba(255,255,255,0.8);
-    }
-
-    /* Suggestion Chips */
-    .suggestion-chips {
+    .suggestions, .equipment-category {
         display: flex;
         gap: 8px;
-        padding: 10px 15px;
-        background: var(--c-surface);
-        border-top: 1px solid var(--c-border);
         overflow-x: auto;
+        padding-bottom: 12px;
+        scrollbar-width: none;
+    }
+    .suggestions::-webkit-scrollbar { display: none; }
+
+    .suggestion-chip, .category-chip {
         white-space: nowrap;
-    }
-
-    .suggestion-chips::-webkit-scrollbar {
-        height: 3px;
-    }
-
-    .suggestion-chips::-webkit-scrollbar-track {
-        background: var(--c-border);
-    }
-
-    .suggestion-chips::-webkit-scrollbar-thumb {
-        background: var(--c-navy);
-        border-radius: 10px;
-    }
-
-    .chip {
-        background: var(--c-navy-lt);
-        border: none;
-        padding: 6px 15px;
-        border-radius: 30px;
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: var(--c-navy);
+        background: #f1f5f9;
+        border: 1px solid var(--nx-border);
+        padding: 8px 16px;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--nx-muted);
         cursor: pointer;
-        transition: all 0.3s;
-        white-space: nowrap;
-        border: 1px solid transparent;
+        transition: all 0.2s;
     }
-
-    .chip:hover {
-        background: var(--c-navy);
+    .suggestion-chip:hover, .category-chip:hover {
+        background: var(--nx-amber);
         color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(30, 58, 95, 0.2);
-        border-color: var(--c-navy);
+        border-color: var(--nx-amber);
     }
 
-    /* Input Area */
-    .chat-mini-input {
+    .chat-input-wrapper {
         display: flex;
+        gap: 12px;
         align-items: center;
-        gap: 8px;
-        padding: 15px;
-        background: var(--c-surface);
-        border-top: 1px solid var(--c-border);
+        background: #f1f5f9;
+        padding: 8px 8px 8px 16px;
+        border-radius: 16px;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+    }
+    .chat-input-wrapper:focus-within {
+        background: white;
+        border-color: var(--nx-amber);
+        box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.1);
     }
 
-    .chat-mini-input input {
+    #chat-input {
         flex: 1;
-        background: var(--c-bg);
-        border: 1px solid var(--c-border);
-        border-radius: 30px;
-        padding: 10px 15px;
-        font-size: 0.9rem;
-        color: var(--c-ink);
-        transition: all 0.3s;
-    }
-
-    .chat-mini-input input::placeholder {
-        color: var(--c-muted);
-    }
-
-    .chat-mini-input input:focus {
-        outline: none;
-        border-color: var(--c-navy);
-        background: var(--c-surface);
-        box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
-    }
-
-    .voice-mini, .send-mini {
-        width: 38px;
-        height: 38px;
+        background: transparent;
         border: none;
-        border-radius: 50%;
+        outline: none;
+        font-size: 0.9rem;
+        resize: none;
+        color: var(--nx-ink);
+        max-height: 100px;
+    }
+
+    #send-button {
+        background: var(--nx-navy);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s;
+        transition: 0.3s;
+    }
+    #send-button:hover {
+        background: var(--nx-amber);
+        transform: scale(1.05);
     }
 
-    .voice-mini {
-        background: var(--c-teal-lt);
-        color: var(--c-teal);
-    }
-
-    .voice-mini:hover {
-        background: var(--c-teal);
-        color: white;
-        transform: scale(1.1);
-    }
-
-    .send-mini {
-        background: var(--c-navy);
-        color: white;
-    }
-
-    .send-mini:hover {
-        background: var(--c-amber);
-        transform: scale(1.1) rotate(15deg);
-        box-shadow: 0 10px 20px rgba(217, 119, 6, 0.2);
-    }
-
-    /* Typing Indicator */
-    .typing-mini {
+    /* ── TYPING ── */
+    .typing-indicator {
         display: none;
-        align-items: center;
-        gap: 5px;
-        padding: 10px 15px;
-        background: var(--c-bg);
-        border-top: 1px solid var(--c-border);
+        background: white;
+        padding: 12px 16px;
+        border-radius: 18px;
+        border: 1px solid var(--nx-border);
+        width: fit-content;
     }
-
-    .typing-mini.active {
-        display: flex;
-        animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .typing-mini span {
-        width: 6px;
-        height: 6px;
-        background: var(--c-navy);
+    .typing-dots { display: flex; gap: 4px; }
+    .typing-dot {
+        width: 6px; height: 6px;
+        background: var(--nx-muted);
         border-radius: 50%;
-        animation: typing 1s infinite;
+        animation: bounce 1.4s infinite ease-in-out;
     }
-
-    .typing-mini span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-mini span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes typing {
-        0%, 100% { transform: translateY(0); opacity: 0.5; }
-        50% { transform: translateY(-3px); opacity: 1; }
-    }
-
-    .typing-text {
-        font-size: 0.8rem;
-        color: var(--c-muted);
-        margin-left: 5px;
-    }
-
-    /* Minimized State */
-    .minimal-chatbot.minimized {
-        width: 200px;
-        cursor: pointer;
-        bottom: 20px;
-        top: auto;
-        right: 350px;
-    }
-
-    .minimal-chatbot.minimized .chat-mini-messages,
-    .minimal-chatbot.minimized .suggestion-chips,
-    .minimal-chatbot.minimized .chat-mini-input,
-    .minimal-chatbot.minimized .typing-mini {
-        display: none;
-    }
-
-    .minimal-chatbot.minimized .chat-mini-header {
-        cursor: pointer;
-        background: var(--c-navy);
-    }
-
-    .minimal-chatbot.minimized .minimize-btn i {
-        transform: rotate(180deg);
-    }
-
-    .minimal-chatbot.minimized:hover {
-        transform: translateY(-5px);
-    }
-
-    /* Scrollbar */
-    .chat-mini-messages::-webkit-scrollbar {
-        width: 4px;
-    }
-
-    .chat-mini-messages::-webkit-scrollbar-track {
-        background: var(--c-border);
-    }
-
-    .chat-mini-messages::-webkit-scrollbar-thumb {
-        background: var(--c-navy);
-        border-radius: 10px;
-    }
-
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-        .minimal-chatbot {
-            right: 20px;
-            width: 350px;
-            top: auto;
-            bottom: 20px;
-        }
-
-        .minimal-chatbot.minimized {
-            right: 20px;
-            width: 200px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .minimal-chatbot {
-            left: 10px;
-            right: 10px;
-            width: calc(100% - 20px);
-            bottom: 10px;
-        }
-
-        .minimal-chatbot.minimized {
-            left: 10px;
-            width: calc(100% - 20px);
-        }
-
-        .minimal-chatbot.minimized .chat-mini-header {
-            padding: 12px 15px;
-        }
-
-        .header-text h4 {
-            font-size: 0.9rem;
-        }
-
-        .mini-avatar {
-            width: 35px;
-            height: 35px;
-            font-size: 1.1rem;
-        }
-    }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
 </style>
 
+<div class="chatbot-main-container">
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <div class="mini-logo-box">
+                <div class="nx-cube">
+                    <div class="nx-face nx-front"><span>D</span></div>
+                    <div class="nx-face nx-back"></div>
+                    <div class="nx-face nx-right-f"><span>B</span></div>
+                    <div class="nx-face nx-left-f"></div>
+                    <div class="nx-face nx-top"></div>
+                    <div class="nx-face nx-bottom"></div>
+                </div>
+            </div>
+            <div>
+                <h1>Daksh Assistant</h1>
+                <p>Powered by DakshBharat AI</p>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages"></div>
+        
+        <div class="chat-input-container">
+            <div class="suggestions">
+                <div class="suggestion-chip" data-prompt="How do I list my equipment?">List Equipment</div>
+                <div class="suggestion-chip" data-prompt="What equipment is available?">Find Equipment</div>
+                <div class="suggestion-chip" data-prompt="How does payment work?">Payment Info</div>
+            </div>
+            
+            <div class="equipment-category">
+                <div class="category-chip" data-prompt="Tell me about tractor rentals">Tractors</div>
+                <div class="category-chip" data-prompt="What harvesting equipment is available?">Harvesting</div>
+                <div class="category-chip" data-prompt="Show me irrigation equipment">Irrigation</div>
+            </div>
+            
+            <div class="chat-input-wrapper">
+                <textarea id="chat-input" placeholder="Ask about equipment or services..." rows="1"></textarea>
+                <button id="send-button">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    // Chat state
-    let isMinimized = false;
-    let isTyping = false;
-
-    // Toggle chat minimize/expand
-    function toggleChat() {
-        const chat = document.querySelector('.minimal-chatbot');
-        chat.classList.toggle('minimized');
-        isMinimized = !isMinimized;
-        
-        // Change icon
-        const icon = document.querySelector('.minimize-btn i');
-        if (isMinimized) {
-            icon.className = 'bi bi-plus-lg';
-        } else {
-            icon.className = 'bi bi-dash-lg';
+    class DakshChatbot {
+        constructor() {
+            this.chatMessages = document.getElementById('chat-messages');
+            this.chatInput = document.getElementById('chat-input');
+            this.sendButton = document.getElementById('send-button');
+            this.setupEventListeners();
+            this.addMessage("Namaste! I'm your Daksh assistant. How can I help you navigate the marketplace today?", 'bot');
         }
-    }
 
-    // Use suggestion chip
-    function useSuggestion(text) {
-        document.getElementById('chatInput').value = text;
-        sendMessage();
-    }
+        setupEventListeners() {
+            this.sendButton.onclick = () => this.handleSend();
+            this.chatInput.onkeypress = (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.handleSend(); } };
+            
+            document.querySelectorAll('.suggestion-chip, .category-chip').forEach(chip => {
+                chip.onclick = () => {
+                    this.chatInput.value = chip.dataset.prompt;
+                    this.handleSend();
+                };
+            });
+        }
 
-    // Send message
-    function sendMessage() {
-        const input = document.getElementById('chatInput');
-        const message = input.value.trim();
-        
-        if (message) {
-            addMessage(message, 'user');
-            input.value = '';
+        async handleSend() {
+            const msg = this.chatInput.value.trim();
+            if (!msg) return;
+
+            this.addMessage(msg, 'user');
+            this.chatInput.value = '';
             
-            // Show typing indicator
-            showTyping(true);
-            
-            // Simulate AI response
+            // Show typing...
+            const typing = document.createElement('div');
+            typing.className = 'message bot typing-indicator';
+            typing.innerHTML = '<div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+            typing.style.display = 'block';
+            this.chatMessages.appendChild(typing);
+            this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+
+            // Mock Response
             setTimeout(() => {
-                showTyping(false);
-                const response = getAIResponse(message);
-                addMessage(response, 'bot');
+                typing.remove();
+                this.addMessage("I'm analyzing your request for '" + msg + "'. Our marketplace currently has several verified listings matching your query. Would you like to view them?", 'bot');
             }, 1500);
         }
-    }
 
-    // Handle enter key
-    function handleKeyPress(event) {
-        if (event.key === 'Enter') {
-            sendMessage();
-        }
-    }
-
-    // Show/hide typing indicator
-    function showTyping(show) {
-        const indicator = document.getElementById('typingIndicator');
-        if (show) {
-            indicator.classList.add('active');
-        } else {
-            indicator.classList.remove('active');
+        addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+            div.innerHTML = `<div class="message-content">${text}</div>`;
+            this.chatMessages.appendChild(div);
+            this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
         }
     }
 
-    // Add message to chat
-    function addMessage(text, sender) {
-        const messagesDiv = document.getElementById('chatMessages');
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${sender === 'bot' ? 'bot-message' : 'user-message'}`;
-        
-        const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-        
-        if (sender === 'bot') {
-            messageDiv.innerHTML = `
-                <div class="message-avatar mini">
-                    <i class="bi bi-robot"></i>
-                </div>
-                <div class="message-content">
-                    ${text}
-                    <div class="message-time">${time}</div>
-                </div>
-            `;
-        } else {
-            messageDiv.innerHTML = `
-                <div class="message-content">
-                    ${text}
-                    <div class="message-time">${time}</div>
-                </div>
-            `;
-        }
-        
-        messagesDiv.appendChild(messageDiv);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-
-    // Voice input
-    function startVoiceInput() {
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const recognition = new SpeechRecognition();
-            
-            recognition.lang = 'en-US';
-            recognition.interimResults = false;
-            
-            recognition.onstart = function() {
-                addMessage('🎤 Listening...', 'bot');
-            };
-            
-            recognition.onresult = function(event) {
-                const transcript = event.results[0][0].transcript;
-                document.getElementById('chatInput').value = transcript;
-                sendMessage();
-            };
-            
-            recognition.onerror = function() {
-                addMessage('Sorry, couldn\'t hear you. Please try again.', 'bot');
-            };
-            
-            recognition.start();
-        } else {
-            addMessage('Voice input not supported in your browser.', 'bot');
-        }
-    }
-
-    // AI Response Logic
-    function getAIResponse(message) {
-        const msg = message.toLowerCase();
-        
-        // Greetings
-        if (msg.match(/^(hi|hello|hey|namaste)$/i)) {
-            return "Namaste! 👋 How can I assist you with DakshBharat today?";
-        }
-        
-        // Finding workers
-        if (msg.includes('find') || msg.includes('worker') || msg.includes('skilled')) {
-            return "You can find skilled workers in our **Marketplace**. Use filters for location, skill, and ratings. Would you like me to guide you?";
-        }
-        
-        // Joining
-        if (msg.includes('join') || msg.includes('register') || msg.includes('signup')) {
-            return "To join as a worker, click the 'Join as a Worker' button and complete your profile. It's free!";
-        }
-        
-        // Pricing
-        if (msg.includes('price') || msg.includes('cost') || msg.includes('free')) {
-            return "We offer free basic profiles and premium plans for enhanced features. Most features are free to start!";
-        }
-        
-        // Verification
-        if (msg.includes('verify') || msg.includes('trust')) {
-            return "All profiles are verified through ID checks and skill assessments for complete trust and safety.";
-        }
-        
-        // Default
-        return "Thanks for your message! I can help with finding workers, joining, pricing, or verification. What would you like to know?";
-    }
+    document.addEventListener('DOMContentLoaded', () => new DakshChatbot());
 </script>
