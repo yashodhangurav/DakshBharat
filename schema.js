@@ -29,7 +29,7 @@ module.exports.listingSchema = Joi.object({
             "Other"
         ).required(),
 
-        status: Joi.string().valid("Open", "In Progress", "Completed", "Booked").default("Open"),
+        status: Joi.string().valid("Open", "Closed", "Available", "Booked", "In Progress", "Completed"),
 
         // Changed from requiredSkills to tags to match model
         tags: Joi.string().allow('', null),

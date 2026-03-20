@@ -1,5 +1,7 @@
 const Listing = require("../models/listing.js");
 const { listingSchema } = require("../schema.js");
+const maptilerClient = require("@maptiler/client");
+maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
 module.exports.home = async (req, res) => {
   res.render("listings/home.ejs");
@@ -54,8 +56,18 @@ module.exports.createListing = async (req, res) => {
       .filter(tag => tag !== "");
   }
 
+  // Geocode location
+  const geoData = await maptilerClient.geocoding.forward(listingData.location, { limit: 1 });
+
   const newListing = new Listing(listingData);
   newListing.owner = req.user._id; 
+  newListing.geometry = geoData.features[0].geometry; 
+  
+  if (req.user.role === 'company') {
+      newListing.status = 'Open';
+  } else if (req.user.role === 'employee') {
+      newListing.status = 'Available';
+  }
   
   // Set Provider Name automatically from the logged-in User
   // If it's a company, use company name, otherwise use username
@@ -93,6 +105,10 @@ module.exports.update = async (req, res) => {
       .map((tag) => tag.trim())
       .filter((tag) => tag !== "");
   }
+
+  // Geocode location
+  const geoData = await maptilerClient.geocoding.forward(listingData.location, { limit: 1 });
+  listingData.geometry = geoData.features[0].geometry;
 
   // 2. Find and Update the core data
   let listing = await Listing.findByIdAndUpdate(id, { ...listingData });

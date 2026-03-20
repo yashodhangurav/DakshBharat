@@ -522,9 +522,13 @@ body{
           </div>
 
           <div class="lp-body">
-            <div class="lp-status <%= listing.status === 'Open' ? 'available' : 'booked' %>">
+            <% 
+              let statusClass = 'available';
+              if (listing.status === 'Closed' || listing.status === 'Booked') statusClass = 'booked';
+            %>
+            <div class="lp-status <%= statusClass %>" data-status="<%= (listing.status || '').toLowerCase() %>">
               <span class="lp-dot"></span>
-              <span class="status-text"><%= listing.status === 'Open' ? 'Available' : 'Booked' %></span>
+              <span class="status-text"><%= listing.status %></span>
             </div>
             <h5 class="lp-title"><%= listing.title %></h5>
             <div class="lp-meta">
@@ -634,6 +638,8 @@ const i18n = {
     no_results_sub:     'Try a different search or category',
     status_available:   'Available',
     status_booked:      'Booked',
+    status_open:        'Open',
+    status_closed:      'Closed',
   },
   hi: {
     langLabel:          'हिंदी',
@@ -657,6 +663,8 @@ const i18n = {
     no_results_sub:     'अलग खोज या श्रेणी आज़माएं',
     status_available:   'उपलब्ध',
     status_booked:      'बुक्ड',
+    status_open:        'खुला',
+    status_closed:      'बंद',
   },
   mr: {
     langLabel:          'मराठी',
@@ -680,6 +688,8 @@ const i18n = {
     no_results_sub:     'वेगळी शोध किंवा श्रेणी वापरून पहा',
     status_available:   'उपलब्ध',
     status_booked:      'बुक केलेले',
+    status_open:        'उघडे',
+    status_closed:      'बंद',
   },
   kn: {
     langLabel:          'ಕನ್ನಡ',
@@ -703,6 +713,8 @@ const i18n = {
     no_results_sub:     'ಬೇರೆ ಹುಡುಕಾಟ ಅಥವಾ ವರ್ಗ ಪ್ರಯತ್ನಿಸಿ',
     status_available:   'ಲಭ್ಯ',
     status_booked:      'ಬುಕ್ ಆಗಿದೆ',
+    status_open:        'ತೆರೆದಿದೆ',
+    status_closed:      'ಮುಚ್ಚಲಾಗಿದೆ',
   },
   ta: {
     langLabel:          'தமிழ்',
@@ -726,6 +738,8 @@ const i18n = {
     no_results_sub:     'வேறு தேடல் அல்லது வகையை முயற்சிக்கவும்',
     status_available:   'கிடைக்கும்',
     status_booked:      'முன்பதிவு செய்யப்பட்டது',
+    status_open:        'திறந்த',
+    status_closed:      'மூடப்பட்டது',
   },
 };
 
@@ -769,11 +783,13 @@ function setLanguage(lang) {
       if (t[key] !== undefined) el.textContent = t[key];
     });
 
-    // status texts inside cards (Available/Booked)
+    // status texts inside cards (Available/Booked/Open/Closed)
     document.querySelectorAll('.lp-status').forEach(el => {
-      const isAvailable = el.classList.contains('available');
       const spanEl = el.querySelector('.status-text');
-      if (spanEl) spanEl.textContent = isAvailable ? t.status_available : t.status_booked;
+      let statusKey = el.dataset.status;
+      if (statusKey && spanEl && t['status_' + statusKey]) {
+        spanEl.textContent = t['status_' + statusKey];
+      }
     });
 
     // trigger label

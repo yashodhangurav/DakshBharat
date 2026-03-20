@@ -6,7 +6,7 @@ const listingSchema = new Schema({
   // Category allows you to filter between Hiring and Service Offering
   category: {
     type: String,
-    enum: ["Job", "Service"], 
+    enum: ["Job", "Service"],
     required: true,
     default: "Job"
   },
@@ -51,6 +51,8 @@ const listingSchema = new Schema({
       "per job",
       "per repair",
       "per service",
+      "per installation",
+      "per fitting",
       "fixed"
     ],
     required: true
@@ -65,6 +67,18 @@ const listingSchema = new Schema({
     type: String,
     required: true,
     trim: true
+  },
+
+  geometry: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
   },
 
   // For Jobs: Skills needed. For Services: Features included.
@@ -93,8 +107,7 @@ const listingSchema = new Schema({
 
   status: {
     type: String,
-    enum: ["Open", "In Progress", "Completed", "Booked"],
-    default: "Open"
+    enum: ["Open", "Closed", "Available", "Booked", "In Progress", "Completed"]
   },
 
   reviews: [
