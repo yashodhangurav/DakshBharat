@@ -17,7 +17,7 @@ const userSchema = new Schema({
         trim: true,
         match: [/^[0-9]{10}$/, "Please provide a valid 10-digit phone number"],
     },
-    
+
     // --- THE TRI-PLATFORM ROLE SYSTEM ---
     role: {
         type: String,
@@ -41,10 +41,10 @@ const userSchema = new Schema({
         skills: [{ type: String }], // Array of skills
         experienceYears: { type: Number, default: 0 },
         resumeUrl: { type: String },
-        currentStatus: { 
-            type: String, 
-            enum: ["Available", "On Job", "Not Looking"], 
-            default: "Available" 
+        currentStatus: {
+            type: String,
+            enum: ["Available", "On Job", "Not Looking"],
+            default: "Available"
         },
     },
 
