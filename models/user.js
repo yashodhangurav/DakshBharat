@@ -46,6 +46,11 @@ const userSchema = new Schema({
             enum: ["Available", "On Job", "Not Looking"],
             default: "Available"
         },
+        employmentType: {
+            type: String,
+            enum: ["Freelance", "Full-Time Platform", "Hired Full-Time"],
+            default: "Freelance"
+        },
     },
 
     // --- GENERAL FIELDS (Shared across all) ---
@@ -77,6 +82,12 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    notifications: [{
+        message: String,
+        link: String,
+        isRead: { type: Boolean, default: false },
+        createdAt: { type: Date, default: Date.now }
+    }],
 }, { timestamps: true });
 
 userSchema.plugin(passwordLocalMongoose);

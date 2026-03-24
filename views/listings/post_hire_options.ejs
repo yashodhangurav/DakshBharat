@@ -1,0 +1,46 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container mt-5 mb-5" style="max-width: 600px;">
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-5 text-center">
+            <div class="mb-4">
+                <i class="bi bi-briefcase-fill text-success" style="font-size: 3rem;"></i>
+            </div>
+            <h2 class="fw-bold mb-3">Congratulations!</h2>
+            <p class="text-muted mb-4" style="font-size: 1.1rem;">
+                You have successfully been assigned to the full-time role at <strong><%= listing.providerName %></strong>.
+            </p>
+            <div class="alert alert-warning text-start mb-4">
+                <strong>Important:</strong> Since you are now committed full-time to a company, you must update your platform status. Our policies ensure marketplace accuracy.
+            </div>
+
+            <form action="/home/listings/<%= listing._id %>/post-hire-options" method="POST" class="text-start">
+                
+                <div class="form-check mb-4 p-3 border rounded shadow-sm option-card" style="cursor: pointer; transition: 0.2s;">
+                    <input class="form-check-input ms-2 mt-2" type="radio" name="option" id="freelance" value="freelance" required>
+                    <label class="form-check-label ms-3 d-block w-100" for="freelance" style="cursor: pointer;">
+                        <h5 class="mb-1 text-primary">Option A: Switch to 'Freelancer'</h5>
+                        <p class="text-muted mb-0 small">Keep your service listings active, but mark your profile as a Freelancer. You agree to only provide services outside your new standard job hours.</p>
+                    </label>
+                </div>
+
+                <div class="form-check mb-4 p-3 border rounded shadow-sm option-card" style="cursor: pointer; transition: 0.2s;">
+                    <input class="form-check-input ms-2 mt-2" type="radio" name="option" id="delete" value="delete" required>
+                    <label class="form-check-label ms-3 d-block w-100" for="delete" style="cursor: pointer;">
+                        <h5 class="mb-1 text-danger">Option B: Delete My Service Listings</h5>
+                        <p class="text-muted mb-0 small">Remove all your currently active Service offerings from the platform to focus entirely on your new full-time role.</p>
+                    </label>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-dark btn-lg fw-bold rounded-pill">Confirm Choice</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .option-card:hover { border-color: #1e3a5f !important; background-color: #f8f9fa; }
+    .form-check-input:checked + .form-check-label h5 { font-weight: 800; }
+</style>

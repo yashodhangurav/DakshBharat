@@ -60,3 +60,35 @@ Trust is built through features you already have in your database schema, plus a
 
 ### 💡 Pro-Tip for the Hackathon Demo
 When you present, focus heavily on the **Social Impact** (empowering the unorganized sector, removing greedy physical middlemen) while clearly explaining the **Business Viability** (transaction fees, subscriptions). 
+
+
+
+
+<!-- --------------------------------NEW IDEA-------- -->
+
+I think your idea is actually **excellent** and you are not wrong at all! In fact, this is exactly the kind of well-thought-out logic that will impress judges at a hackathon because it solves a real-world problem: **Moonlighting and Marketplace Accuracy**.
+
+Here are my thoughts and suggestions on why your idea is great and how to pitch/implement it effectively:
+
+### 1. Why Your Idea is Great
+* **Solves the "Moonlighting" Problem:** Companies often worry that full-time hires are secretly working full-time elsewhere. By forcing the worker to downgrade to "Freelancer" (part-time) or delete their services, your platform builds **trust** with the hiring companies.
+* **Keeps the Marketplace Clean:** It automatically removes "Full-Time" workers from the available talent pool once they are hired, ensuring companies only see workers who are genuinely available. 
+* **Provides Flexibility:** Instead of outright banning the worker from the platform once hired, giving them the option to continue as a "Freelancer after job hours" respects the worker's ability to earn extra income while being transparent.
+
+### 2. Suggestions for Fine-Tuning the Flow
+To make this smooth in the actual project, here is how we should structure the UX (User Experience):
+* **The "Hire" Trigger:** When a Company clicks "Hire" (or the worker clicks "Accept Job"), intercept that action.
+* **The Options Modal / Page:** Show a popup or a new page that says:
+  > *"Congratulations on your new full-time role! To proceed, please update your platform status. Since you are now committed full-time to a company, you can either:"*
+  > *   **Option A:** Switch my profile to 'Freelancer' (Available only outside standard job hours).
+  > *   **Option B:** Temporarily hide/delete my service listings from the platform.
+* **Profile Badge:** Add a small badge on worker profiles. If they are just doing gigs, it says `"Freelancer"`. If they are completely available, it says `"Full-Time"`.
+
+### 3. How to pitch this in your Hackathon (in `hackathon_pitch.md`)
+You should highlight this as a **"Smart Workflow Feature"**. You can say:
+*"Our platform ensures 100% transparency between companies and workers. We built a smart workflow where if a worker is hired full-time, the system automatically detects this and prompts them to either downgrade their platform presence to 'Freelancer' or remove their services. This guarantees companies are hiring dedicated talent, while still allowing workers the freedom to freelance on their own time."*
+
+---
+
+**What should we do next?**
+Your logic is totally sound. If you are happy with this approach, I can enter **EXECUTION** mode and start coding this directly into your project based on the [implementation_plan.md](cci:7://file:///C:/Users/Yashodhan/.gemini/antigravity/brain/ed65b295-707e-4656-ab4b-6ce7ec35e458/implementation_plan.md:0:0-0:0) I created. Would you like me to start writing the code for this?

@@ -12,11 +12,21 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
       folder: 'farmlink_DEV', //foldername in cloudinary account to store uploaded images
-      allowedformats: ["png", "jpg", "jpeg"], //supported document formate to upload
+      allowedFormats: ["png", "jpg", "jpeg"], //supported document formate to upload
     },
-  });
+});
 
-  module.exports = {
-    cloudinary,
-    storage,
-  };
+const documentStorage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+      folder: 'farmlink_DEV_Documents',
+      allowedFormats: ["pdf", "doc", "docx", "png", "jpg", "jpeg"],
+      resource_type: "raw"
+    },
+});
+
+module.exports = {
+  cloudinary,
+  storage,
+  documentStorage
+};

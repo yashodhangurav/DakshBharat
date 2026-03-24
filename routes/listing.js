@@ -7,8 +7,9 @@ const listingController = require("../controllers/listings.js");
 
 // Multer & Cloudinary for Image Uploads
 const multer = require('multer');
-const { storage } = require("../cloudConfig.js");
+const { storage, documentStorage } = require("../cloudConfig.js");
 const upload = multer({ storage }); 
+const uploadDocument = multer({ storage: documentStorage });
 
 // Home & Informational Routes
 router.get("/", wrapAsync(listingController.home));
@@ -58,5 +59,25 @@ router.post("/listings/:id/assign",
     isLoggedIn, 
     wrapAsync(listingController.assignUser)
 );
+
+router.get("/listings/:id/post-hire-options",
+    isLoggedIn,
+    wrapAsync(listingController.postHireOptions)
+);
+
+router.post("/listings/:id/post-hire-options",
+    isLoggedIn,
+    wrapAsync(listingController.processPostHireOptions)
+);
+
+// --- NEW APPLICATION FLOW ROUTES ---
+router.get("/company-dashboard", isLoggedIn, wrapAsync(listingController.companyDashboard));
+router.get("/notifications/clear", isLoggedIn, wrapAsync(listingController.clearNotifications));
+
+router.get("/listings/:id/apply", isLoggedIn, wrapAsync(listingController.applyForJob));
+router.post("/listings/:id/apply", isLoggedIn, uploadDocument.single('resumeFile'), wrapAsync(listingController.submitApplication));
+
+router.get("/listings/:id/applicants", isLoggedIn, isOwner, wrapAsync(listingController.viewApplicants));
+router.post("/listings/:id/applicants/:userId/:status", isLoggedIn, isOwner, wrapAsync(listingController.updateApplicantStatus));
     
 module.exports = router;

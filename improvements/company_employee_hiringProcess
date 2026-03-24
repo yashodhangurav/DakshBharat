@@ -1,0 +1,145 @@
+# Implementation Plan: Role-Based Views and Employment Types
+
+## Goal Description
+Enhance the platform by separating the view logic based on user roles, distinguishing between "Freelance" and "Full-Time Platform" workers, and introducing a post-hiring workflow where "Full-Time Platform" workers hired by a company must choose whether to downgrade to "Freelance" or delete their Service listings.
+
+## Proposed Changes
+
+### Models
+#### [MODIFY] listing.js
+- Add `applicants` array to track who applied.
+  ```javascript
+  applicants: [
+    {
+      user: { type: Schema.Types.ObjectId, ref: "User" },
+      resumeLink: String,
+      status: { type: String, enum: ["Pending", "Accepted", "Rejected"], default: "Pending" }
+    }
+  ]
+  ```
+
+#### [MODIFY] user.js
+- Keep previous `employmentType` addition.
+
+### Controllers
+#### [MODIFY] listings.js
+- **`applyForJob` (New):** Render `listings/apply.ejs` for an employee to submit their resume link.
+- **`submitApplication` (New):** Save the resume link and employee ID to `listing.applicants`.
+- **`viewApplicants` (New):** Render `listings/applicants.ejs` for the company to see all applicants for a specific job.
+- **`updateApplicantStatus` (New):** Handle Company's Accept/Reject action. If Accepted, update applicant status to `Accepted`, set `listing.workerAssigned`, and redirect back to applicants view. 
+- **[assignUser](file:///d:/PROJECTSDONE/HackAura/controllers/listings.js#143-162) (Modified):** Use only for Customer booking Services now, since Jobs use the application flow.
+- **[show](file:///d:/PROJECTSDONE/HackAura/controllers/listings.js#35-49) (Modified):** If an employee visits a job they were `Accepted` for, show a "Complete Hiring Process" button that links to `/post-hire-options`.
+
+### Routes
+#### [MODIFY] listing.js
+- `GET /listings/:id/apply`
+- `POST /listings/:id/apply`
+- `GET /listings/:id/applicants` (Protected by `isOwner`)
+- `POST /listings/:id/applicants/:userId/:status` (Protected by `isOwner`)
+
+### Views
+#### [NEW] listings/apply.ejs
+- Simple form with an input for "Resume / Drive Link".
+#### [NEW] listings/applicants.ejs
+- Dashboard for company to view a table/list of applicants, their resume links, and Accept/Reject buttons.
+#### [MODIFY] listings/show.ejs
+- **For Company:** Show a "View Applicants (Count)" button if it's their listing.
+- **For Employee:** 
+  - If they haven't applied: Show "Apply Now" button.
+  - If applied & Pending: Show "Application Under Review".
+  - If applied & Accepted: Show "Congratulations! Click here to choose Post-Hire Options". This button points to `/listings/:id/post-hire-options`.
+
+## Verification Plan
+
+### Manual Verification
+1. Register/Login as a **Company**:
+   - Navigate to `/home/listings` and verify that only "Service" listings (workers) are visible.
+2. Register/Login as an **Employee**:
+   - Navigate to `/home/listings` and verify that only "Job" listings (companies) are visible.
+3. As an Employee with a "Service" listing (meaning they offer a service on the platform):
+   - Apply for a "Job" listing.
+   - Verify that upon successfully applying, you are redirected to the Post-Hire Options page.
+   - Choose "Continue as Freelancer" and verify your listing still exists but your type is updated.
+   - Apply for another Job (or reset state), choose "Delete my listings", and verify your Service listing is removed.
+
+
+
+<!-- -------------feature ---------------->
+Started planning to replace the resume URL field with a file upload input using Cloudinary.
+
+Viewed cloudConfig.js:1-22
+
+Identified need for a dedicated Cloudinary storage configuration for raw documents (PDF/DOC) and planned the required controller and view updates.
+
+Edited task.md
+Edited cloudConfig.js
+Edited listing.js
+Edited listings.js
+Edited apply.ejs
+
+Finished implementing the resume file upload feature using a dedicated Cloudinary storage configuration.
+
+Edited task.md
+
+I have updated the application flow! Now, instead of pasting a Google Drive link, the user clicks **Apply Now** and is presented with a standard file upload field.
+
+Behind the scenes:
+1. I created a dedicated storage configuration in `cloudConfig.js` specifically for documents (PDFs, DOCs, images) using `raw` mode on Cloudinary.
+2. I updated the `multer` middleware on the `/apply` route to process `multipart/form-data` file uploads.
+3. The file is uploaded to your Cloudinary `farmlink_DEV_Documents` folder, and the secure URL is saved in the database for the company to view!
+
+**Important:** Since these are backend changes (editing routes and controllers), **you need to restart your node server again (Ctrl+C then `node app.js`)** for the upload form to work properly! 
+
+Try uploading a test PDF or image as your resume and let me know if it works smoothly!
+
+
+
+<!-- --------------------------new feature -->
+Started planning the Notification system for Employees so they receive alerts when a Company accepts or rejects their job application.
+
+Viewed user.js:1-88
+
+Planned the notification implementation. Transitioning to Execution mode to apply the model, controller, route, and view changes concurrently.
+
+Edited task.md
+Edited user.js
+Edited listings.js
+
+Updated the User model to store notifications and added logic to the controller to push notifications on status updates.
+
+Viewed user.js:1-36
+Viewed users.js:1-87
+Edited home.ejs
+Edited listing.js
+Edited listings.js
+
+Completed the UI integration for employee notifications on the home page and added the route to clear all notifications.
+
+Edited task.md
+
+I have successfully added the **Notification System** for Employees! 🎉
+
+Here's how it works now:
+1. I updated the database (`User` model) to support saving and tracking notifications.
+2. Whenever a **Company** accepts or rejects an application on their dashboard, the system now automatically generates a notification and pushes it to that specific employee's account.
+3. If you log in as an **Employee** and go to the Home page (`/home`), you'll see a new **Yellow Notifications Dropdown** button right next to the "Explore Marketplace" button.
+4. If there are unread notifications, a red badge drops the count.
+5. If the application was **Accepted**, clicking the notification directly takes the employee to the `Complete Setup` (Post-Hire Options) page!
+6. You can clear them via the "Mark all as read" button inside the dropdown.
+
+**As always, since the database schema and controllers were updated, please restart your terminal server (Ctrl+C => `node app.js`) to apply the changes so it doesn't crash!** Feel free to test the end-to-end flow!
+
+
+
+<!-- ----------------------------new feature--------------- -->
+
+I have completed the Employee Confirmation workflow! 🚀
+
+Here is what I built to satisfy these precise requirements:
+
+Auto-Clearing Notifications: Once a Company accepts an employee, and the employee clicks that notification to go complete the Post-Hire Setup, the system automatically clears that active notification badge as soon as they make their choice (Freelance vs Delete). No lingering notifications!
+"Confirmed" Status: To distinguish between an employee who is merely "Accepted" (waiting to do their setup) and one who is actually hired and working, I introduced a new "Confirmed" status to the internal applicant pipeline.
+Active Employees Dashboard: On the Company Dashboard (/home/company-dashboard), there is now a dedicated "Active Employees" section firmly positioned at the very top. It dynamically scans all your posted jobs and aggregates every employee who has officially completed the Post-Hire workflow (the "Confirmed" ones), showing their Name, the exact Job Title they are tied to, and their Confirmation Date—giving you a perfect enterprise-level roster!
+Since I added a new "Confirmed" state to the database model enum, please restart your server (node app.js) one more time!
+
+You can test this full flow now! Let me know if it meets your expectations!

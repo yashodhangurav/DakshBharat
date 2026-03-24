@@ -1,0 +1,20 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="row mt-5 mb-5">
+    <div class="col-8 offset-2">
+        <h3 class="fw-bold mb-4">Apply for: <%= listing.title %></h3>
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-4">
+                <form action="/home/listings/<%= listing._id %>/apply" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+                    <div class="mb-4">
+                        <label for="resumeFile" class="form-label fw-bold">Upload Resume / Portfolio (PDF, DOC, JPG, PNG)</label>
+                        <input type="file" name="resumeFile" id="resumeFile" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
+                        <div class="invalid-feedback">Please upload a valid file.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4 fw-bold">Submit Application</button>
+                    <a href="/home/listings/<%= listing._id %>" class="btn btn-outline-secondary ms-2">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

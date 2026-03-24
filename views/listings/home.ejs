@@ -45,9 +45,45 @@
 
         <div class="kw-cta-row">
           <a href="/home/listings" class="kw-btn-primary" data-i18n="btn_explore">Explore Marketplace</a>
-          <a href="/signup" class="kw-btn-text">
-            <span data-i18n="btn_join">Join the Network</span> <i class="bi bi-arrow-right"></i>
-          </a>
+          <% if(!currUser) { %>
+              <a href="/signup" class="kw-btn-text">
+                <span data-i18n="btn_join">Join the Network</span> <i class="bi bi-arrow-right"></i>
+              </a>
+          <% } else if(currUser.role === 'employee') { %>
+              <% 
+                 let unreadCount = 0;
+                 if (currUser.notifications) {
+                     unreadCount = currUser.notifications.filter(n => !n.isRead).length;
+                 }
+              %>
+              <div class="dropdown">
+                  <a href="#" class="btn btn-warning position-relative fw-bold px-4 py-2 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 10px;">
+                      <i class="bi bi-bell-fill"></i> Notifications
+                      <% if(unreadCount > 0) { %>
+                          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.75rem;">
+                              <%= unreadCount %>
+                          </span>
+                      <% } %>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end shadow p-3 mb-5 bg-body rounded border-0 mt-2" style="width: 340px; max-height: 400px; overflow-y: auto;">
+                      <li><h6 class="dropdown-header fw-bold text-dark fs-6 pb-2"><i class="bi bi-bell"></i> Recent Alerts</h6></li>
+                      <% if (currUser.notifications && currUser.notifications.length > 0) { %>
+                          <% currUser.notifications.slice().reverse().forEach(notif => { %>
+                              <li>
+                                  <a class="dropdown-item py-3 border-bottom <%= notif.isRead ? 'text-muted' : 'fw-bold text-primary bg-light' %>" href="<%= notif.link %>" style="white-space: normal;">
+                                      <small class="d-block text-secondary mb-1"><i class="bi bi-clock"></i> <%= new Date(notif.createdAt).toLocaleDateString() %></small>
+                                      <span><%= notif.message %></span>
+                                  </a>
+                              </li>
+                          <% }) %>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item text-center fw-bold text-primary py-2" href="/home/notifications/clear">Mark all as read</a></li>
+                      <% } else { %>
+                          <li><span class="dropdown-item-text text-muted text-center py-4 d-block">No new notifications.</span></li>
+                      <% } %>
+                  </ul>
+              </div>
+          <% } %>
         </div>
 
         <div class="kw-stats-row">

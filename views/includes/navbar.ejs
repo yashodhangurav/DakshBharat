@@ -78,9 +78,9 @@
               </div>
             </li>
             <li><div class="nx-menu-sep"></div></li>
-            <li><a class="dropdown-item nx-mi" href="/profile">
+            <li><a class="dropdown-item nx-mi" href="<%= currUser.role === 'company' ? '/home/company-dashboard' : '#' %>">
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="1" width="5.5" height="5.5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><rect x="8.5" y="1" width="5.5" height="5.5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="8.5" width="5.5" height="5.5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.2" stroke="currentColor" stroke-width="1.2"/></svg>
-              Dashboard
+              <% if(currUser.role === 'company') { %>Company Dashboard<% } else { %>Dashboard<% } %>
             </a></li>
             <li><a class="dropdown-item nx-mi" href="/settings">
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M2.93 2.93l1.06 1.06M11.01 11.01l1.06 1.06M2.93 12.07l1.06-1.06M11.01 3.99l1.06-1.06" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
@@ -126,7 +126,7 @@
             </span>
           </div>
         </div>
-        <a href="/profile"  class="nx-mob-link">Dashboard</a>
+        <a href="<%= currUser.role === 'company' ? '/home/company-dashboard' : '#' %>"  class="nx-mob-link"><% if(currUser.role === 'company') { %>Company Dashboard<% } else { %>Dashboard<% } %></a>
         <a href="/settings" class="nx-mob-link">Settings</a>
         <a href="/logout"   class="nx-mob-link nx-mob-out">Sign Out</a>
       <% } %>
@@ -376,7 +376,7 @@
 .nx-av-img {
   width: 28px; height: 28px;
   border-radius: 50%; overflow: hidden; flex-shrink: 0;
-  ring: 2px solid var(--nx-amber);
+  border: 2px solid var(--nx-amber);
 }
 .nx-av-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 

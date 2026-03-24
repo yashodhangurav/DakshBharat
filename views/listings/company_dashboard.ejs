@@ -1,0 +1,141 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container mt-5 mb-5">
+    <a href="/home" class="text-decoration-none text-muted mb-4 d-inline-block fw-bold">
+      <i class="bi bi-arrow-left"></i> Back to Home
+    </a>
+
+    <h2 class="fw-bold mb-4">Active Employees <span class="fs-6 fw-normal text-muted">(Confirmed)</span></h2>
+    <div class="card shadow-sm rounded-4 border-0 mb-5">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 border-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="ps-4">Employee Name</th>
+                            <th scope="col">Job Title</th>
+                            <th scope="col">Confirmed On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% 
+                        let hasConfirmed = false;
+                        if (myJobs && myJobs.length > 0) {
+                            myJobs.forEach(job => {
+                                if (job.applicants) {
+                                    job.applicants.forEach(app => {
+                                        if (app.status === 'Confirmed') {
+                                            hasConfirmed = true;
+                        %>
+                                            <tr>
+                                                <td class="fw-bold ps-4"><%= app.user.username %></td>
+                                                <td><a href="/home/listings/<%= job._id %>" class="text-decoration-none fw-bold"><%= job.title %></a></td>
+                                                <td><span class="badge bg-success-subtle text-success border border-success-subtle"><i class="bi bi-calendar2-check"></i> <%= new Date(job.updatedAt).toLocaleDateString() %></span></td>
+                                            </tr>
+                        <% 
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        if (!hasConfirmed) {
+                        %>
+                            <tr>
+                                <td colspan="3" class="text-center py-4 text-muted">No confirmed employees yet. Accept applicants and wait for them to complete their setup.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="fw-bold mb-4">My Posted Jobs & Candidates</h2>
+
+    <% if (myJobs && myJobs.length > 0) { %>
+        <div class="row">
+            <% myJobs.forEach(job => { %>
+                <div class="col-12 mb-5">
+                    <div class="card shadow-sm rounded-4 border-0">
+                        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-3 rounded-top-4">
+                            <h5 class="mb-0 fw-bold"><i class="bi bi-briefcase-fill me-2"></i> <%= job.title %></h5>
+                            <a href="/home/listings/<%= job._id %>" class="btn btn-sm btn-light fw-bold px-3">View Job</a>
+                        </div>
+                        <div class="card-body p-0">
+                            <% if (job.applicants && job.applicants.length > 0) { %>
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0 border-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th scope="col" class="ps-4">Candidate Name</th>
+                                                <th scope="col">Applied On</th>
+                                                <th scope="col">Resume / Portfolio</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col" class="text-end pe-4">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% job.applicants.forEach(app => { %>
+                                                <tr>
+                                                    <td class="fw-bold ps-4"><%= app.user.username %></td>
+                                                    <td><%= new Date(app.appliedAt).toLocaleDateString() %></td>
+                                                    <td>
+                                                        <a href="<%= app.resumeLink %>" target="_blank" class="btn btn-sm btn-outline-primary mb-1" title="View"><i class="bi bi-box-arrow-up-right"></i> View</a>
+                                                        <% 
+                                                          let dlUrl = app.resumeLink;
+                                                          if(dlUrl && dlUrl.includes("/upload/")) {
+                                                              dlUrl = dlUrl.replace("/upload/", "/upload/fl_attachment/");
+                                                          }
+                                                        %>
+                                                        <a href="<%= dlUrl %>" class="btn btn-sm btn-outline-success mb-1 ms-1" title="Download"><i class="bi bi-download"></i></a>
+                                                    </td>
+                                                    <td>
+                                                        <% if(app.status === 'Pending') { %>
+                                                            <span class="badge bg-warning text-dark"><%= app.status %></span>
+                                                        <% } else if (app.status === 'Accepted') { %>
+                                                            <span class="badge bg-primary"><%= app.status %></span>
+                                                        <% } else if (app.status === 'Confirmed') { %>
+                                                            <span class="badge bg-success"><i class="bi bi-patch-check-fill"></i> <%= app.status %></span>
+                                                        <% } else { %>
+                                                            <span class="badge bg-danger"><%= app.status %></span>
+                                                        <% } %>
+                                                    </td>
+                                                    <td class="text-end pe-4">
+                                                        <% if(app.status === 'Pending') { %>
+                                                            <form action="/home/listings/<%= job._id %>/applicants/<%= app.user._id %>/Accepted" method="POST" class="d-inline">
+                                                                <button class="btn btn-sm btn-success fw-bold px-3"><i class="bi bi-check-circle"></i></button>
+                                                            </form>
+                                                            <form action="/home/listings/<%= job._id %>/applicants/<%= app.user._id %>/Rejected" method="POST" class="d-inline">
+                                                                <button class="btn btn-sm btn-outline-danger px-3 ms-1"><i class="bi bi-x-circle"></i></button>
+                                                            </form>
+                                                        <% } else if (app.status === 'Accepted') { %>
+                                                            <span class="text-muted small"><i class="bi bi-hourglass-split"></i> Awaiting Setup</span>
+                                                        <% } else if (app.status === 'Confirmed') { %>
+                                                            <span class="text-success small fw-bold"><i class="bi bi-check2-all"></i> Hired</span>
+                                                        <% } else { %>
+                                                            <span class="text-danger small"><i class="bi bi-x"></i> Rejected</span>
+                                                        <% } %>
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <% } else { %>
+                                <div class="text-center py-4 bg-white">
+                                    <p class="text-muted mb-0">No applicants yet for this job.</p>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="text-center py-5 bg-white border rounded-4 shadow-sm mt-4">
+            <h4 class="text-muted fw-bold">No jobs posted yet</h4>
+            <p class="text-muted">Once you post a Job listing, applicants will appear here.</p>
+            <a href="/home/listings/new" class="btn btn-primary mt-3 px-4 fw-bold">Post a Job</a>
+        </div>
+    <% } %>
+</div>

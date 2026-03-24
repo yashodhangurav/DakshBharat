@@ -8,8 +8,15 @@ module.exports.home = async (req, res) => {
 };
 
 module.exports.index = async (req, res) => {
-  // We fetch all, but in the frontend, you can now filter by category: Job vs Service
-  const allListings = await Listing.find({});
+  let query = {};
+  if (req.user) {
+      if (req.user.role === 'employee') {
+          query.category = 'Job';
+      } else if (req.user.role === 'customer' || req.user.role === 'company') {
+          query.category = 'Service';
+      }
+  }
+  const allListings = await Listing.find(query);
   res.render("listings/index.ejs", { allListings });
 };
 
@@ -139,16 +146,170 @@ module.exports.assignUser = async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     
-    if (listing.category === "Job") {
-        listing.workerAssigned = req.user._id;
-        listing.status = "In Progress";
-    } else {
+    if (listing.category === "Service") {
         listing.serviceSeeker = req.user._id;
         listing.status = "Booked";
+        await listing.save();
+        req.flash("success", "Service booked successfully!");
+    }
+    
+    res.redirect(`/home/listings/${id}`);
+};
+
+module.exports.applyForJob = async (req, res) => {
+    let { id } = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/apply.ejs", { listing });
+};
+
+module.exports.submitApplication = async (req, res) => {
+    let { id } = req.params;
+    const listing = await Listing.findById(id);
+    
+    const alreadyApplied = listing.applicants.some(app => app.user.toString() === req.user._id.toString());
+    if (alreadyApplied) {
+        req.flash("error", "You have already applied for this job.");
+        return res.redirect(`/home/listings/${id}`);
+    }
+    
+    let resumeLink = "";
+    if (typeof req.file !== "undefined") {
+        resumeLink = req.file.path;
+    } else {
+        req.flash("error", "Please upload a resume file.");
+        return res.redirect(`/home/listings/${id}/apply`);
+    }
+    
+    listing.applicants.push({ user: req.user._id, resumeLink });
+    await listing.save();
+    
+    req.flash("success", "Application submitted successfully!");
+    res.redirect(`/home/listings/${id}`);
+};
+
+module.exports.viewApplicants = async (req, res) => {
+    let { id } = req.params;
+    const listing = await Listing.findById(id).populate("applicants.user");
+    res.render("listings/applicants.ejs", { listing });
+};
+
+module.exports.updateApplicantStatus = async (req, res) => {
+    const { id, userId, status } = req.params;
+    
+    // Ensure valid status
+    if (!['Accepted', 'Rejected'].includes(status)) {
+        req.flash("error", "Invalid status update.");
+        return res.redirect(`/home/listings/${id}/applicants`);
     }
 
+    const listing = await Listing.findById(id);
+    
+    // Find the applicant and update
+    const applicantIndex = listing.applicants.findIndex(app => app.user.toString() === userId);
+    if (applicantIndex === -1) {
+        req.flash("error", "Applicant not found.");
+        return res.redirect(`/home/listings/${id}/applicants`);
+    }
+    
+    listing.applicants[applicantIndex].status = status;
+    
+    // If accepted, we simulate the hiring by assigning the worker Assiged flag 
+    // BUT we don't end it here. The employee now must interact with the Post-Hire workflow.
+    if (status === 'Accepted') {
+        listing.workerAssigned = userId;
+    }
+    
     await listing.save();
-    req.flash("success", "Action successful!");
+    
+    // NOTIFY THE EMPLOYEE
+    const User = require("../models/user.js");
+    const userToNotify = await User.findById(userId);
+    if (userToNotify) {
+        userToNotify.notifications.push({
+            message: `Your application for "${listing.title}" was ${status}.`,
+            link: status === 'Accepted' ? `/home/listings/${listing._id}/post-hire-options` : `/home/listings/${listing._id}`
+        });
+        await userToNotify.save();
+    }
+    
+    req.flash("success", `Applicant has been ${status}.`);
+    // Redirecting back to referring page if it's the dashboard, else specific job page
+    const referer = req.get('Referer');
+    if (referer && referer.includes('/company-dashboard')) {
+        res.redirect('/home/company-dashboard');
+    } else {
+        res.redirect(`/home/listings/${id}/applicants`);
+    }
+};
+
+module.exports.companyDashboard = async (req, res) => {
+    // Only allow companies to view this general dashboard
+    if (req.user.role !== 'company') {
+        req.flash('error', 'Only companies can access the employer dashboard.');
+        return res.redirect('/home');
+    }
+    
+    // Find all 'Job' category listings for this company and populate applicants
+    const myJobs = await Listing.find({ owner: req.user._id, category: 'Job' }).populate("applicants.user");
+    res.render("listings/company_dashboard.ejs", { myJobs });
+};
+
+module.exports.clearNotifications = async (req, res) => {
+    const User = require("../models/user.js");
+    const user = await User.findById(req.user._id);
+    if (user && user.notifications) {
+        user.notifications.forEach(n => n.isRead = true);
+        await user.save();
+    }
+    // Update session user to prevent stale read cache immediately
+    req.user.notifications = user.notifications;
+    res.redirect(req.get('Referer') || '/home');
+};
+
+module.exports.postHireOptions = async (req, res) => {
+    let { id } = req.params;
+    const listing = await Listing.findById(id).populate("owner");
+    res.render("listings/post_hire_options.ejs", { listing });
+};
+
+module.exports.processPostHireOptions = async (req, res) => {
+    let { id } = req.params;
+    let { option } = req.body;
+    
+    if (option === 'freelance') {
+        req.user.employeeDetails.employmentType = 'Freelance';
+        await req.user.save();
+        req.flash("success", "Account updated to Freelancer successfully.");
+    } else if (option === 'delete') {
+        await Listing.deleteMany({ owner: req.user._id, category: 'Service' });
+        req.user.employeeDetails.employmentType = 'Hired Full-Time';
+        await req.user.save();
+        req.flash("success", "Your service listings were successfully deleted and account updated.");
+    }
+
+    // NEW: Mark the application as Confirmed
+    const listing = await Listing.findById(id);
+    if (listing) {
+        const applicantIndex = listing.applicants.findIndex(app => app.user.toString() === req.user._id.toString());
+        if (applicantIndex !== -1) {
+            listing.applicants[applicantIndex].status = "Confirmed";
+            await listing.save();
+        }
+    }
+    
+    // NEW: Clear the notifications that linked to this job
+    const User = require("../models/user.js");
+    const userToUpdate = await User.findById(req.user._id);
+    if (userToUpdate && userToUpdate.notifications) {
+        userToUpdate.notifications.forEach(n => {
+            if (n.link && n.link.includes(id)) {
+                n.isRead = true;
+            }
+        });
+        await userToUpdate.save();
+        req.user.notifications = userToUpdate.notifications;
+    }
+    
     res.redirect(`/home/listings/${id}`);
 };
 

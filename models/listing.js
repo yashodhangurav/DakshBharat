@@ -99,6 +99,16 @@ const listingSchema = new Schema({
     ref: "User"
   },
 
+  // NEW: Applicants for Jobs
+  applicants: [
+    {
+      user: { type: Schema.Types.ObjectId, ref: "User" },
+      resumeLink: String,
+      status: { type: String, enum: ["Pending", "Accepted", "Rejected", "Confirmed"], default: "Pending" },
+      appliedAt: { type: Date, default: Date.now }
+    }
+  ],
+
   // 3. The Customer who booked the service (if it's a Service listing)
   serviceSeeker: {
     type: Schema.Types.ObjectId,
