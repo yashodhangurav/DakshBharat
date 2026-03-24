@@ -79,5 +79,7 @@ router.post("/listings/:id/apply", isLoggedIn, uploadDocument.single('resumeFile
 
 router.get("/listings/:id/applicants", isLoggedIn, isOwner, wrapAsync(listingController.viewApplicants));
 router.post("/listings/:id/applicants/:userId/:status", isLoggedIn, isOwner, wrapAsync(listingController.updateApplicantStatus));
+
+router.get("/listings/:id/applicants/:userId/download-resume", isLoggedIn, isOwner, wrapAsync(listingController.downloadResume));
     
 module.exports = router;

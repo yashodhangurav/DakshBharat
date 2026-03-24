@@ -24,14 +24,8 @@
                             <td class="fw-bold"><%= app.user.username %></td>
                             <td><%= new Date(app.appliedAt).toLocaleDateString() %></td>
                             <td>
-                                <a href="<%= app.resumeLink %>" target="_blank" class="btn btn-sm btn-outline-primary mb-1" title="View"><i class="bi bi-box-arrow-up-right"></i> View</a>
-                                <% 
-                                  let dlUrl = app.resumeLink;
-                                  if(dlUrl && dlUrl.includes("/upload/")) {
-                                      dlUrl = dlUrl.replace("/upload/", "/upload/fl_attachment/");
-                                  }
-                                %>
-                                <a href="<%= dlUrl %>" class="btn btn-sm btn-outline-success mb-1 ms-1" title="Download"><i class="bi bi-download"></i></a>
+                                <a href="<%= app.resumeLink %>" target="_blank" class="btn btn-sm btn-outline-primary mb-1" title="View in Browser"><i class="bi bi-eye"></i></a>
+                                <a href="/home/listings/<%= listing._id %>/applicants/<%= app.user._id %>/download-resume" class="btn btn-sm btn-outline-success mb-1 ms-1" title="Download File"><i class="bi bi-download"></i> Download File</a>
                             </td>
                             <td>
                                 <% if(app.status === 'Pending') { %>

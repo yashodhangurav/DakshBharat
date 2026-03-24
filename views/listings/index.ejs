@@ -474,6 +474,9 @@ body{
         <button class="fb-pill active" onclick="setCategory('All',this)" data-i18n="pill_all">All</button>
         <button class="fb-pill" onclick="setCategory('Job',this)" data-i18n="pill_hiring">Hiring</button>
         <button class="fb-pill" onclick="setCategory('Service',this)" data-i18n="pill_services">Services</button>
+        <button class="fb-pill" id="nearMeBtn" onclick="findNearMe()" data-i18n="pill_near_me" style="color:var(--navy); border-color:var(--navy); font-weight:800;">
+          <i class="bi bi-geo-alt"></i> Near Me
+        </button>
       </div>
       <div class="fb-sort">
         <i class="bi bi-sort-down-alt"></i>
@@ -609,6 +612,46 @@ body{
         const noRes = document.getElementById('noResults');
         items.forEach(el => grid.insertBefore(el, noRes));
     }
+
+    // Geolocation Feature
+    function findNearMe() {
+        const btn = document.getElementById('nearMeBtn');
+        if (btn.classList.contains('active-geo')) {
+            // If already active, clear URL params and reload
+            window.location.href = '/home/listings';
+            return;
+        }
+
+        if (navigator.geolocation) {
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    window.location.href = `/home/listings?lat=${lat}&lng=${lng}`;
+                },
+                (error) => {
+                    console.error("Geolocation error:", error);
+                    alert("Unable to retrieve your location. Please check browser permissions.");
+                    btn.innerHTML = '<i class="bi bi-geo-alt"></i> Near Me';
+                }
+            );
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
+    }
+
+    // Set active state on load if lat/lng are in the URL
+    document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('lat') && urlParams.has('lng')) {
+            const btn = document.getElementById('nearMeBtn');
+            btn.classList.add('active-geo');
+            btn.style.backgroundColor = 'var(--navy)';
+            btn.style.color = '#fff';
+            btn.innerHTML = '<i class="bi bi-geo-alt-fill"></i> Nearby Active <i class="bi bi-x ms-1" title="Clear Filter"></i>';
+        }
+    });
 </script>
 
 <!-- ══════════════════════════════════════════════
@@ -813,8 +856,16 @@ function setLanguage(lang) {
 
 // ── Restore on load ──────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  // Inject Near Me translations dynamically so we don't need to rebuild the whole language map
+  i18n.en.pill_near_me = 'Near Me';
+  i18n.hi.pill_near_me = 'मेरे आस-पास';
+  i18n.mr.pill_near_me = 'माझ्या जवळ';
+  i18n.kn.pill_near_me = 'ನನ್ನ ಹತ್ತಿರ';
+  i18n.ta.pill_near_me = 'என் அருகில்';
+
   let saved = 'en';
   try { saved = localStorage.getItem('sb_lang') || 'en'; } catch(e) {}
   if (saved !== 'en') setLanguage(saved);
+  else setLanguage('en'); // Force UI to update with new injected keys
 });
 </script>

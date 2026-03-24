@@ -16,6 +16,20 @@ module.exports.index = async (req, res) => {
           query.category = 'Service';
       }
   }
+
+  // Handle Geolocation Search
+  if (req.query.lat && req.query.lng) {
+      query.geometry = {
+          $near: {
+              $geometry: {
+                  type: "Point",
+                  coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)]
+              },
+              $maxDistance: 50000 // 50km search radius max
+          }
+      };
+  }
+
   const allListings = await Listing.find(query);
   res.render("listings/index.ejs", { allListings });
 };
@@ -173,14 +187,16 @@ module.exports.submitApplication = async (req, res) => {
     }
     
     let resumeLink = "";
+    let resumeOriginalName = "";
     if (typeof req.file !== "undefined") {
         resumeLink = req.file.path;
+        resumeOriginalName = req.file.originalname;
     } else {
         req.flash("error", "Please upload a resume file.");
         return res.redirect(`/home/listings/${id}/apply`);
     }
     
-    listing.applicants.push({ user: req.user._id, resumeLink });
+    listing.applicants.push({ user: req.user._id, resumeLink, resumeOriginalName });
     await listing.save();
     
     req.flash("success", "Application submitted successfully!");
@@ -239,6 +255,40 @@ module.exports.updateApplicantStatus = async (req, res) => {
         res.redirect('/home/company-dashboard');
     } else {
         res.redirect(`/home/listings/${id}/applicants`);
+    }
+};
+
+// NEW: Helper to safely download exact resume file bypassing Cloudinary's raw constraints
+module.exports.downloadResume = async (req, res) => {
+    let { id, userId } = req.params;
+    const listing = await Listing.findById(id);
+    if (!listing) {
+        req.flash("error", "Listing not found.");
+        return res.redirect("back");
+    }
+    
+    const applicant = listing.applicants.find(app => app.user.toString() === userId);
+    if (!applicant || !applicant.resumeLink) {
+        req.flash("error", "Resume not available.");
+        return res.redirect("back");
+    }
+    
+    try {
+        const response = await fetch(applicant.resumeLink);
+        if (!response.ok) throw new Error("Failed to fetch from cloud storage");
+        
+        const contentType = response.headers.get("content-type") || "application/octet-stream";
+        let filename = applicant.resumeOriginalName || "candidate_resume.pdf";
+        
+        res.setHeader("Content-Type", contentType);
+        res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+        
+        const arrayBuffer = await response.arrayBuffer();
+        return res.send(Buffer.from(arrayBuffer));
+    } catch (err) {
+        console.error("Resume download error:", err);
+        req.flash("error", "Error downloading the file. Please try again.");
+        return res.redirect("back");
     }
 };
 

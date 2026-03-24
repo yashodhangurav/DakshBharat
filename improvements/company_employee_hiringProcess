@@ -143,3 +143,43 @@ Active Employees Dashboard: On the Company Dashboard (/home/company-dashboard), 
 Since I added a new "Confirmed" state to the database model enum, please restart your server (node app.js) one more time!
 
 You can test this full flow now! Let me know if it meets your expectations!
+
+
+
+<!-- ---------------new feature--------------- -->
+
+Resume Download Feature Implementation
+The requested feature ensures that when an employer downloads a resume from an applicant, the downloaded file uses the exact original filename instead of a randomly generated string.
+
+Changes Made
+1. Database Schema Update
+Updated 
+models/listing.js
+ to include a new field resumeOriginalName within the applicants array schema. This allows us to persist the exact name of the file the applicant uploads.
+NOTE
+
+Previously, only the Cloudinary URL (resumeLink) was saved, which resulted in downloaded files being named with Cloudinary's random identifier.
+
+2. Controller Update
+Modified 
+submitApplication
+ in 
+controllers/listings.js
+ to capture req.file.originalname when an applicant submits a job application. This name is saved alongside the resumeLink.
+3. UI and Download Mechanism
+Updated 
+views/listings/applicants.ejs
+ and 
+views/listings/company_dashboard.ejs
+.
+Reconstructed the dlUrl (Download URL) to utilize Cloudinary's fl_attachment:<original_filename> transformation.
+The Cloudinary URL now dynamically embeds the applicant's original file name using URI encoding.
+Replaced the confusing "View" button with two clear options:
+View in Browser (Opens the PDF in a new secure tab)
+Download File (Forces the download with the EXACT original filename using the new dlUrl)
+How to Verify
+Log in as a User (Worker), find a Job Listing, and apply by uploading a named PDF file (e.g. John_Doe_Software_Engineer_Resume.pdf).
+Log in as the Company (Employer) who owns the Job Listing.
+Go to the Employer Dashboard or the Applicants page for the Listing.
+Click the "Download File" button next to the applicant.
+Verify that the file downloads instantly to your browser and preserves the original John_Doe_Software_Engineer_Resume.pdf filename.

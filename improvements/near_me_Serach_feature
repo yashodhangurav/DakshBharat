@@ -1,0 +1,62 @@
+# Resume Download Feature Implementation
+
+The requested feature ensures that when an employer downloads a resume from an applicant, the downloaded file uses the exact original filename instead of a randomly generated string.
+
+## Changes Made
+
+### 1. Database Schema Update
+- Updated [models/listing.js](file:///d:/PROJECTSDONE/HackAura/models/listing.js) to include a new field `resumeOriginalName` within the `applicants` array schema. This allows us to persist the exact name of the file the applicant uploads.
+
+> [!NOTE]
+> Previously, only the Cloudinary URL (`resumeLink`) was saved, which resulted in downloaded files being named with Cloudinary's random identifier.
+
+### 2. Controller Update
+- Modified [submitApplication](file:///d:/PROJECTSDONE/HackAura/controllers/listings.js#179-205) in [controllers/listings.js](file:///d:/PROJECTSDONE/HackAura/controllers/listings.js) to capture `req.file.originalname` when an applicant submits a job application. This name is saved alongside the `resumeLink`.
+
+### 3. Dedicated Download Proxy Route
+- Created a new backend route `GET /home/listings/:id/applicants/:userId/download-resume` in [routes/listing.js](file:///d:/PROJECTSDONE/HackAura/routes/listing.js).
+- Added the [downloadResume](file:///d:/PROJECTSDONE/HackAura/controllers/listings.js#261-294) controller in [controllers/listings.js](file:///d:/PROJECTSDONE/HackAura/controllers/listings.js). This method fetches the file directly from Cloudinary using the secure backend and streams it to the employer's browser.
+- **Why this was needed:** Cloudinary "raw" files do not universally respect URL transformations, causing some files to open in the browser without extensions instead of downloading. The proxy route forces the browser to download the file by explicitly setting the `Content-Disposition: attachment` header along with the exact `resumeOriginalName`.
+
+### 4. UI Simplification
+- Updated [views/listings/applicants.ejs](file:///d:/PROJECTSDONE/HackAura/views/listings/applicants.ejs) and [views/listings/company_dashboard.ejs](file:///d:/PROJECTSDONE/HackAura/views/listings/company_dashboard.ejs).
+- Replaced the direct Cloudinary links with our secure `/download-resume` route.
+- Employers now clearly see:
+    - **<i class="bi bi-eye"></i> View in Browser** (Opens the un-proxied Cloudinary file in a new tab for native browser viewing if possible)
+    - **<i class="bi bi-download"></i> Download File** (Instantly forces a true download through our proxy route, guaranteeing the exact PDF/JPG format and original filename)
+
+## How to Verify Resume Download
+1. Log in as a User (Worker), find a Job Listing, and apply by uploading a named PDF file (e.g. `John_Doe_Software_Engineer_Resume.pdf`).
+2. Log in as the Company (Employer) who owns the Job Listing.
+3. Go to the Employer Dashboard or the Applicants page for the Listing.
+4. Click the "Download File" button next to the applicant.
+5. Verify that the file downloads instantly to your browser and preserves the original `John_Doe_Software_Engineer_Resume.pdf` filename.
+
+---
+
+# Geolocation "Near Me" Implementation
+
+The requested feature enables users to sort the marketplace listings by nearest geographic proximity using their device's native GPS or IP geolocation.
+
+## Changes Made
+
+### 1. Database Indexing
+- Updated [models/listing.js](file:///d:/PROJECTSDONE/HackAura/models/listing.js) to create a `2dsphere` index on the geographic `geometry` field. This allows MongoDB to properly calculate curvature and distances.
+
+### 2. Backend Spatial Querying
+- Updated the main [index](file:///d:/PROJECTSDONE/HackAura/controllers/listings.js#10-36) controller in [controllers/listings.js](file:///d:/PROJECTSDONE/HackAura/controllers/listings.js) to intercept explicit `lat` and `lng` query parameters.
+- If geolocation coordinates are supplied, it dynamically applies the `$near` geospatial operator, fetching properties strictly up to 50km and natively sorting them from closest to furthest.
+
+### 3. Frontend UI
+- Injected a new `<button id="nearMeBtn">Near Me</button>` component directly beside the main marketplace `Hiring/Services/All` tabs in [views/listings/index.ejs](file:///d:/PROJECTSDONE/HackAura/views/listings/index.ejs).
+- Bound the button to a native JavaScript `navigator.geolocation` method that prompts the user for position access.
+- When granted, it reloads the same index page but passes `?lat=` and `?lng=` correctly down to the node backend.
+- Handled visual toggles so the button is highlighted if geographical sorting is active, allowing users to clear it safely.
+- Dynamically injected localized translated labels (`i18n`) without modifying the entire dictionary blob overhead.
+
+## How to Verify Geographic Sorting
+1. Navigate to the main `/home/listings` marketplace.
+2. Click the new `Near Me` button.
+3. Accept the browser's persistent location permission trigger if prompted.
+4. Visually watch the button enter a loading state and reload the page.
+5. Observe that listings are now displayed natively with the geographically closest at the topmost position.

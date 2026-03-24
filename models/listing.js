@@ -104,6 +104,7 @@ const listingSchema = new Schema({
     {
       user: { type: Schema.Types.ObjectId, ref: "User" },
       resumeLink: String,
+      resumeOriginalName: String,
       status: { type: String, enum: ["Pending", "Accepted", "Rejected", "Confirmed"], default: "Pending" },
       appliedAt: { type: Date, default: Date.now }
     }
@@ -128,6 +129,9 @@ const listingSchema = new Schema({
   ]
 
 }, { timestamps: true });
+
+// Add 2dsphere index for Geospatial $near queries
+listingSchema.index({ geometry: "2dsphere" });
 
 // Middleware to clean up reviews when a listing is deleted
 listingSchema.post("findOneAndDelete", async (listing) => {
